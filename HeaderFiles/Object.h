@@ -6,5 +6,5 @@ public:
     Object();
 
     // the destructor
-    virtual ~GameObject();
+    virtual ~Object();
 };
