@@ -35,5 +35,5 @@ void Entity::TakeDamage(int DamagePoints)
 
 int Entity::Attack()
 {
-    return attackPoints;
+    return AttackPoints;
 }
