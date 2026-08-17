@@ -3,7 +3,7 @@
 void skinwalker::dialogue()
 {
 	int randomiser = rand() % 3;
-	setDialogue(randomiser);
+	//setDialogue(randomiser);
 
 	if (randomiser == 0)
 	{

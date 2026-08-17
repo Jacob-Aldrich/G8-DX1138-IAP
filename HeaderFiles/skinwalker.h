@@ -9,10 +9,10 @@ private:
 
 public:
 	virtual void dialogue();
-	void setDialogue(int randomiser);
+	/*void setDialogue(int randomiser);
 	skinwalker image();
 	int GetSWHealthPoints();
 	int GetSWAttackPoints();
 
-	bool IsLetIn();
+	bool IsLetIn();*/
 };

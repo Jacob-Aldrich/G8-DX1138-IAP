@@ -4,9 +4,16 @@
 class Game
 {
 	World* world;
+	int Turns;
+	static int const maxTurns = 5;
 public:
 	Game();
 	void Run();
+
+	int getTurns();
+	void useTurn();
+
+	static void clearConsole();
 	~Game();
 };
 
