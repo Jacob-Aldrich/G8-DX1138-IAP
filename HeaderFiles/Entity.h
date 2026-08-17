@@ -12,7 +12,7 @@ private:
 
 public:
 
-    Character(int startingHealthPoints, int startingAttackPoints);
+    Entity(int startingHealthPoints, int startingAttackPoints);
 
     int GetHealthPoints();
     int GetBaseAttackPoints();
