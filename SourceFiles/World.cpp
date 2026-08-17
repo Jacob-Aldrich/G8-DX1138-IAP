@@ -1,6 +1,6 @@
 #include "World.h"
 #include <iostream>
-World::World()
+World::World() : Food(0,10), Water(0,10) 
 {
 	std::cout << "Constructing World\n";
 	Days = 0;
