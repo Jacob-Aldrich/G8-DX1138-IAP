@@ -1,53 +1,44 @@
 #include "Material.h"
 
+// initialization
 Material::Material(int startingQuantity, int startingMaximumQuantity)
 {
     maximumQuantity = startingMaximumQuantity;
     quantity = startingQuantity;
 
-    if (maximumQuantity < 0)
-    {
-        maximumQuantity = 0;
-    }
-
-    if (quantity < 0)
-    {
-        quantity = 0;
-    }
-    else if (quantity > maximumQuantity)
-    {
-        quantity = maximumQuantity;
-    }
 }
 
+// returns the quantity
 int Material::GetQuantity()
 {
     return quantity;
 }
 
+// returns the max quantity
 int Material::GetMaximumQuantity()
 {
     return maximumQuantity;
 }
 
+// checks if its empty
 bool Material::IsEmpty()
 {
     return quantity == 0;
 }
 
+// adds the quantity
 void Material::AddQuantity(int quantityToAdd)
 {
-    if (quantityToAdd > 0)
-    {
-        quantity = quantity + quantityToAdd;
+    quantity = quantity + quantityToAdd;
 
-        if (quantity > maximumQuantity)
-        {
-            quantity = maximumQuantity;
-        }
+    // checks for the max quantity, if its max then cnanot add more
+    if (quantity > maximumQuantity)
+    {
+        quantity = maximumQuantity;
     }
 }
 
+// if quan is > 0 and quan is <= than quan then return true
 bool Material::UseQuantity(int quantityToUse)
 {
     if (quantityToUse > 0 && quantityToUse <= quantity)
