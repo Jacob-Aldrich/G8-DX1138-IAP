@@ -57,16 +57,16 @@ void skinwalker::choiceDialogue()
 
 void skinwalker::battle()
 {
-	int playerHealth = 100;
-	int playerAttack = 20;
+	int PHealthPoints = 100;
+	int PAttackpoints = 20;
 	int skinwalkerHealth = 50;
 	int skinwalkerAttack = 15;
 	int battlechoice = 0;
 
-	while (playerHealth > 0 && skinwalkerHealth > 0)
+	while (PHealthPoints > 0 && skinwalkerHealth > 0)
 	{
-		std::cout << "Your Health: " << playerHealth << std::endl;
-		std::cout << "Your Attack: " << playerAttack << std::endl;
+		std::cout << "Your Health: " << PHealthPoints << std::endl;
+		std::cout << "Your Attack: " << PAttackpoints << std::endl;
 		std::cout << "Skinwalker's Health: " << skinwalkerHealth << std::endl;
 
 		std::cout << "What will you do?" << std::endl;
@@ -74,13 +74,15 @@ void skinwalker::battle()
 		std::cin >> battlechoice;
 		if (battlechoice == 1)
 		{
-			skinwalkerHealth -= playerAttack;
-			std::cout << "You attack the Skinwalker for " << playerAttack << " damage!" << std::endl;
-			if (skinwalkerHealth > 0)
+			int SWNewHP = skinwalkerHealth - PAttackpoints;
+			std::cout << "You attack the Skinwalker for " << PAttackpoints << " damage!" << std::endl;
+			std::cout << "Skinwalker has" << SWNewHP << " HP left!" << std::endl;;
+			if (SWNewHP > 0)
 			{
 				displayImage();
-				playerHealth -= skinwalkerAttack;
+				int PnewHP = PHealthPoints - skinwalkerAttack;
 				std::cout << "The Skinwalker attacks you for " << skinwalkerAttack << " damage!" << std::endl;
+				std::cout << "You have" << PnewHP << " HP left!" << std::endl;
 			}
 		}
 		
@@ -89,7 +91,7 @@ void skinwalker::battle()
 			std::cout << "Pick again." << std::endl;
 		}
 
-		if (playerHealth <= 0)
+		if (PHealthPoints <= 0)
 		{
 			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
 			endings ending;
@@ -108,16 +110,16 @@ void skinwalker::wildbattle() const
 {
 
 	srand(static_cast<unsigned int>(time(0)));
-	int playerHealth = 100;
-	int playerAttack = 20;
+	int PHealthPoints = 100;
+	int PAttackpoints = 20;
 	int skinwalkerHealth = std::rand() % 25 + 30;
 	int skinwalkerAttack = std::rand() % 5 + 15;
 	int battlechoice = 0;
 
-	while (playerHealth > 0 && skinwalkerHealth > 0)
+	while (PHealthPoints > 0 && skinwalkerHealth > 0)
 	{
-		std::cout << "Your Health: " << playerHealth << std::endl;
-		std::cout << "Your Attack: " << playerAttack << std::endl;
+		std::cout << "Your Health: " << PHealthPoints << std::endl;
+		std::cout << "Your Attack: " << PAttackpoints << std::endl;
 		std::cout << "Skinwalker's Health: " << skinwalkerHealth << std::endl;
 
 		displayImage();
@@ -128,12 +130,15 @@ void skinwalker::wildbattle() const
 		std::cin >> battlechoice;
 		if (battlechoice == 1)
 		{
-			skinwalkerHealth -= playerAttack;
-			std::cout << "You attack the Skinwalker for " << playerAttack << " damage!" << std::endl;
-			if (skinwalkerHealth > 0)
+			int SWNewHP = skinwalkerHealth - PAttackpoints;
+			std::cout << "You attack the Skinwalker for " << PAttackpoints << " damage!" << std::endl;
+			std::cout << "Skinwalker has" << SWNewHP << " HP left!" << std::endl;;
+			if (SWNewHP > 0)
 			{
-				playerHealth -= skinwalkerAttack;
+				displayImage();
+				int PnewHP = PHealthPoints - skinwalkerAttack;
 				std::cout << "The Skinwalker attacks you for " << skinwalkerAttack << " damage!" << std::endl;
+				std::cout << "You have" << PnewHP << " HP left!" << std::endl;
 			}
 		}
 		else if (battlechoice == 2)
@@ -148,8 +153,10 @@ void skinwalker::wildbattle() const
 			else
 			{
 				std::cout << "You failed to run away!" << std::endl;
-				playerHealth -= skinwalkerAttack;
+				displayImage();
+				int PnewHP = PHealthPoints - skinwalkerAttack;
 				std::cout << "The Skinwalker attacks you for " << skinwalkerAttack << " damage!" << std::endl;
+				std::cout << "You have" << PnewHP << " HP left!" << std::endl;
 			}
 			
 		}
@@ -158,7 +165,7 @@ void skinwalker::wildbattle() const
 			std::cout << "Pick again." << std::endl;
 		}
 
-		if (playerHealth <= 0)
+		if (PHealthPoints <= 0)
 		{
 			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
 			endings ending;
