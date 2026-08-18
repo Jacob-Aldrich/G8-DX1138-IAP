@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "skinwalker.h"
 #include <iostream>
 #include <string>
 
@@ -239,3 +240,5 @@ bool Player::SurvivorsAtDoor()
 //	bool EncounteredSurvivors = false;
 //	return EncounteredSurvivors;
 //}
+
+
