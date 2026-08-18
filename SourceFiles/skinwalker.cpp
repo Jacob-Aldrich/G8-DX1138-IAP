@@ -101,6 +101,8 @@ void skinwalker::battle()
 
 void skinwalker::wildbattle()
 {
+
+	srand(static_cast<unsigned int>(time(0)));
 	int playerHealth = 100;
 	int playerAttack = 20;
 	int skinwalkerHealth = std::rand() % 25 + 30;
@@ -131,6 +133,7 @@ void skinwalker::wildbattle()
 		}
 		else if (battlechoice == 2)
 		{
+			
 			int chance = std::rand() % 3; // 25% chance to escape
 			if (chance == 0)
 			{
