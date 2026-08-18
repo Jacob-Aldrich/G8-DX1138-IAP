@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "World.h"
+#include "Object.h"
+#include "Entity.h"
 
 Game::Game()
 {
@@ -7,47 +9,67 @@ Game::Game()
 	char choice;
 
 	std::cout << "Constructing Game\n";
-	std::cout << 
-		R"(
-You have 5 turns before nightfall.
 
-Recruit survivors.
-Gather food.
-Find water.
-Collect useful supplies.
-
-Choose carefully.
-
-Every person you save is another mouth
-to feed.
-
-And not everyone you meet is human.
-
-Turns Remaining : 5
-
-> What will you do?
-
-[1] Search for supplies
-[2] Look for survivors
-[3] Return to the house --THIS WILL SKIP ALL TURNS
-)";
+	clearConsole();
 
 	for (int i = 0; i < 5; i++) {
+		std::cout << "You have 5 turns before nightfall.\n\n";
+
+		std::cout << "Recruit survivors.\n";
+		std::cout << "Gather food.\n";
+		std::cout << "Find water.\n";
+		std::cout << "Collect useful supplies.\n\n";
+
+		std::cout << "Choose carefully.\n\n";
+
+		std::cout << "Every person you save is another mouth\n";
+		std::cout << "to feed.\n\n";
+
+		std::cout << "And not everyone you meet is human.\n\n";
+
+		std::cout << "Turns Remaining : " << 5 - i << "\n";
+
+		displayStatus();
+
+		std::cout << "\n";
+		std::cout << "> What will you do?\n\n";
+
+		std::cout << "[1] Search for supplies\n";
+		std::cout << "[2] Look for survivors\n";
+		std::cout << "[3] Return to the house -- THIS WILL SKIP ALL TURNS\n";
+
 		std::cin >> choice;
 
 		if (choice == '1') {
-			std::cout << "Searching for supplies";
-			
+			std::cout << "Searching for supplies\n";
+			world->SearchForSupplies();
 		}
 		else if (choice == '2') {
-			std::cout << "Looking for survivors";
-			
+			std::cout << "Looking for survivors\n";
+			LookForSurvivors();
 		}
 		else if (choice == '3') {
-			std::cout << "Returning to the house";
+			std::cout << "Returning to the house\n";
 			break;
 		}
+		else {
+			std::cout << "Invalid choice. Choosing Random Action.\n";
+
+			int randomAction = rand() % 2 + 1;
+			switch(randomAction) {
+				case 1:
+					std::cout << "Searching for supplies\n";
+					world->SearchForSupplies();
+					break;
+				case 2:
+					std::cout << "Looking for survivors\n";
+					LookForSurvivors();
+					break;
+			}	
+		}
 	}
+
+	isRunning = true;
 }
 
 void Game::Run()
@@ -55,6 +77,58 @@ void Game::Run()
 	Turns = 5;
 
 	std::cout << "Running Game\n";
+
+	while (isRunning) {
+		if (isOutsideHouse) {
+			world->GetChunks(world->getCurrentChunk()).PrintChunk();
+
+			int keypress = _getch();
+
+			switch (keypress) {
+			case 'w': break;
+			case 'a': break;
+			case 's': break;
+			case 'd': break;
+
+			case 'i': break;
+			case 'j': break;
+			case 'k': break;
+			case 'l': break;
+
+			default:
+				break;
+			}
+		}
+		else {
+			clearConsole();
+			std::cout << "Turns Remaining: " << Turns << "\n";
+			std::cout << "Days Survived: " << world->getDays() << "\n";
+
+			displayStatus();
+
+			char choice;
+			std::cout << "> What will you do?\n";
+			std::cout << "[1] Eat Food\n";
+			std::cout << "[2] Drink Water\n";
+			std::cout << "[3] Go out of the house --THIS WILL SKIP ALL TURNS\n";
+			std::cin >> choice;
+			if (choice == '1') {
+				std::cout << "Eating...\n";
+				useTurn();
+			}
+			else if (choice == '2') {
+				std::cout << "Drinking...\n";
+				useTurn();
+			}
+			else if (choice == '3') {
+				std::cout << "Going out of the house\n";
+				isOutsideHouse = true;
+			}
+			else {
+				std::cout << "Invalid choice. Please choose again.\n";
+			}
+		}
+	}
 }
 
 
@@ -68,12 +142,71 @@ void Game::useTurn()
 	Turns--;
 	if (Turns <= 0) {
 		Turns = maxTurns;
+		world->addDays(1);
+	}
+}
+
+void Game::LookForSurvivors()
+{
+	if (SafePlayerCount < 3)
+	{
+		int RandomHP = rand() % 41 + 80;
+		int RandomATK = rand() % 4 + 2;
+		int RandomName = rand() % 10;
+
+		while (UsedNames[RandomName] == true)
+		{
+			RandomName = rand() % 10;
+		}
+
+		UsedNames[RandomName] = true;
+
+		SafePlayers[RandomName] = new Entity(
+			SafePlayerNames[RandomName],
+			RandomHP,
+			RandomATK,
+			false
+		);
+
+		std::string Name = SafePlayers[RandomName]->GetName();
+		int Attack = SafePlayers[RandomName]->GetBaseAttackPoints();
+		int HP = SafePlayers[RandomName]->GetHealthPoints();
+
+		std::cout << "You found " << Name << "!\n";
+		std::cout << "Attack: " << Attack << "\n";
+		std::cout << "HP: " << HP << "\n";
+
+		SafePlayerCount++;
+	}
+	else
+	{
+		std::cout << "You cannot recruit any more survivors!\n";
 	}
 }
 
 void Game::clearConsole()
 {
 	std::cout << "\033[H\033[2J";
+}
+
+void Game::displayInventory()
+{
+	std::cout << "Food: " << world->GetFood()->GetQuantity() << "/" << world->GetFood()->GetMaximumQuantity() << "\n";
+	std::cout << "Water: " << world->GetWater()->GetQuantity() << "/" << world->GetWater()->GetMaximumQuantity() << "\n";
+}
+
+void Game::displaySurvivors()
+{
+	for (int i = 0; i < SafePlayerCount; i++)
+	{
+		std::cout << "Survivor " << i + 1 << ": " << SafePlayers[i]->GetName() << "\n";
+	}
+}
+
+void Game::displayStatus()
+{
+	displayInventory();
+	displaySurvivors();
 }
 
 Game::~Game()

@@ -1,7 +1,10 @@
 #pragma once
+#include <iostream>
 
 class Object
 {
+    int xPosition;
+    int yPosition;
 public:
     Object();
 

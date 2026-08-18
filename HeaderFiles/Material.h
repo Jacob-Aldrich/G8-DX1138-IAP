@@ -8,7 +8,6 @@ private:
 
     int quantity;
     int maximumQuantity;
-
 public:
 
     Material(int startingQuantity, int startingMaximumQuantity);
@@ -19,6 +18,5 @@ public:
     bool IsEmpty();
 
     void AddQuantity(int quantityToAdd);
-
     bool UseQuantity(int quantityToUse);
 };
