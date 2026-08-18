@@ -80,12 +80,6 @@ void Player::EncounterSkinwalker(int choice)
 		case 1:
 			std::cout << "Battle" << std::endl;
 			break;
-		case 2:
-			std::cout << "Run away" << std::endl;
-			break;
-		case 3:
-			std::cout << "Befriend them" << std::endl;
-			break;
 		default:
 			std::cout << "..." << std::endl;
 			break;
@@ -105,4 +99,3 @@ bool Player::EncounterSkinwalker() {
 	bool EncounteredSkinwalker = false;
 	return EncounteredSkinwalker;
 }
-
