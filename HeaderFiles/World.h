@@ -13,7 +13,6 @@ public:
 	World();
 
 	void SearchForSupplies();
-	void SearchForSurvivors();
 
 	~World();
 
