@@ -1,4 +1,5 @@
 #include "skinwalker.h"
+#include "endings.h"
 #include <iostream>
 #include <string>
 
@@ -91,6 +92,10 @@ void skinwalker::battle()
 		if (playerHealth <= 0)
 		{
 			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
+			endings ending;
+			ending.DeathEnding();
+
+			return;
 		}
 		else if (skinwalkerHealth <= 0)
 		{
@@ -99,7 +104,7 @@ void skinwalker::battle()
 	}
 }
 
-void skinwalker::wildbattle()
+void skinwalker::wildbattle() const
 {
 
 	srand(static_cast<unsigned int>(time(0)));
@@ -156,6 +161,10 @@ void skinwalker::wildbattle()
 		if (playerHealth <= 0)
 		{
 			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
+			endings ending;
+			ending.DeathEnding();
+
+			return;
 		}
 		else if (skinwalkerHealth <= 0)
 		{
