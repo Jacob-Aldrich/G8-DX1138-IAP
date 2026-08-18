@@ -10,9 +10,11 @@ void endings::DeathEnding()
 void endings::MilitaryEnding()
 {
 	std::cout << "The Military have come to rescue you. Congradulations, you win!" << std::endl;
+	//as of now cannot get this ending yet 
 }
 
 void endings::helicopterEnding()
 {
 	std::cout << "You escape safely on a helicopter. Congradulations, you win!" << std::endl;
+	// this one also cannot yet lol
 }
