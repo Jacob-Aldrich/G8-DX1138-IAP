@@ -9,6 +9,6 @@ private:
 public:
 	void DeathEnding();
 	void MilitaryEnding();
-	void helicopterEnding();
+	void HelicopterEnding();
 };
 
