@@ -1,59 +1,59 @@
 #include "Game.h"
-#include "World.h"
-
+#include "Entity.h"
 Game::Game()
 {
-	world = new World;
-	char choice;
-
 	std::cout << "Constructing Game\n";
 	std::cout << 
-		R"(
-You have 5 turns before nightfall.
+		R"(You have 5 turns before nightfall.
 
-Recruit survivors.
-Gather food.
-Find water.
-Collect useful supplies.
+		Recruit survivors.
+		Gather food.
+		Find water.
+		Collect useful supplies.
 
-Choose carefully.
+		Choose carefully.
 
-Every person you save is another mouth
-to feed.
+		Every person you save is another mouth
+		to feed.
 
-And not everyone you meet is human.
+		And not everyone you meet is human.
 
-Turns Remaining : 5
+		Turns Remaining : 5
 
-> What will you do?
+		> What will you do?
 
-[1] Search for supplies
-[2] Look for survivors
-[3] Return to the house --THIS WILL SKIP ALL TURNS
+		[1] Search for supplies
+		[2] Look for survivors
+		[3] Return to the house
+		[4] explore the world type shit
 )";
 
-	for (int i = 0; i < 5; i++) {
-		std::cin >> choice;
-
-		if (choice == '1') {
-			std::cout << "Searching for supplies";
-			
-		}
-		else if (choice == '2') {
-			std::cout << "Looking for survivors";
-			
-		}
-		else if (choice == '3') {
-			std::cout << "Returning to the house";
-			break;
-		}
-	}
+	world = new World;
 }
 
 void Game::Run()
 {
-	Turns = 5;
+	int SafePlayerCount = 0;
+	char Player = 'P';
+	char Food = 'F';
+	char Water = 'W';
+	int PlayerInput;
 
+	srand(static_cast<unsigned int>(time(0)));
+
+	std::cout << "Running Game\n";
+
+	//Entity* Enemies[3] =
+	//{
+	//	new Entity("Skinwalker1", true),
+	//	new Entity("Skinwalker2", true),
+	//	new Entity("Skinwalker3", true)
+	//};
+
+	//int random[2] = {
+	//	rand() % 3,
+	//	rand() % 3
+	//};
 
 	while (true)
 	{
@@ -73,32 +73,44 @@ void Game::Run()
 			std::cout << "You went back to the house\n";
 			return;
 
+		case 4:
+
+			world->Explore();
+			break;
+
 		default:
 			std::cout << "Invalid input\n";
 			break;
 		}
 	}
+	//for (int i = 0; i < 3; i++) {
+
+	//	std::cout << "\n" << "You encountered " << Enemies[random[i]]->GetName() << "!\n";
+
+	//	while (SafePlayers[random[i]]->IsAlive()) {
+
+	//		SafePlayers[random[i]]->TakeDamage(Enemies[random[i]]->GetBaseAttackPoints());
+	//		
+	//		CheckIfDead(SafePlayers[random[i]]);
+
+	//		if (SafePlayers[random[i]] == nullptr)
+	//		{
+	//			break;
+	//		}
+
+	//		std::cout << SafePlayers[random[i]]->GetName() << " has " << SafePlayers[random[i]]->GetHealthPoints() << " HP left! \n";
+	//		
+	//	}
+	//}
+
 	
-	std::cout << "Running Game\n";
-}
 
+	//int Enemy2Attack = Enemies[0].GetBaseAttackPoints();
 
-int Game::getTurns()
-{
-	return Turns;
-}
-
-void Game::useTurn()
-{
-	Turns--;
-	if (Turns <= 0) {
-		Turns = maxTurns;
-	}
-}
-
-void Game::clearConsole()
-{
-	std::cout << "\033[H\033[2J";
+	//Enemies[1].TakeDamage(Enemy2Attack);
+	//int HPleft = Enemies[1].GetHealthPoints();
+	//std::string enemyName = Enemies[1].GetName();
+	//std::cout << enemyName << " " << HPleft << "\n";
 }
 void Game::CheckIfDead(Entity*& entity)
 {
@@ -140,7 +152,6 @@ void Game::LookForSurvivors()
 		std::cout << "You cannot recruit any more survivors!\n";
 	}
 }
-
 Game::~Game()
 {
 	delete world;
