@@ -54,6 +54,31 @@ void Game::Run()
 {
 	Turns = 5;
 
+
+	while (true)
+	{
+		std::cin >> PlayerInput;
+
+		switch (PlayerInput)
+		{
+		case 1:
+			world->SearchForSupplies();
+			break;
+
+		case 2:
+			LookForSurvivors();
+			break;
+
+		case 3:
+			std::cout << "You went back to the house\n";
+			return;
+
+		default:
+			std::cout << "Invalid input\n";
+			break;
+		}
+	}
+	
 	std::cout << "Running Game\n";
 }
 
@@ -74,6 +99,46 @@ void Game::useTurn()
 void Game::clearConsole()
 {
 	std::cout << "\033[H\033[2J";
+}
+void Game::CheckIfDead(Entity*& entity)
+{
+	if (entity->IsAlive() == false)
+	{
+		std::cout << entity->GetName() << " died and deleted\n";
+		delete entity;
+		entity = nullptr;
+	}
+}
+
+void Game::LookForSurvivors()
+{
+
+	if (SafePlayerCount < 10)
+	{
+		int RandomName = rand() % 10;
+
+		while (UsedNames[RandomName] == true)
+		{
+			RandomName = rand() % 10;
+		}
+
+		SafePlayers[SafePlayerCount] = new Entity(SafePlayerNames[RandomName], false);
+		UsedNames[RandomName] = true;
+
+		std::string Name = SafePlayers[SafePlayerCount]->GetName();
+		int Attack = SafePlayers[SafePlayerCount]->GetBaseAttackPoints();
+		int HP = SafePlayers[SafePlayerCount]->GetHealthPoints();
+
+		std::cout << "You found " << Name << "!\n";
+		std::cout << "Attack: " << Attack << "\n";
+		std::cout << "HP:" << HP << "\n";
+
+		SafePlayerCount++;
+	}
+	else
+	{
+		std::cout << "You cannot recruit any more survivors!\n";
+	}
 }
 
 Game::~Game()
