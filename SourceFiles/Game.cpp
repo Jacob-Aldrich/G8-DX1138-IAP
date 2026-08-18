@@ -37,6 +37,7 @@ Game::Game()
 		std::cout << "[1] Search for supplies\n";
 		std::cout << "[2] Look for survivors\n";
 		std::cout << "[3] Return to the house -- THIS WILL SKIP ALL TURNS\n";
+		std::cout << "[4] get out of the house\n";
 
 		std::cin >> choice;
 
@@ -51,6 +52,10 @@ Game::Game()
 		else if (choice == '3') {
 			std::cout << "Returning to the house\n";
 			break;
+		}
+		else if (choice == '4' {
+			std::cout << "go out of the house\n";
+			world->Explore();
 		}
 		else {
 			std::cout << "Invalid choice. Choosing Random Action.\n";
