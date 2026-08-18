@@ -13,7 +13,7 @@ void endings::MilitaryEnding()
 	//as of now cannot get this ending yet 
 }
 
-void endings::helicopterEnding()
+void endings::HelicopterEnding()
 {
 	std::cout << "You escape safely on a helicopter. Congradulations, you win!" << std::endl;
 	// this one also cannot yet lol
