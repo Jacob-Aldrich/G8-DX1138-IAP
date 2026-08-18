@@ -6,6 +6,7 @@ void skinwalker::dialogue()
 {
 	displayImage();
 
+	srand(static_cast<unsigned int>(time(0)));
 	int randomiser = rand() % 3;
 	setDialogue(randomiser);
 
@@ -162,10 +163,11 @@ void skinwalker::wildbattle()
 
 skinwalker::skinwalker() : Entity(50, 15) 
 {
+	srand(static_cast<unsigned int>(time(0)));
 	imagechoice = rand() % 3; // Randomly choose an image
 }
 
-void skinwalker::displayImage()
+void skinwalker::displayImage() const
 {
 	
 	if (imagechoice == 0)
