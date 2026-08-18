@@ -80,24 +80,17 @@ void Game::Run()
 
 	while (isRunning) {
 		if (isOutsideHouse) {
-			world->GetChunks(world->getCurrentChunk()).PrintChunk();
+			clearConsole();
 
+			displayCurrentChunk();
+			displayStatus();
+			displayLegend();
+			std::cout << "\nMove with W/A/S/D\nInteract with objects with E\n\n\n";
+
+			world->GetChunks(world->getCurrentChunk()).PrintChunk(world->getCurrentChunk());
+			world->displayInteractionOptions();
 			int keypress = _getch();
-
-			switch (keypress) {
-			case 'w': break;
-			case 'a': break;
-			case 's': break;
-			case 'd': break;
-
-			case 'i': break;
-			case 'j': break;
-			case 'k': break;
-			case 'l': break;
-
-			default:
-				break;
-			}
+			world->HandleKeypress(keypress);
 		}
 		else {
 			clearConsole();
@@ -165,7 +158,8 @@ void Game::LookForSurvivors()
 			SafePlayerNames[RandomName],
 			RandomHP,
 			RandomATK,
-			false
+			false,
+			'A'
 		);
 
 		std::string Name = SafePlayers[RandomName]->GetName();
@@ -207,6 +201,20 @@ void Game::displayStatus()
 {
 	displayInventory();
 	displaySurvivors();
+}
+
+void Game::displayLegend()
+{
+	std::cout << "Legend:\n";
+	std::cout << "P: Player\n";
+	std::cout << "F: Food\n";
+	std::cout << "W: Water\n";
+	std::cout << "H: House\n";
+}
+
+void Game::displayCurrentChunk()
+{
+	std::cout << "You are at Chunk: " << world->getCurrentChunk() << "\n";
 }
 
 Game::~Game()

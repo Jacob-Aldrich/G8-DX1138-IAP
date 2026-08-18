@@ -10,7 +10,7 @@ private:
     int maximumQuantity;
 public:
 
-    Material(int startingQuantity, int startingMaximumQuantity);
+    Material(int startingQuantity, int startingMaximumQuantity, char startingSymbol, std::string startingName);
 
     int GetQuantity();
     int GetMaximumQuantity();

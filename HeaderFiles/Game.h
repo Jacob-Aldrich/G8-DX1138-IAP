@@ -42,6 +42,8 @@ public:
 	void displayInventory();
 	void displaySurvivors();
 	void displayStatus();
+	void displayLegend();
+	void displayCurrentChunk();
 	~Game();
 };
 

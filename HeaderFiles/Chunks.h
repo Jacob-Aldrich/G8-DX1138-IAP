@@ -4,12 +4,17 @@
 class Chunks
 {
     const static int BoardSize = 10;
-    Object* Objects[6];
+    const static int MaxObjects = 6;
+    Object* Objects[MaxObjects];
 
     char field[BoardSize][BoardSize];
 public:
     Chunks();
+    void PrintChunk(int chunkNumber);
+    void AddObject(Object* obj);
+    void RemoveObject(Object* obj);
+	Object* GetObject(int index);
 
-    void PrintChunk();
+    Object* CheckForObject(int x, int y);
     ~Chunks();
 };

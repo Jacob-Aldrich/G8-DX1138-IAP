@@ -12,9 +12,11 @@ private:
     int AttackPoints;
     bool IsSkinWalker;
 
-public:
+    int Hunger;
+    int Thirst;
 
-    Entity(std::string startingName, int startingHealthPoints, int startingAttackPoints, bool startingSkinWalker);
+public:
+    Entity(std::string startingName, int startingHealthPoints, int startingAttackPoints, bool startingSkinWalker, char startingSymbol);
 
     int GetHealthPoints();
     int GetBaseAttackPoints();

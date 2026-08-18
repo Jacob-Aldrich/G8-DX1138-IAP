@@ -1,11 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(std::string startingName, int startingHealthPoints, int startingAttackPoints, bool startingIsSkinWalker)
+Entity::Entity(std::string startingName, int startingHealthPoints, int startingAttackPoints, bool startingIsSkinWalker, char startingSymbol) : Object(startingSymbol, 0, 0, startingName)
 {
     Name = startingName;
     HealthPoints = startingHealthPoints;
     AttackPoints = startingAttackPoints;
     IsSkinWalker = startingIsSkinWalker;
+
 }
 
 bool Entity::GetIsSkinWalker()
