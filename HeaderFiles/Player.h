@@ -15,20 +15,23 @@ private:
     std::string Dialogue2;
 	std::string Dialogue3;
 
+
 public:
 	Player();
 
 	void Speak(int choice);
 
-	std::string GetLook0();
-	std::string GetLook1();
-	std::string GetLook2();
-	std::string GetLook3();
-	std::string GetLook4();
+	std::string GetLook0(); //happy
+	std::string GetLook1(); //angry
+	std::string GetLook2(); //crying
+	std::string GetLook3(); //shocked
+	std::string GetLook4(); //bored
 
+
+
+	//skinwalker
 	bool SkinwalkerAtDoor();
 	bool EncounterSkinwalker();
-
 	//actions
 	void SkinWalkerAtDoor(int choice);
 	void EncounterSkinwalker(int choice);
@@ -36,13 +39,9 @@ public:
 	//survivors
 	bool SurvivorsAtDoor();
 	//bool EncounterSurvivors();
-
 	//actions
 	void SurvivorsAtDoor(int choice);
 	//void EncounterSurvivors(int choice);
-
-
-
 
 };
 
