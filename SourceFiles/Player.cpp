@@ -1,98 +1,84 @@
 #include "Player.h"
-#include "skinwalker.h"
+//#include "skinwalker.h"
 #include <iostream>
 #include <string>
 
 Player::Player() : Entity(100, 20) // Initialize base class with health and attack points
-{
+{	// Default look for the player
 	Look0 = R"(                                                      
-          _   ____  _.-"-._
-        .' `;'    ':.      '-.
-       /  ./     .'`\`-...-'`
-      /  /|D_  .O    |
-     /  / |=\/`=     |
-    |_.'  |  |       |
-           \  \   _ /_
-           /`---'}_()_{
-          /`'---' //\\\
-         /;      (/\ \)\
-        / |         \   \
-       /  |         |   |
-      /  / .     _ /   /
-      \_|   '. .'  '-'|
-        \    .-|     /
-     _.-'   /  |    /
-    (      /  / .--;
-     '-.__/   |    /
-              \__.
-)"; // Default look for the player
+       ,__,.........     
+     /''          '\\    
+    /                \   
+   /     `.     `.   \   
+  /    ,' '-b`,-'\_   \  
+  |  _/'  o  ' o  ',- |  
+  /  ' |          |'  \  
+ /     '-........-'    \ 
+ |       |      |       | 
+ |       /      \       | 
+-+     /-\      /-\     +-
+  \---/   \----/   \---/  
 
+)"; 
+	//angry
 	Look1 = R"(
-			  .-.
-			 (o.o)
-			  |=|
-			 __|__
-		   //.=|=.\\
-		  // .=|=. \\
-		  \\ .=|=. //
-		   \\(_=_)//
-			(:| |:)
-			 || ||
-			 () ()
-			 || ||
-			 || ||
-			==' '==
+       ,__,.........     
+     /''          '\\    
+    /                \   
+   /     `.     `.   \   
+  /    ,' '-b`,-'\_   \  
+  |  _/' ,\  '/,  ',- |  
+  /  ' |  '   '   |'  \  
+ /     '-........-'    \ 
+ |       |      |       | 
+ |       /      \       | 
+-+     /-\      /-\     +-
+  \---/   \----/   \---/  
 )";
+	//crying
 	Look2 = R"(
-   ,^~~~-.         .-~~~"-.
-  :  .--. \       /  .--.  \
-  : (    .-`<^~~~-: :    )  :
-  `. `-,~            ^- '  .'
-    `-:                ,.-~
-      .'                  `.
-     ,'   @   @            |
-     :    __               ;
-  ...{   (__)          ,----.
- /   `.              ,' ,--. `.
-|      `.,___   ,      :    : :
-|     .'    ~~~~       \    / :
- \.. /               `. `--' .'
-    |                  ~----~
-    |                      |
-     ----------------------
+       ,__,.........     
+     /''          '\\    
+    /                \   
+   /     `.     `.   \   
+  /    ,' '-b`,-'\_   \  
+  |  _/'  __' __  ',- |  
+  /  ' |  |    |  |'  \  
+ /     '-........-'    \ 
+ |       |      |       | 
+ |       /      \       | 
+-+     /-\      /-\     +-
+  \---/   \----/   \---/  
 )";
+	//shocked
 	Look3 = R"(
-         .--.. .--..                         
-        / #  \/ # \ \                    
-       |# # #|# # #| \                  
-      ,:  ___; ___ |  |           
-    ,~   /   \/   \    ~`.           
-   .,--.|    |     | ,.. #`.           
-   :    |  * | *   |'   `. #:        
-  |`.    \___/\___/      ;  :          
-  :  ~|     ( )       /~    #           
-  `#   \    /~\      /     |'            
-   `.   `--'   `----'    #/               
-     \#                  .'               
-      `-..             #/.                  
-      /#  ~          ~~  #\
+       ,__,.........     
+     /''          '\\    
+    /                \   
+   /     `.     `.   \   
+  /    ,' '-b`,-'\_   \  
+  |  _/' ,_  '_.  ',- |  
+  /  ' | ()   ()  |'  \  
+ /     '-.. O ...-'    \ 
+ |       |      |       | 
+ |       /      \       | 
+-+     /-\      /-\     +-
+  \---/   \----/   \---/  
 )";
+	//bored
 	Look4 = R"(
-          ..  .-~~~-. ..                  
-     .--.'  `'       '  ;.                   
-   .'                     `,                  
-   `. ,.'`.__'~-.           :               
-     ~ /~  / ~\  `-       .,'
-      |___|____| :          `.
-      |  *| *  |  `-.        ;            
-       \__/\__/      ~;     |'         
-      /  `.           `-...;'         
-      |   |                ;       
-      |   ;                |             
-      `.  `._              |         
-        \   ~~~           .'              
-         `.__________.'   :              
-                `
+       ,__,.........     
+     /''          '\\    
+    /                \   
+   /     `.     `.   \   
+  /    ,' '-b`,-'\_   \  
+  |  _/'     '    ',- |  
+  /  ' |  ==  ==  |'  \  
+ /     '-........-'    \ 
+ |       |      |       | 
+ |       /      \       | 
+-+     /-\      /-\     +-
+  \---/   \----/   \---/      
 )";
 
 	Dialogue1 = "\"It's been a while\"";
@@ -147,13 +133,16 @@ void Player::SkinWalkerAtDoor(int choice)
 
 	bool skinwalkerAtDoor = false;
 
-	if (skinwalkerAtDoor) {
+	if (skinwalkerAtDoor = true) {
 		switch (choice) {
 		case 1:
-			std::cout << "Let them in" << std::endl;
+			std::cout << "Attack" << std::endl;
 			break;
 		case 2:
-			std::cout << "Don't let them in" << std::endl;
+			std::cout << "Reject them" << std::endl;
+			break;
+		case 3:
+			std::cout << "Let them in" << std::endl;
 			break;
 		default:
 			std::cout << "..." << std::endl;
@@ -166,7 +155,7 @@ void Player::EncounterSkinwalker(int choice)
 {
 	bool encounteredskinwalker = false;
 
-	if (encounteredskinwalker) {
+	if (encounteredskinwalker = true) {
 		switch (choice) {
 		case 1:
 			std::cout << "Battle" << std::endl;
@@ -197,13 +186,16 @@ void Player::SurvivorsAtDoor(int choice)
 
 	bool survivorsAtDoor = false;
 
-	if (survivorsAtDoor) {
+	if (survivorsAtDoor = true) {
 		switch (choice) {
 		case 1:
-			std::cout << "Let them in" << std::endl;
+			std::cout << "Attack" << std::endl;
 			break;
 		case 2:
-			std::cout << "Don't let them in" << std::endl;
+			std::cout << "Reject them" << std::endl;
+			break;
+		case 3:
+			std::cout << "Let them in" << std::endl;
 			break;
 		default:
 			std::cout << "..." << std::endl;
@@ -216,7 +208,7 @@ void Player::SurvivorsAtDoor(int choice)
 //{
 //	bool encounteredsurvivors = false;
 //
-//	if (encounteredsurvivors) {
+//	if (encounteredsurvivors = true) {
 //		switch (choice) {
 //		case 1:
 //			std::cout << "Battle" << std::endl;
