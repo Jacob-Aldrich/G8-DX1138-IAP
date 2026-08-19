@@ -101,6 +101,7 @@ void Chunks::AddObject(Object* obj)
         if (Objects[i] == nullptr)
         {
             Objects[i] = obj;
+            ObjectCount++;
             return;
         }
     }
@@ -113,6 +114,7 @@ void Chunks::RemoveObject(Object* obj)
         if (Objects[i] == obj)
         {
             Objects[i] = nullptr;
+            ObjectCount--;
             return;
         }
     }
@@ -135,6 +137,21 @@ Object* Chunks::CheckForObject(int x, int y)
         }
     }
     return nullptr;
+}
+
+int Chunks::GetBoardSize()
+{
+    return BoardSize;
+}
+
+int Chunks::GetMaxObjects()
+{
+    return MaxObjects;
+}
+
+int Chunks::GetObjectCount()
+{
+    return ObjectCount;
 }
 
 Chunks::~Chunks()

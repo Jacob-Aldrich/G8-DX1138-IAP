@@ -1,6 +1,8 @@
 #include "World.h"
 #include <iostream>
-World::World() : Food(new Material(0, 10, 'F', "Food")), Water(new Material(0, 10, 'W', "Water"))
+
+
+World::World() : Food(new Material(0, 800, 'F', "Food")), Water(new Material(0, 800, 'W', "Water"))
 {
 	std::cout << "Constructing World\n";
 	Days = 0;
@@ -10,6 +12,7 @@ World::World() : Food(new Material(0, 10, 'F', "Food")), Water(new Material(0, 1
     player->SetY(6);
 
 	Chunk[0].AddObject(house);
+    CreateObjects();
 }
 
 World::~World()
@@ -218,6 +221,37 @@ void World::HandleKeypress(char keypress)
 {
     MovePlayer(keypress);
     InteractWithObject(keypress);
+}
+
+void World::CreateObjects()
+{
+    for (int i = 0; i < MaxChunk; i++) {
+        for (int j = 0; j < Chunk[i].GetMaxObjects() - Chunk[i].GetObjectCount(); j++) {
+            Object* Water;
+            Object* Food;
+            int randomSupply = rand() % 2;
+            int randX, randY;
+            randX = rand() % Chunk[i].GetBoardSize();
+            randY = rand() & Chunk[i].GetBoardSize();
+            while (Chunk[i].CheckForObject(randX, randY)) {
+                randX = rand() % Chunk[i].GetBoardSize();
+                randY = rand() & Chunk[i].GetBoardSize();
+            }
+
+            switch (randomSupply) {
+            case 0:
+                Water = new Object('W', randX, randY, "Water");
+                Chunk[i].AddObject(Water);
+                std::cout << Water << " " << randX << ", " << randY << "\n Chunk: " << i << std::endl;
+                break;
+            case 1:
+                Food = new Object('F', randX, randY, "Fire");
+                Chunk[i].AddObject(Food);
+                std::cout << Food << " " << randX << ", " << randY << "\n Chunk: " << i << std::endl;
+                break;
+            }
+        }
+    }
 }
 
 Material* World::GetFood()

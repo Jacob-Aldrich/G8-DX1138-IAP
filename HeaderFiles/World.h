@@ -10,7 +10,8 @@ class World
 	int Days;
 	int CurrentChunk = 0;
 
-	Chunks Chunk[5];
+	static int const MaxChunk = 5;
+	Chunks Chunk[MaxChunk];
 
 	Material* Water;
 	Material* Food;
@@ -37,4 +38,6 @@ public:
 	void InteractWithObject(char keypress);
 	void displayInteractionOptions();
 	void HandleKeypress(char keypress);
+
+	void CreateObjects();
 };
