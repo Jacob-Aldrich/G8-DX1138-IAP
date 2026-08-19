@@ -1,7 +1,8 @@
 #include "Material.h"
+#include "Object.h"
 
 // initialization
-Material::Material(int startingQuantity, int startingMaximumQuantity)
+Material::Material(int startingQuantity, int startingMaximumQuantity, char startingSymbol, std::string startingName) : Object(startingSymbol, 0, 0, startingName)
 {
     maximumQuantity = startingMaximumQuantity;
     quantity = startingQuantity;

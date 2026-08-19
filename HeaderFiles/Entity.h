@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+
 #include "Object.h"
 
 // character is a game object
@@ -12,16 +12,25 @@ private:
     int AttackPoints;
     bool IsSkinWalker;
 
-public:
+    int Hunger;
+    int Thirst;
 
-    Entity(std::string startingName, bool startingIsSkinwalker);
+public:
+    Entity(std::string startingName, int startingHealthPoints, int startingAttackPoints, bool startingSkinWalker, char startingSymbol);
 
     int GetHealthPoints();
     int GetBaseAttackPoints();
 
+    void AddHunger(int amount);
+    void AddThirst(int amount);
+
+    int GetHunger();
+    int GetThirst();
+
     std::string GetName();
     bool IsAlive();
     bool GetIsSkinWalker();
+
     void TakeDamage(int damagePoints);
 
 
