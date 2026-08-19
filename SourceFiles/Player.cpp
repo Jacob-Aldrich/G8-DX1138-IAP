@@ -5,7 +5,7 @@
 
 Player::Player() : Entity(100, 20) // Initialize base class with health and attack points
 {	// Default look for the player
-	Look0 = R"(                                                      
+	Look0 = "\033[38;2;174;198;207m" + std::string(R"(
        ,__,.........     
      /''          '\\    
     /                \   
@@ -19,9 +19,9 @@ Player::Player() : Entity(100, 20) // Initialize base class with health and atta
 -+     /-\      /-\     +-
   \---/   \----/   \---/  
 
-)"; 
+)") + "\033[0m"; 
 	//angry
-	Look1 = R"(
+	Look1 = "\033[38;2;137;171;191m" + std::string(R"(
        ,__,.........     
      /''          '\\    
     /                \   
@@ -34,9 +34,9 @@ Player::Player() : Entity(100, 20) // Initialize base class with health and atta
  |       /      \       | 
 -+     /-\      /-\     +-
   \---/   \----/   \---/  
-)";
+)") + "\033[0m";
 	//crying
-	Look2 = R"(
+	Look2 = "\033[38;2;174;198;207m" + std::string(R"(
        ,__,.........     
      /''          '\\    
     /                \   
@@ -49,9 +49,9 @@ Player::Player() : Entity(100, 20) // Initialize base class with health and atta
  |       /      \       | 
 -+     /-\      /-\     +-
   \---/   \----/   \---/  
-)";
+)") + "\033[0m";
 	//shocked
-	Look3 = R"(
+	Look3 = "\033[38;2;150;168;220m" + std::string(R"(
        ,__,.........     
      /''          '\\    
     /                \   
@@ -64,9 +64,9 @@ Player::Player() : Entity(100, 20) // Initialize base class with health and atta
  |       /      \       | 
 -+     /-\      /-\     +-
   \---/   \----/   \---/  
-)";
+)") + "\033[0m";
 	//bored
-	Look4 = R"(
+	Look4 = "\033[38;2;174;198;207m" + std::string(R"(
        ,__,.........     
      /''          '\\    
     /                \   
@@ -79,7 +79,7 @@ Player::Player() : Entity(100, 20) // Initialize base class with health and atta
  |       /      \       | 
 -+     /-\      /-\     +-
   \---/   \----/   \---/      
-)";
+)") + "\033[0m";
 
 	Dialogue1 = "\"It's been a while\"";
 	Dialogue2 = "\"Who are you?\"";
