@@ -34,28 +34,39 @@ void skinwalker::choiceDialogue()
 	while (choice != 1 && choice != 2)
 	{
 		std::cout << "What will you do?" << std::endl;
-		std::cout << "1. Let them in" << std::endl;
-		std::cout << "2. Don't let them in" << std::endl;
+		std::cout << "1. Attack" << std::endl;
+		std::cout << "2. Reject them" << std::endl;
+		std::cout << "3. Let them in" << std::endl;
 		std::cin >> choice;
 	
 	}
 
 	if (choice == 1)
 	{
-		std::cout << "You let them in..." << std::endl;
-
+		std::cout << "You attacked them! " << std::endl;
 		battle();
 	}
-	else
+	else if (choice == 2)
 	{
 		std::cout << "You refuse to let them in." << std::endl;
 		std::cout << "How dare you!" << std::endl;
 	}
 
+	else if (choice == 3)
+	{
+		std::cout << "You let them in..." << std::endl;
+
+		battle();
+	}
+
+	else
+	{
+		std::cout << "..." << std::endl;
+	}
 
 }
 
-void skinwalker::battle()
+void skinwalker::battle() const
 {
 	int PHealthPoints = 100;
 	int PAttackpoints = 20;
