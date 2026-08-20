@@ -189,6 +189,21 @@ void Game::Battle()
                 << PAttackPoints
                 << " damage!" << std::endl;
 
+			if (PAttackPoints > 30)
+			{
+				std::cout << "It was super effective!" << std::endl;
+			}
+			
+			else if (PAttackPoints < 10)
+			{
+				std::cout << "It was not really effective" << std::endl;
+			}
+
+			else 
+			{
+				std::cout << " " << std::endl;
+			}
+
             if (skinwalkerHealth < 0)
             {
                 skinwalkerHealth = 0;
@@ -263,6 +278,21 @@ void Game::Battle()
         std::cout << "The Skinwalker deals "
             << skinwalkerAttack
             << " damage!" << std::endl;
+
+		if (skinwalkerAttack > 15)
+		{
+			std::cout << "It was super effective!" << std::endl;
+		}
+
+		else if (skinwalkerAttack < 5)
+		{
+			std::cout << "It was not really effective" << std::endl;
+		}
+
+		else
+		{
+			std::cout << " " << std::endl;
+		}
 
         if (PHealthPoints < 0)
         {
