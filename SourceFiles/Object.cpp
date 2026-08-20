@@ -40,6 +40,7 @@ std::string Object::GetName()
 
 void Object::Interacted()
 {
+    std::cout << "wth";
 }
 
 Object::~Object()

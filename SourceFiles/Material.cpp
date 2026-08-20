@@ -50,3 +50,8 @@ bool Material::UseQuantity(int quantityToUse)
 
     return false;
 }
+
+void Material::Interacted()
+{
+
+}

@@ -1,12 +1,9 @@
 #pragma once
 #include "Entity.h"
-class Survivors :
-    public Entity
+class Survivors : public Entity
 {
-private:
-    int SHealthPoints;
-    int SAttackPoints;
-    int imagechoice;
+
+
 
 public:
 	Survivors();

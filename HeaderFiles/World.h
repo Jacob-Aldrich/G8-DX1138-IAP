@@ -8,7 +8,6 @@
 class World
 {
 	int Days;
-<<<<<<< HEAD
 	int CurrentChunk = 0;
 
 	static int const MaxChunk = 5;
@@ -16,22 +15,11 @@ class World
 
 	Material* Water;
 	Material* Food;
-
+	
 	Entity* player = new Entity("Player", 100, 100, false, 'P');
 	Object* house = new Object('H', 5, 5, "House");
-=======
-	int Place[5];
-	Object* Objects[10];
-
-	Material Water;
-	Material Food;
-
->>>>>>> 8bd2a01c85ca3933a2de9f452fbd207a2bc2198c
 public:
 	World();
-
-	void SearchForSupplies();
-
 	~World();
 
 	int getDays();

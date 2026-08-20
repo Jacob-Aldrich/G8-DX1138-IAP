@@ -13,17 +13,15 @@ public:
 	skinwalker();
 
 	virtual void dialogue();
-	void setDialogue(int randomiser);
+	//void setDialogue(int randomiser);
 
-	int GetSWHealthPoints();
-	int GetSWAttackPoints();
+	//int GetSWHealthPoints();
+	//int GetSWAttackPoints();
 
-	skinwalker image();
+	//skinwalker image();
 
-	bool IsLetIn();
+	//bool IsLetIn();
 
 	void choiceDialogue();
-	void battle();
-	void wildbattle();
 	void displayImage();
 };
