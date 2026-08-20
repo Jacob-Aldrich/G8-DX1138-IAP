@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "Entity.h"
+#include "endings.h"
+#include "skinwalker.h"
 Game::Game()
 {
 	std::cout << "Constructing Game\n";
-	std::cout << 
+	std::cout <<
 		R"(You have 5 turns before nightfall.
 
 		Recruit survivors.
@@ -103,7 +105,7 @@ void Game::Run()
 	//	}
 	//}
 
-	
+
 
 	//int Enemy2Attack = Enemies[0].GetBaseAttackPoints();
 
@@ -152,6 +154,138 @@ void Game::LookForSurvivors()
 		std::cout << "You cannot recruit any more survivors!\n";
 	}
 }
+
+void Game::Battle()
+{
+    int PHealthPoints = 100;
+    int PAttackPoints = 20;
+
+    int skinwalkerHealth = std::rand() % 25 + 30;
+    int skinwalkerAttack = std::rand() % 5 + 15;
+
+    int battleChoice = 0;
+
+    while (PHealthPoints > 0 && skinwalkerHealth > 0)
+    {
+        std::cout << "Your HP: " << PHealthPoints << std::endl;
+        std::cout << "Skinwalker's HP: " << skinwalkerHealth << std::endl;
+
+        displayImage();
+
+
+        std::cout << "What will you do?" << std::endl;
+        std::cout << "1. Attack" << std::endl;
+        std::cout << "2. Item"<< std::endl;
+        std::cout << "3. Run"<< std::endl;
+
+        std::cin >> battleChoice;
+
+
+        if (battleChoice == 1)
+        {
+            skinwalkerHealth -= PAttackPoints;
+
+            std::cout << "You attack the Skinwalker for" << std::endl
+                << PAttackPoints
+                << " damage!" << std::endl;
+
+            if (skinwalkerHealth < 0)
+            {
+                skinwalkerHealth = 0;
+            }
+
+            std::cout << "Skinwalker's HP:"
+                << skinwalkerHealth << std::endl;
+    
+        }
+
+
+        else if (battleChoice == 2)
+        {
+            std::cout << "You used an item!" << std::endl;
+
+       /*  Can put the ACTUAL items here later 
+	   * 
+	   * 
+            int healAmount = 20;
+
+            PHealthPoints += healAmount;
+
+            if (PHealthPoints > 100)
+            {
+                PHealthPoints = 100;
+            }
+
+            std::cout << "You recovered "
+                << healAmount 
+                << " HP!" << std::endl;
+
+            std::cout << "Your HP: "
+                << PHealthPoints
+                << std::endl;*/
+        }
+
+        else if (battleChoice == 3)
+        {
+            int chance = std::rand() % 4; //25% chance to escape
+
+            if (chance == 0)
+            {
+                std::cout << "You escaped from the Skinwalker!" << std::endl;
+                return;
+            }
+            else
+            {
+                std::cout << "You failed to escape!" << std::endl;
+            }
+        }
+
+        else
+        {
+            std::cout << "Pick a valid option." << std::endl;
+            continue;
+        }
+
+
+        if (skinwalkerHealth <= 0)
+        {
+            std::cout << "You have defeated the Skinwalker!" << std::endl;
+
+            return;
+        }
+
+        std::cout << "The Skinwalker attacks!" << std::endl;
+
+        displayImage();
+
+        PHealthPoints -= skinwalkerAttack;
+
+        std::cout << "The Skinwalker deals "
+            << skinwalkerAttack
+            << " damage!" << std::endl;
+
+        if (PHealthPoints < 0)
+        {
+            PHealthPoints = 0;
+        }
+
+        std::cout << "Your HP: "
+            << PHealthPoints
+            << std::endl;
+
+
+		if (PHealthPoints <= 0)
+		{
+			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
+
+			endings ending;
+			ending.DeathEnding();
+
+			return;
+		}
+    }
+}
+
 Game::~Game()
 {
 	delete world;
