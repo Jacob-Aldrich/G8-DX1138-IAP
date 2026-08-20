@@ -170,7 +170,7 @@ void Game::Battle()
 		int turn = 1;
 
 		std::cout << "========== TURN " << turn << " ==========" << std::endl;
-        std::cout << "Your HP: " << PHealthPoints << std::endl;
+        std::cout << "\033[32mYour HP: \033[0m" << PHealthPoints << std::endl; //green
         std::cout << "Skinwalker's HP: " << skinwalkerHealth << std::endl;
 
         displayImage();
@@ -195,7 +195,7 @@ void Game::Battle()
 
 			if (PAttackPoints > 30)
 			{
-				std::cout << "It was super effective!" << std::endl;
+				std::cout << "\033[36mIt was super effective!\033[0m" << std::endl; //cyan
 			}
 			
 			else if (PAttackPoints < 10)
@@ -250,12 +250,12 @@ void Game::Battle()
 
             if (chance == 0)
             {
-                std::cout << "You escaped from the Skinwalker!" << std::endl;
+                std::cout << "\033[36mYou escaped from the Skinwalker!\033[0m" << std::endl; //cyan
                 return;
             }
             else
             {
-                std::cout << "You failed to escape!" << std::endl;
+                std::cout << "\033[31mYou failed to escape!\033[0m" << std::endl; //red
             }
         }
 
@@ -268,7 +268,7 @@ void Game::Battle()
 
         if (skinwalkerHealth <= 0)
         {
-            std::cout << "You have defeated the Skinwalker!" << std::endl;
+            std::cout << "\033[36mYou have defeated the Skinwalker\033[0m!" << std::endl;
 
             return;
         }
@@ -285,7 +285,7 @@ void Game::Battle()
 
 		if (skinwalkerAttack > 15)
 		{
-			std::cout << "It was super effective!" << std::endl;
+			std::cout << "\033[36mIt was super effective!\033[0m" << std::endl; //cyan
 		}
 
 		else if (skinwalkerAttack < 5)
@@ -303,14 +303,14 @@ void Game::Battle()
             PHealthPoints = 0;
         }
 
-        std::cout << "Your HP: "
+        std::cout << "\033[32mYour HP: \033[0m" //green
             << PHealthPoints
             << std::endl;
 
 
 		if (PHealthPoints <= 0)
 		{
-			std::cout << "You have been defeated by the Skinwalker!" << std::endl;
+			std::cout << "\033[31mYou have been defeated by the Skinwalker!\033[0m" << std::endl; //making the text red
 
 			endings ending;
 			ending.DeathEnding();
