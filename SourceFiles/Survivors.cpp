@@ -7,7 +7,7 @@ void Survivors::dialogue()
 {
 	displayImage();
 
-	srand(static_cast<unsigned int>(time(0)));
+	// put this is main pls ---> srand(static_cast<unsigned int>(time(0)));
 	int randomiser = rand() % 3;
 	setDialogue(randomiser);
 
@@ -27,40 +27,89 @@ void Survivors::dialogue()
 }
 
 
-void Survivors::choiceDialogue() const
+void Survivors::choiceDialogue() 
 {
 	int choice = 0;
 
 	while (choice != 1 && choice != 2)
 	{
 		std::cout << "What will you do?" << std::endl;
-		std::cout << "1. Let them in" << std::endl;
-		std::cout << "2. Don't let them in" << std::endl;
+        std::cout << "1. Attack" << std::endl;
+        std::cout << "2. Reject them" << std::endl;
+		std::cout << "3. Let them in" << std::endl;
 		std::cin >> choice;
 
 	}
 
-	if (choice == 1)
+    if (choice == 1)
+    {
+        std::cout << "You injured an innocent. They no longer want to work with you  " << std::endl;
+    }
+
+    else if (choice == 2)
+    {
+        std::cout << "You refuse to let them in." << std::endl;
+        std::cout << "How dare you!" << std::endl;
+    }
+
+	else if (choice == 3)
 	{
 		std::cout << "You let them in..." << std::endl;
+        NoOfSurvivors++;
 
-		battle();
+        std::cout << "Survivors: " << NoOfSurvivors << std::endl;
+
 	}
 	else
 	{
-		std::cout << "You refuse to let them in." << std::endl;
-		std::cout << "How dare you!" << std::endl;
+		std::cout << "..." << std::endl;
 	}
 
 
 }
 
+void Survivors::scavenging()
+{
+    
+        if (NoOfSurvivors > 0)
+        {
+            int choice;
+
+            std::cout << "You currently have "
+                << NoOfSurvivors
+                << " survivor(s)." << std::endl;
+
+            std::cout << "Would you like to send a survivor to scavenge?"
+                << std::endl;
+
+            std::cout << "1. Yes" << std::endl;
+            std::cout << "2. No" << std::endl;
+
+            std::cin >> choice;
+
+            if (choice == 1)
+            {
+                std::cout << "A survivor has gone scavenging..."
+                    << std::endl;
+
+                NoOfSurvivors--;
+
+                // Scavenging happens here
+            }
+        }
+        else
+        {
+            std::cout << "You have an insufficient amount of people."
+                << std::endl;
+        }
+    
+}
 
 
 Survivors::Survivors() : Entity(70, 10)
 {
-	srand(static_cast<unsigned int>(time(0)));
 	imagechoice = rand() % 3; // Randomly choose an image
+    NoOfSurvivors = 0;
 }
 
 void Survivors::displayImage() const
