@@ -167,6 +167,9 @@ void Game::Battle()
 
     while (PHealthPoints > 0 && skinwalkerHealth > 0)
     {
+		int turn = 1;
+
+		std::cout << "========== TURN " << turn << " ==========" << std::endl;
         std::cout << "Your HP: " << PHealthPoints << std::endl;
         std::cout << "Skinwalker's HP: " << skinwalkerHealth << std::endl;
 
@@ -179,6 +182,7 @@ void Game::Battle()
         std::cout << "3. Run"<< std::endl;
 
         std::cin >> battleChoice;
+	
 
 
         if (battleChoice == 1)
@@ -313,6 +317,7 @@ void Game::Battle()
 
 			return;
 		}
+		turn++;
     }
 }
 
