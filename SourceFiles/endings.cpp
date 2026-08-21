@@ -3,8 +3,8 @@
 
 void endings::DeathEnding()
 {
-	std::cout << " The skinwalkers got to you... You died." << std::endl;
-
+	std::cout << " You couldn't tough it out... You died." << std::endl;
+	return;
 }
 
 void endings::MilitaryEnding()
