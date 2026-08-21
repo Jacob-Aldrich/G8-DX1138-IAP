@@ -1,10 +1,12 @@
 #include "Survivors.h"
 #include "endings.h"
 #include <iostream>
-#include <string>
+#include <cstdlib>
+#include <ctime>
 
 void Survivors::dialogue()
 {
+    imagechoice = rand() % 4;
 	displayImage();
 
 	// put this is main pls ---> srand(static_cast<unsigned int>(time(0)));
@@ -13,17 +15,27 @@ void Survivors::dialogue()
 
 	if (randomiser == 0)
 	{
-		std::cout << "Please let me in, I'll help the best of my ability!" << std::endl;
+		std::cout << "???: 'Please let me in, I'll help the best of my ability!'" << std::endl;
 	}
 	else if (randomiser == 1)
 	{
-		std::cout << "I have supplies!" << std::endl;
+		std::cout << "???: 'I have supplies!'" << std::endl;
 	}
 	else
 	{
-		std::cout << "I have information about a safe house!" << std::endl;
+		std::cout << "???: 'I have information about a safe house!'" << std::endl;
 	}
 
+}
+
+void Survivors::setDialogue(int randomiser)
+{
+    // 
+}
+
+int Survivors::GetNoOfSurvivors() const
+{
+    return NoOfSurvivors;
 }
 
 
@@ -31,7 +43,7 @@ void Survivors::choiceDialogue()
 {
 	int choice = 0;
 
-	while (choice != 1 && choice != 2)
+	while (choice != 1 && choice != 2 && choice!= 3)
 	{
 		std::cout << "What will you do?" << std::endl;
         std::cout << "1. Attack" << std::endl;
@@ -49,7 +61,7 @@ void Survivors::choiceDialogue()
     else if (choice == 2)
     {
         std::cout << "You refuse to let them in." << std::endl;
-        std::cout << "How dare you!" << std::endl;
+        std::cout << "???: 'How dare you!'" << std::endl;
     }
 
 	else if (choice == 3)
@@ -108,7 +120,6 @@ void Survivors::scavenging()
 
 Survivors::Survivors() : Entity(70, 10)
 {
-	imagechoice = rand() % 3; // Randomly choose an image
     NoOfSurvivors = 0;
 }
 
