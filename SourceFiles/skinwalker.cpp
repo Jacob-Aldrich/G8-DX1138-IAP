@@ -8,7 +8,7 @@ void skinwalker::dialogue()
 	displayImage();
 
 	srand(static_cast<unsigned int>(time(0)));
-	int randomiser = rand() % 3;
+	int randomiser = rand() % 5;
 	setDialogue(randomiser);
 
 	if (randomiser == 0)
@@ -18,6 +18,14 @@ void skinwalker::dialogue()
 	else if (randomiser == 1)
 	{
 		std::cout << "Hey, could you let me in? I've got some suplies to share." << std::endl;
+	}
+	else if (randomiser == 2)
+	{
+		std::cout << "I have some lnformation to share! Please let me in!" << std::endl;
+	}
+	else if (randomiser == 3)
+	{
+		std::cout << "Can I come in...?" << std::endl;
 	}
 	else
 	{
@@ -82,6 +90,7 @@ void skinwalker::battle() const
 
 		std::cout << "What will you do?" << std::endl;
 		std::cout << "1. Attack" << std::endl;
+		std::cout << "2. Item" << std::endl;
 		std::cin >> battlechoice;
 		if (battlechoice == 1)
 		{
@@ -95,6 +104,11 @@ void skinwalker::battle() const
 				std::cout << "The Skinwalker attacks you for " << skinwalkerAttack << " damage!" << std::endl;
 				std::cout << "You have" << PnewHP << " HP left!" << std::endl;
 			}
+		}
+
+		else if (battlechoice == 2)
+		{
+			//enter item code or item options
 		}
 		
 		else
@@ -155,7 +169,7 @@ void skinwalker::wildbattle() const
 		else if (battlechoice == 2)
 		{
 			
-			int chance = std::rand() % 3; // 25% chance to escape
+			int chance = std::rand() % 4; // 25% chance to escape
 			if (chance == 0)
 			{
 				std::cout << "You successfully run away from the Skinwalker!" << std::endl;
