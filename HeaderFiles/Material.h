@@ -12,6 +12,9 @@ private:
 public:
 
     Material(int startingQuantity, int startingMaximumQuantity);
+	Material(char symbol, int xPosition, int yPosition,
+		const std::string& materialName, int startingQuantity,
+		int startingMaximumQuantity);
 
     int GetQuantity();
     int GetMaximumQuantity();
@@ -21,4 +24,5 @@ public:
     void AddQuantity(int quantityToAdd);
 
     bool UseQuantity(int quantityToUse);
+	void PrintDetails();
 };
