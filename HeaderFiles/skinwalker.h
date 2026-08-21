@@ -1,29 +1,33 @@
 #pragma once
-#include <string>
 #include "Entity.h"
-
-class skinwalker : public Entity
+class Survivors :
+    public Entity
 {
 private:
-	int SWHealthPoints;
-	int SWAttackPoints;
-	int imagechoice;
+    int SHealthPoints;
+    int SAttackPoints;
+    int imagechoice;
+	int NoOfSurvivors;
 
 public:
-	skinwalker();
+	Survivors();
+	int GetNoOfSurvivors() const;
 
-	virtual void dialogue();
+	void dialogue();
 	void setDialogue(int randomiser);
+	void scavenging();
 
-	int GetSWHealthPoints();
-	int GetSWAttackPoints();
+	//int GetSHealthPoints(int SHealthPoints);
+	//int GetSAttackPoints(int SAttackPoints);
 
-	skinwalker image();
 
-	bool IsLetIn();
+	//Survivors image();
+
+	//bool IsLetIn();
 
 	void choiceDialogue();
-	void battle();
-	void wildbattle();
-	void displayImage();
+	//void battle() const;
+	void displayImage() const;
+
 };
+
