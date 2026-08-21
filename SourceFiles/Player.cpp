@@ -1,5 +1,5 @@
-#include "../HeaderFiles/Player.h"
-#include "../HeaderFiles/World.h"
+#include "Player.h"
+#include "World.h"
 
 #include <iostream>
 #include <string>
