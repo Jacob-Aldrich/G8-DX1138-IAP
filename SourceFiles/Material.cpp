@@ -1,11 +1,50 @@
 #include "Material.h"
 
+#include <iostream>
+
 // initialization
 Material::Material(int startingQuantity, int startingMaximumQuantity)
+	: Object('?', -1, -1, "Stored Material")
+{
+	maximumQuantity = startingMaximumQuantity;
+	quantity = startingQuantity;
+
+	if (maximumQuantity < 0)
+	{
+		maximumQuantity = 0;
+	}
+
+	if (quantity < 0)
+	{
+		quantity = 0;
+	}
+	else if (quantity > maximumQuantity)
+	{
+		quantity = maximumQuantity;
+	}
+}
+
+Material::Material(char symbol, int xPosition, int yPosition,
+	const std::string& materialName, int startingQuantity,
+	int startingMaximumQuantity)
+	: Object(symbol, xPosition, yPosition, materialName)
 {
     maximumQuantity = startingMaximumQuantity;
     quantity = startingQuantity;
 
+	if (maximumQuantity < 0)
+	{
+		maximumQuantity = 0;
+	}
+
+	if (quantity < 0)
+	{
+		quantity = 0;
+	}
+	else if (quantity > maximumQuantity)
+	{
+		quantity = maximumQuantity;
+	}
 }
 
 // returns the quantity
@@ -29,6 +68,11 @@ bool Material::IsEmpty()
 // adds the quantity
 void Material::AddQuantity(int quantityToAdd)
 {
+	if (quantityToAdd <= 0)
+	{
+		return;
+	}
+
     quantity = quantity + quantityToAdd;
 
     // checks for the max quantity, if its max then cnanot add more
@@ -48,4 +92,10 @@ bool Material::UseQuantity(int quantityToUse)
     }
 
     return false;
+}
+
+void Material::PrintDetails()
+{
+	std::cout << GetObjectName() << " [Material] "
+		<< quantity << "/" << maximumQuantity;
 }
