@@ -7,24 +7,30 @@ private:
     int SHealthPoints;
     int SAttackPoints;
     int imagechoice;
+	int NoOfSurvivors;
 
 public:
 	Survivors();
+	int GetNoOfSurvivors() const;
 
-	virtual void dialogue();
+	void dialogue();
 	void setDialogue(int randomiser);
+	void scavenging();
 
-	int GetSHealthPoints(int SHealthPoints);
-	int GetSAttackPoints(int SAttackPoints);
+	//int GetSHealthPoints(int SHealthPoints);
+	//int GetSAttackPoints(int SAttackPoints);
 
-	Survivors image();
 
-	bool IsLetIn();
+	//Survivors image();
 
-	void choiceDialogue() const;
-	void battle() const;
+	//bool IsLetIn();
+
+	void choiceDialogue();
+	//void battle() const;
 	void displayImage() const;
 
 };
+
+
 
 
