@@ -1,5 +1,5 @@
-#include "../HeaderFiles/Inventory.h"
-#include "../HeaderFiles/World.h"
+#include "Inventory.h"
+#include "World.h"
 
 #include <iostream>
 
