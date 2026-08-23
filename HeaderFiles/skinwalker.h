@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "Entity.h"
 
 class skinwalker : public Entity
@@ -7,21 +6,13 @@ class skinwalker : public Entity
 private:
 	int SWHealthPoints;
 	int SWAttackPoints;
-	int imagechoice;
 
 public:
-	skinwalker();
-
 	virtual void dialogue();
-	//void setDialogue(int randomiser);
+	/*void setDialogue(int randomiser);
+	skinwalker image();
+	int GetSWHealthPoints();
+	int GetSWAttackPoints();
 
-	//int GetSWHealthPoints();
-	//int GetSWAttackPoints();
-
-	//skinwalker image();
-
-	//bool IsLetIn();
-
-	void choiceDialogue();
-	void displayImage();
+	bool IsLetIn();*/
 };

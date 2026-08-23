@@ -1,7 +1,6 @@
 #pragma once
 #include "World.h"
 #include "Entity.h"
-#include "endings.h"
 #include <iostream>
 #include <conio.h>
 class Game
@@ -11,7 +10,6 @@ class Game
 	static int const maxTurns = 5;
 	bool isRunning = false;
 	bool isOutsideHouse = false;
-	bool isFighting = false;
 
 	std::string SafePlayerNames[10] =
 	{
@@ -30,8 +28,6 @@ class Game
 	Entity* SafePlayers[10] = { nullptr };
 	int SafePlayerCount = 0;
 	bool UsedNames[10] = { false };
-
-	endings ending;
 public:
 	Game();
 	void Run();
@@ -50,3 +46,4 @@ public:
 	void displayCurrentChunk();
 	~Game();
 };
+

@@ -13,9 +13,9 @@ class World
 	static int const MaxChunk = 5;
 	Chunks Chunk[MaxChunk];
 
-	Material* Water;
-	Material* Food;
-	
+	Material* water;
+	Material* food;
+
 	Entity* player = new Entity("Player", 100, 100, false, 'P');
 	Object* house = new Object('H', 5, 5, "House");
 public:

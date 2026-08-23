@@ -53,5 +53,5 @@ bool Material::UseQuantity(int quantityToUse)
 
 void Material::Interacted()
 {
-
+    std::cout << "Material interacted\n";
 }

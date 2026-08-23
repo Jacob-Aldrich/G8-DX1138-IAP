@@ -40,9 +40,10 @@ std::string Object::GetName()
 
 void Object::Interacted()
 {
-    std::cout << "wth";
+    std::cout << "OBJECT INTERACTED\n";
 }
 
 Object::~Object()
 {
+    
 }

@@ -31,6 +31,7 @@ Game::Game()
 
 		displayStatus();
 
+		std::cout << "\n";
 		std::cout << "> What will you do?\n\n";
 
 		std::cout << "[1] Search for supplies\n";
@@ -55,16 +56,16 @@ Game::Game()
 			std::cout << "Invalid choice. Choosing Random Action.\n";
 
 			int randomAction = rand() % 2 + 1;
-			switch (randomAction) {
-			case 1:
-				std::cout << "Searching for supplies\n";
-				world->SearchForSupplies();
-				break;
-			case 2:
-				std::cout << "Looking for survivors\n";
-				LookForSurvivors();
-				break;
-			}
+			switch(randomAction) {
+				case 1:
+					std::cout << "Searching for supplies\n";
+					world->SearchForSupplies();
+					break;
+				case 2:
+					std::cout << "Looking for survivors\n";
+					LookForSurvivors();
+					break;
+			}	
 		}
 	}
 
@@ -102,7 +103,7 @@ void Game::Run()
 			std::cout << "> What will you do?\n";
 			std::cout << "[1] Eat Food\n";
 			std::cout << "[2] Drink Water\n";
-			std::cout << "[3] Go out and Explore --THIS WILL SKIP ALL TURNS\n";
+			std::cout << "[3] Go out of the house --THIS WILL SKIP ALL TURNS\n";
 			std::cin >> choice;
 			if (choice == '1') {
 				std::cout << "Eating...\n";
@@ -184,9 +185,8 @@ void Game::clearConsole()
 
 void Game::displayInventory()
 {
-	std::cout << "\nStorage:\n";
 	std::cout << "Food: " << world->GetFood()->GetQuantity() << "/" << world->GetFood()->GetMaximumQuantity() << "\n";
-	std::cout << "Water: " << world->GetWater()->GetQuantity() << "/" << world->GetWater()->GetMaximumQuantity() << "\n\n";
+	std::cout << "Water: " << world->GetWater()->GetQuantity() << "/" << world->GetWater()->GetMaximumQuantity() << "\n";
 }
 
 void Game::displaySurvivors()

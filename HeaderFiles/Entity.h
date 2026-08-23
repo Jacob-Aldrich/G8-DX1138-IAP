@@ -21,15 +21,10 @@ public:
     int GetHealthPoints();
     int GetBaseAttackPoints();
 
-    void AddHunger(int amount);
-    void AddThirst(int amount);
-
-    int GetHunger();
-    int GetThirst();
-
     std::string GetName();
     bool IsAlive();
     bool GetIsSkinWalker();
-
     void TakeDamage(int damagePoints);
+
+
 };

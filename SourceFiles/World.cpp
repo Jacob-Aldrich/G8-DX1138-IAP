@@ -1,75 +1,78 @@
 #include "World.h"
 #include <iostream>
 
-
-World::World() : Food(new Material(0, 800, 'F', "Food")), Water(new Material(0, 800, 'W', "Water"))
+#include "Water.h"
+#include "Food.h"
+World::World() : food(new Food(0, 800)), water(new Water(0, 800))
 {
-    std::cout << "Constructing World\n";
-    Days = 0;
 
-    Chunk[0].AddObject(player);
+	std::cout << "Constructing World\n";
+	Days = 0;
+
+	Chunk[0].AddObject(player);
     player->SetX(5);
     player->SetY(6);
 
-    Chunk[0].AddObject(house);
+	Chunk[0].AddObject(house);
     CreateObjects();
 }
 
 World::~World()
 {
-    std::cout << "Destructing World\n";
+	std::cout << "Destructing World\n";
 }
 
 int World::getDays()
 {
-    return Days;
+	return Days;
 }
 
 void World::addDays(int daysToAdd)
 {
-    Days += daysToAdd;
+	Days += daysToAdd;
 }
 
 void World::setDays(int daysToSet)
 {
-    Days = daysToSet;
+	Days = daysToSet;
 }
 
 void World::SearchForSupplies()
 {
-    int randomFood = rand() % 3;
-    int randomWater = rand() % 3;
+	int randomFood = rand() % 3;
+	int randomWater = rand() % 3;
 
-    Food->AddQuantity(randomFood);
-    Water->AddQuantity(randomWater);
+	food->AddQuantity(randomFood);
+	water->AddQuantity(randomWater);
 }
 
 void World::MovePlayer(char Direction)
 {
     int PlayerY = player->GetY();
     int PlayerX = player->GetX();
-    int NewChunk = CurrentChunk;
 
     if (Direction == 'w')
     {
         PlayerY--;
-
-        if (PlayerY < 0)
+        if (PlayerY < 0 && CurrentChunk == 0)
         {
-            if (CurrentChunk == 0)
-            {
-                NewChunk = 1;
-                PlayerY = 9;
-            }
-            else if (CurrentChunk == 3)
-            {
-                NewChunk = 0;
-                PlayerY = 9;
-            }
-            else
-            {
-                PlayerY = 0;
-            }
+            Chunk[0].RemoveObject(player);
+            CurrentChunk = 1;
+            Chunk[1].AddObject(player);
+
+            PlayerY = 9;
+        }
+        else if (PlayerY < 0 && CurrentChunk == 3)
+        {
+            Chunk[3].RemoveObject(player);
+            CurrentChunk = 0;
+            Chunk[0].AddObject(player);
+
+            PlayerY = 9;
+        }
+        else if (PlayerY < 0)
+        {
+            PlayerY = 0;
         }
     }
 
@@ -77,85 +80,82 @@ void World::MovePlayer(char Direction)
     {
         PlayerY++;
 
-        if (PlayerY > 9)
+        if (PlayerY > 9 && CurrentChunk == 0)
         {
-            if (CurrentChunk == 0)
-            {
-                NewChunk = 3;
-                PlayerY = 0;
-            }
-            else if (CurrentChunk == 1)
-            {
-                NewChunk = 0;
-                PlayerY = 0;
-            }
-            else
-            {
-                PlayerY = 9;
-            }
+            Chunk[0].RemoveObject(player);
+            CurrentChunk = 3;
+            Chunk[3].AddObject(player);
+
+            PlayerY = 0;
+        }
+        else if (PlayerY > 9 && CurrentChunk == 1)
+        {
+            Chunk[1].RemoveObject(player);
+            CurrentChunk = 0;
+            Chunk[0].AddObject(player);
+
+            PlayerY = 0;
+        }
+        else if (PlayerY > 9)
+        {
+            PlayerY = 9;
         }
     }
 
     else if (Direction == 'a')
     {
         PlayerX--;
-
-        if (PlayerX < 0)
+        if (PlayerX < 0 && CurrentChunk == 0)
         {
-            if (CurrentChunk == 0)
-            {
-                NewChunk = 4;
-                PlayerX = 9;
-            }
-            else if (CurrentChunk == 2)
-            {
-                NewChunk = 0;
-                PlayerX = 9;
-            }
-            else
-            {
-                PlayerX = 0;
-            }
+            Chunk[0].RemoveObject(player);
+            CurrentChunk = 4;
+            Chunk[4].AddObject(player);
+
+            PlayerX = 9;
+        }
+        else if (PlayerX < 0 && CurrentChunk == 2)
+        {
+            Chunk[2].RemoveObject(player);
+            CurrentChunk = 0;
+            Chunk[0].AddObject(player);
+
+            PlayerX = 9;
+        }
+        else if (PlayerX < 0)
+        {
+            PlayerX = 0;
         }
     }
 
     else if (Direction == 'd')
     {
         PlayerX++;
-
-        if (PlayerX > 9)
+        if (PlayerX > 9 && CurrentChunk == 0)
         {
-            if (CurrentChunk == 0)
-            {
-                NewChunk = 2;
-                PlayerX = 0;
-            }
-            else if (CurrentChunk == 4)
-            {
-                NewChunk = 0;
-                PlayerX = 0;
-            }
-            else
-            {
-                PlayerX = 9;
-            }
+            Chunk[0].RemoveObject(player);
+            CurrentChunk = 2;
+            Chunk[2].AddObject(player);
+
+            PlayerX = 0;
+        }
+        else if (PlayerX > 9 && CurrentChunk == 4)
+        {
+            Chunk[4].RemoveObject(player);
+            CurrentChunk = 0;
+            Chunk[0].AddObject(player);
+
+            PlayerX = 0;
+        }
+        else if (PlayerX > 9)
+        {
+            PlayerX = 9;
         }
     }
 
-    // Check the destination BEFORE moving the player
-    Object* object = Chunk[NewChunk].CheckForObject(PlayerX, PlayerY);
-
+	Object* object = Chunk[CurrentChunk].CheckForObject(PlayerX, PlayerY);
     if (object)
     {
         return;
-    }
-
-    // Now actually move the player
-    if (NewChunk != CurrentChunk)
-    {
-        Chunk[CurrentChunk].RemoveObject(player);
-        CurrentChunk = NewChunk;
-        Chunk[CurrentChunk].AddObject(player);
     }
 
     player->SetX(PlayerX);
@@ -195,7 +195,12 @@ void World::InteractWithObject(char keypress)
             continue;
         }
         if (obj) {
+            std::cout << "Object name: " << obj->GetName() << '\n';
+            std::cout << "Calling Interacted...\n";
+
             obj->Interacted();
+
+            std::cout << "Finished Interacted\n";
         }
     }
 }
@@ -221,7 +226,7 @@ void World::displayInteractionOptions()
             (objectX == playerX && objectY == playerY + 1) ||
             (objectX == playerX && objectY == playerY - 1))
         {
-            std::cout << "You are near " << obj->GetName() << ". Press 'e' to interact.\n";
+			std::cout << "You are near " << obj->GetName() << ". Press 'e' to interact.\n";
             return;
         }
     }
@@ -261,12 +266,16 @@ void World::CreateObjects()
 
             if (randomSupply == 0)
             {
-                Object* water = new Object('W', randX, randY, "Water");
+                Water* water = new Water(0, 800);
+                water->SetX(randX);
+                water->SetY(randY);
                 Chunk[i].AddObject(water);
             }
             else
             {
-                Object* food = new Object('F', randX, randY, "Food");
+                Food* food = new Food(0, 800);
+                food->SetX(randX);
+                food->SetY(randY);
                 Chunk[i].AddObject(food);
             }
         }
@@ -275,12 +284,12 @@ void World::CreateObjects()
 
 Material* World::GetFood()
 {
-    return Food;
+	return food;
 }
 
 Material* World::GetWater()
 {
-    return Water;
+	return water;
 }
 
 Chunks& World::GetChunks(int index)
@@ -290,10 +299,10 @@ Chunks& World::GetChunks(int index)
 
 int World::getCurrentChunk()
 {
-    return CurrentChunk;
+	return CurrentChunk;
 }
 
 void World::GoToChunk(int index)
 {
-    CurrentChunk = index;
+	CurrentChunk = index;
 }
