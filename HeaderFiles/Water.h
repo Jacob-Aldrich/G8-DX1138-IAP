@@ -3,8 +3,9 @@
 
 class Water : public Material
 {
+
 public:    
-    Water(int startingQuantity, int startingMaximumQuantity);
-    void Interacted() override;
+    Water(int startingQuantity, int startingMaximumQuantity, Material* waterSupply);
+    bool Interacted() override;
 };
 

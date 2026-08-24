@@ -2,9 +2,10 @@
 #include "Material.h"
 class Food : public Material
 {
+    Material* foodSupply;
 public:
-    Food(int startingQuantity, int startingMaximumQuantity);
+    Food(int startingQuantity, int startingMaximumQuantity, Material* foodSupply);
 
-    void Interacted() override;
+    bool Interacted() override;
 };
 

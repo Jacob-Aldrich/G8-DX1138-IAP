@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+class World;
+
 class Object
 {
 protected:
@@ -18,9 +20,8 @@ public:
     void SetY(int y);
 
     char GetSymbol();
-	std::string GetName();
-
-    virtual void Interacted();
+    std::string GetName();
+    virtual bool Interacted();
 
     virtual ~Object();
 };

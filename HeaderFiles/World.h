@@ -4,6 +4,7 @@
 #include "Chunks.h"
 #include "Player.h"
 #include "Entity.h"
+#include "House.h"
 
 class World
 {
@@ -17,7 +18,7 @@ class World
 	Material* food;
 
 	Entity* player = new Entity("Player", 100, 100, false, 'P');
-	Object* house = new Object('H', 5, 5, "House");
+	Object* house = new House('H', 5, 5, "House");
 public:
 	World();
 	~World();

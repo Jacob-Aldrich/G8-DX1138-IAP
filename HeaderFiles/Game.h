@@ -1,6 +1,8 @@
 #pragma once
 #include "World.h"
 #include "Entity.h"
+#include "endings.h"
+#include "Scenarios.h"
 #include <iostream>
 #include <conio.h>
 class Game
@@ -28,6 +30,8 @@ class Game
 	Entity* SafePlayers[10] = { nullptr };
 	int SafePlayerCount = 0;
 	bool UsedNames[10] = { false };
+	endings Endings;
+	Scenarios scenarios;
 public:
 	Game();
 	void Run();
@@ -44,6 +48,7 @@ public:
 	void displayStatus();
 	void displayLegend();
 	void displayCurrentChunk();
+
 	~Game();
 };
 

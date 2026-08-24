@@ -3,7 +3,7 @@
 
 #include "Water.h"
 #include "Food.h"
-World::World() : food(new Food(0, 800)), water(new Water(0, 800))
+World::World() : food(new Material(0, 800, 'F', "Food")), water(new Material(0, 800, 'W', "Water"))
 {
 
 	std::cout << "Constructing World\n";
@@ -195,12 +195,12 @@ void World::InteractWithObject(char keypress)
             continue;
         }
         if (obj) {
-            std::cout << "Object name: " << obj->GetName() << '\n';
-            std::cout << "Calling Interacted...\n";
+            if (obj->Interacted()) {
+                Chunk[CurrentChunk].RemoveObject(obj);
+            }
+            else {
 
-            obj->Interacted();
-
-            std::cout << "Finished Interacted\n";
+            }
         }
     }
 }
@@ -245,10 +245,10 @@ void World::CreateObjects()
     for (int i = 0; i < MaxChunk; i++)
     {
         if (i == 0) {
-            ToSpawn = 4;
+            ToSpawn = Chunk[i].GetMaxObjects()-2;
         }
         else {
-            ToSpawn = 5;
+            ToSpawn = Chunk[i].GetMaxObjects() - 1;
         }
         for (int j = 0; j < ToSpawn; j++)
         {
@@ -266,17 +266,17 @@ void World::CreateObjects()
 
             if (randomSupply == 0)
             {
-                Water* water = new Water(0, 800);
-                water->SetX(randX);
-                water->SetY(randY);
-                Chunk[i].AddObject(water);
+                Water* waterObject = new Water(0, 800, water);
+                waterObject->SetX(randX);
+                waterObject->SetY(randY);
+                Chunk[i].AddObject(waterObject);
             }
             else
             {
-                Food* food = new Food(0, 800);
-                food->SetX(randX);
-                food->SetY(randY);
-                Chunk[i].AddObject(food);
+                Food* foodObject = new Food(0, 800, food);
+                foodObject->SetX(randX);
+                foodObject->SetY(randY);
+                Chunk[i].AddObject(foodObject);
             }
         }
     }

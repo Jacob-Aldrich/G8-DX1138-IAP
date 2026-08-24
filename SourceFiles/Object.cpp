@@ -38,9 +38,10 @@ std::string Object::GetName()
     return name;
 }
 
-void Object::Interacted()
+bool Object::Interacted()
 {
     std::cout << "OBJECT INTERACTED\n";
+    return false;
 }
 
 Object::~Object()

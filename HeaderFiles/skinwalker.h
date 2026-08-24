@@ -3,10 +3,6 @@
 
 class skinwalker : public Entity
 {
-private:
-	int SWHealthPoints;
-	int SWAttackPoints;
-
 public:
 	virtual void dialogue();
 	/*void setDialogue(int randomiser);

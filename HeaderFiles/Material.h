@@ -20,5 +20,5 @@ public:
     void AddQuantity(int quantityToAdd);
     bool UseQuantity(int quantityToUse);
 
-	void Interacted() override;
+	bool Interacted() override;
 };
