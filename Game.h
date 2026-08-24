@@ -32,6 +32,10 @@ class Game
 	bool UsedNames[10] = { false };
 	endings Endings;
 	Scenarios scenarios;
+
+
+	Entity* player = new Player();
+	House* house = new House('H', 5, 5, "House", this);
 public:
 	Game();
 	void Run();
@@ -49,6 +53,10 @@ public:
 	void displayLegend();
 	void displayCurrentChunk();
 
+	House* getHouse();
+	void goOutsideHouse();
+	void goInsideHouse();
+	
 	~Game();
 };
 

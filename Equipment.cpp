@@ -1,8 +1,6 @@
 #include "Equipment.h"
 #include "World.h"
 
-#include <iostream>
-
 Equipment::Equipment(ItemType type, EquipmentSlot slot,
 	const std::string& name, char symbol,
 	int xPosition, int yPosition,

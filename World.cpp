@@ -3,23 +3,19 @@
 
 #include "Water.h"
 #include "Food.h"
-World::World() : food(new Material(0, 800, 'F', "Food")), water(new Material(0, 800, 'W', "Water"))
+
+#include "Game.h"
+World::World(Game* game) : food(new Material(0, 800, 'F', "Food")), water(new Material(0, 800, 'W', "Water"))
 {
 
 	std::cout << "Constructing World\n";
 	Days = 0;
-
-	Chunk[0].AddObject(player);
-    player->SetX(5);
-    player->SetY(6);
-
-	Chunk[0].AddObject(house);
-    CreateObjects();
 }
 
 World::~World()
 {
 	std::cout << "Destructing World\n";
+    DeleteAllObjects();
 }
 
 int World::getDays()
@@ -46,8 +42,12 @@ void World::SearchForSupplies()
 	water->AddQuantity(randomWater);
 }
 
-void World::MovePlayer(char Direction)
+void World::MovePlayer(char Direction, Player* player)
 {
+    if (player == nullptr)
+    {
+        return;
+    }
     int PlayerY = player->GetY();
     int PlayerX = player->GetX();
 
@@ -162,12 +162,18 @@ void World::MovePlayer(char Direction)
     player->SetY(PlayerY);
 }
 
-void World::InteractWithObject(char keypress)
+void World::InteractWithObject(char keypress, Player* player)
 {
+    if (player == nullptr)
+    {
+        return;
+    }
+
     if (keypress != 'e' && keypress != 'E')
     {
         return;
     }
+
 
     int playerX = player->GetX();
     int playerY = player->GetY();
@@ -199,14 +205,19 @@ void World::InteractWithObject(char keypress)
                 Chunk[CurrentChunk].RemoveObject(obj);
             }
             else {
-
+                return;
             }
         }
     }
 }
 
-void World::displayInteractionOptions()
+void World::displayInteractionOptions(Player* player)
 {
+    if (player == nullptr)
+    {
+        return;
+    }
+
     int playerX = player->GetX();
     int playerY = player->GetY();
 
@@ -232,10 +243,10 @@ void World::displayInteractionOptions()
     }
 }
 
-void World::HandleKeypress(char keypress)
+void World::HandleKeypress(char keypress, Player* player)
 {
-    MovePlayer(keypress);
-    InteractWithObject(keypress);
+    MovePlayer(keypress, player);
+    InteractWithObject(keypress, player);
 }
 
 void World::CreateObjects()
@@ -266,18 +277,42 @@ void World::CreateObjects()
 
             if (randomSupply == 0)
             {
-                Water* waterObject = new Water(0, 800, water);
+                Water* waterObject = new Water(1, 1, water);
                 waterObject->SetX(randX);
                 waterObject->SetY(randY);
                 Chunk[i].AddObject(waterObject);
             }
             else
             {
-                Food* foodObject = new Food(0, 800, food);
+                Food* foodObject = new Food(1, 1, food);
                 foodObject->SetX(randX);
                 foodObject->SetY(randY);
                 Chunk[i].AddObject(foodObject);
             }
+        }
+    }
+}
+
+void World::DeleteAllObjects()
+{
+    for (int i = 0; i < MaxChunk; i++)
+    {
+        for (int j = 0; j < Chunk[i].GetMaxObjects(); j++)
+        {
+            Object* obj = Chunk[i].GetObject(j);
+
+            if (obj == nullptr)
+            {
+                continue;
+            }
+
+            std::cout << "Deleting at Chunk "
+                << i << ": "
+                << obj->GetName()
+                << std::endl;
+            
+            delete obj;
+            Chunk[i].RemoveObject(obj);
         }
     }
 }

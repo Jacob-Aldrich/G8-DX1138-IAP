@@ -109,6 +109,9 @@ void Chunks::AddObject(Object* obj)
 
 void Chunks::RemoveObject(Object* obj)
 {
+    if (obj == nullptr) {
+        return;
+    }
     for (int i = 0; i < MaxObjects; i++)
     {
         if (Objects[i] == obj)

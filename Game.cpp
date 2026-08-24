@@ -5,7 +5,7 @@
 
 Game::Game()
 {
-	world = new World;
+	world = new World(this);
 	char choice;
 
 	std::cout << "Constructing Game\n";
@@ -88,9 +88,9 @@ void Game::Run()
 			std::cout << "\nMove with W/A/S/D\nInteract with objects with E\n\n\n";
 
 			world->GetChunks(world->getCurrentChunk()).PrintChunk(world->getCurrentChunk());
-			world->displayInteractionOptions();
+			world->displayInteractionOptions(dynamic_cast<Player*>(player));
 			int keypress = _getch();
-			world->HandleKeypress(keypress);
+			world->HandleKeypress(keypress, dynamic_cast<Player*>(player));
 		}
 		else {
 			clearConsole();
@@ -115,7 +115,9 @@ void Game::Run()
 			}
 			else if (choice == '3') {
 				std::cout << "Going out of the house\n";
-				isOutsideHouse = true;
+				goOutsideHouse();
+				Turns = 1;
+				useTurn();
 			}
 			else {
 				std::cout << "Invalid choice. Please choose again.\n";
@@ -215,6 +217,31 @@ void Game::displayLegend()
 void Game::displayCurrentChunk()
 {
 	std::cout << "You are at Chunk: " << world->getCurrentChunk() << "\n";
+}
+
+House* Game::getHouse()
+{
+	return house;
+}
+
+void Game::goOutsideHouse()
+{
+	isOutsideHouse = true;
+
+	world->GetChunks(0).AddObject(player);
+	player->SetX(5);
+	player->SetY(6);
+
+	world->GetChunks(0).AddObject(house);
+	world->CreateObjects();
+}
+
+void Game::goInsideHouse()
+{
+	isOutsideHouse = false;
+	world->GetChunks(world->getCurrentChunk()).RemoveObject(player);
+	world->GetChunks(world->getCurrentChunk()).RemoveObject(house);
+	world->DeleteAllObjects();
 }
 
 Game::~Game()

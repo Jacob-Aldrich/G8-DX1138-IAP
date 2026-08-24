@@ -16,11 +16,8 @@ class World
 
 	Material* water;
 	Material* food;
-
-	Entity* player = new Entity("Player", 100, 100, false, 'P');
-	Object* house = new House('H', 5, 5, "House");
 public:
-	World();
+	World(Game* game);
 	~World();
 
 	int getDays();
@@ -35,10 +32,11 @@ public:
 	int getCurrentChunk();
 	void GoToChunk(int index);
 
-	void MovePlayer(char Direction);
-	void InteractWithObject(char keypress);
-	void displayInteractionOptions();
-	void HandleKeypress(char keypress);
+	void MovePlayer(char Direction, Player* player);
+	void InteractWithObject(char keypress,Player* player);
+	void displayInteractionOptions(Player* player);
+	void HandleKeypress(char keypress, Player* player);
 
 	void CreateObjects();
+	void DeleteAllObjects();
 };
