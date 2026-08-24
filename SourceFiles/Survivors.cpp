@@ -15,7 +15,7 @@ void Survivors::dialogue()
 
 	if (randomiser == 0)
 	{
-		std::cout << "???: 'Please let me in, I'll help the best of my ability!'" << std::endl;
+		std::cout << "???: 'Please let me in, I'll help to the best of my ability!'" << std::endl;
 	}
 	else if (randomiser == 1)
 	{
@@ -213,3 +213,6 @@ void Survivors::displayImage() const
 )";
 	}
 }
+
+
+
