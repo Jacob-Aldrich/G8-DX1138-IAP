@@ -8,7 +8,9 @@ class Material;
 class Inventory
 {
 private:
-	static const int MaximumItems = 10;
+	static const int MaximumItems = 20;
+	static const int BaseCapacity = 10;
+	int CapacityBonus;
 
 	Object* Items[MaximumItems];
 	int ItemCount;
@@ -22,6 +24,8 @@ public:
 	// Normal inventory
 	bool AddItem(Object* object);
 	bool RemoveItem(int inventoryIndex);
+	Object* TakeItem(int inventoryIndex);
+	void SetCapacityBonus(int bonus);
 
 	// Equipment
 	bool EquipItem(int inventoryIndex);

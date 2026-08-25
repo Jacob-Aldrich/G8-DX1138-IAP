@@ -12,7 +12,5 @@ public:
 		int startingMaximumQuantity
 	);
 
-	bool Interacted(Player* player);
-
 	bool Interacted() override;
 };

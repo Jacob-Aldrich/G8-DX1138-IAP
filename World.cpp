@@ -48,124 +48,58 @@ void World::SearchForSupplies()
 
 void World::MovePlayer(char Direction, Player* player)
 {
-    if (player == nullptr)
+    if (player == nullptr) return;
+
+    int targetX = player->GetX();
+    int targetY = player->GetY();
+    int targetChunk = CurrentChunk;
+
+    if (Direction == 'w') targetY--;
+    else if (Direction == 's') targetY++;
+    else if (Direction == 'a') targetX--;
+    else if (Direction == 'd') targetX++;
+    else return;
+
+    // Handle chunk transitions without moving the player until the
+    // destination tile has been checked for an object.
+    if (targetY < 0)
     {
-        return;
+        if (CurrentChunk == 0) { targetChunk = 1; targetY = 9; }
+        else if (CurrentChunk == 3) { targetChunk = 0; targetY = 9; }
+        else targetY = 0;
     }
-    int PlayerY = player->GetY();
-    int PlayerX = player->GetX();
-
-    if (Direction == 'w')
+    else if (targetY > 9)
     {
-        PlayerY--;
-        if (PlayerY < 0 && CurrentChunk == 0)
-        {
-            Chunk[0].RemoveObject(player);
-            CurrentChunk = 1;
-            Chunk[1].AddObject(player);
-
-            PlayerY = 9;
-        }
-        else if (PlayerY < 0 && CurrentChunk == 3)
-        {
-            Chunk[3].RemoveObject(player);
-            CurrentChunk = 0;
-            Chunk[0].AddObject(player);
-
-            PlayerY = 9;
-        }
-        else if (PlayerY < 0)
-        {
-            PlayerY = 0;
-        }
+        if (CurrentChunk == 0) { targetChunk = 3; targetY = 0; }
+        else if (CurrentChunk == 1) { targetChunk = 0; targetY = 0; }
+        else targetY = 9;
     }
 
-    else if (Direction == 's')
+    if (targetX < 0)
     {
-        PlayerY++;
-
-        if (PlayerY > 9 && CurrentChunk == 0)
-        {
-            Chunk[0].RemoveObject(player);
-            CurrentChunk = 3;
-            Chunk[3].AddObject(player);
-
-            PlayerY = 0;
-        }
-        else if (PlayerY > 9 && CurrentChunk == 1)
-        {
-            Chunk[1].RemoveObject(player);
-            CurrentChunk = 0;
-            Chunk[0].AddObject(player);
-
-            PlayerY = 0;
-        }
-        else if (PlayerY > 9)
-        {
-            PlayerY = 9;
-        }
+        if (CurrentChunk == 0) { targetChunk = 4; targetX = 9; }
+        else if (CurrentChunk == 2) { targetChunk = 0; targetX = 9; }
+        else targetX = 0;
+    }
+    else if (targetX > 9)
+    {
+        if (CurrentChunk == 0) { targetChunk = 2; targetX = 0; }
+        else if (CurrentChunk == 4) { targetChunk = 0; targetX = 0; }
+        else targetX = 9;
     }
 
-    else if (Direction == 'a')
-    {
-        PlayerX--;
-        if (PlayerX < 0 && CurrentChunk == 0)
-        {
-            Chunk[0].RemoveObject(player);
-            CurrentChunk = 4;
-            Chunk[4].AddObject(player);
+    Object* object = Chunk[targetChunk].CheckForObject(targetX, targetY);
+    if (object != nullptr) return;
 
-            PlayerX = 9;
-        }
-        else if (PlayerX < 0 && CurrentChunk == 2)
-        {
-            Chunk[2].RemoveObject(player);
-            CurrentChunk = 0;
-            Chunk[0].AddObject(player);
+    Chunk[CurrentChunk].RemoveObject(player);
+    CurrentChunk = targetChunk;
+    player->SetX(targetX);
+    player->SetY(targetY);
+    Chunk[CurrentChunk].AddObject(player);
 
-            PlayerX = 9;
-        }
-        else if (PlayerX < 0)
-        {
-            PlayerX = 0;
-        }
-    }
-
-    else if (Direction == 'd')
-    {
-        PlayerX++;
-        if (PlayerX > 9 && CurrentChunk == 0)
-        {
-            Chunk[0].RemoveObject(player);
-            CurrentChunk = 2;
-            Chunk[2].AddObject(player);
-
-            PlayerX = 0;
-        }
-        else if (PlayerX > 9 && CurrentChunk == 4)
-        {
-            Chunk[4].RemoveObject(player);
-            CurrentChunk = 0;
-            Chunk[0].AddObject(player);
-
-            PlayerX = 0;
-        }
-        else if (PlayerX > 9)
-        {
-            PlayerX = 9;
-        }
-    }
-
-	Object* object = Chunk[CurrentChunk].CheckForObject(PlayerX, PlayerY);
-    if (object)
-    {
-        return;
-    }
-
-    player->SetX(PlayerX);
-    player->SetY(PlayerY);
-
-    RandomEncounter();
+    // Every successful outdoor step has a chance to start a battle.
+    if (game != nullptr)
+        game->StartRandomEncounter();
 }
 
 void World::InteractWithObject(char keypress, Player* player)
@@ -346,7 +280,8 @@ void World::HandleKeypress(char keypress, Player* player)
 
 void World::RandomEncounter()
 {
-	int Chance = rand() % 100;
+    if (game != nullptr)
+        game->StartRandomEncounter();
 }
 
 void World::CreateObjects()
@@ -450,12 +385,6 @@ void World::DeleteAllObjects()
             {
                 continue;
             }
-
-            std::cout << "Deleting at Chunk "
-                << i << ": "
-                << obj->GetName()
-                << std::endl;
-            
             delete obj;
             Chunk[i].RemoveObject(obj);
         }

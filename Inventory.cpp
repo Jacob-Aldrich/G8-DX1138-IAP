@@ -7,6 +7,7 @@
 Inventory::Inventory()
 {
 	ItemCount = 0;
+	CapacityBonus = 0;
 	EquippedGear = nullptr;
 
 	for (int i = 0; i < MaximumItems; i++)
@@ -34,7 +35,7 @@ bool Inventory::AddItem(Object* object)
 		return false;
 	}
 
-	if (ItemCount >= MaximumItems)
+	if (ItemCount >= GetMaximumItems())
 	{
 		return false;
 	}
@@ -66,6 +67,28 @@ bool Inventory::RemoveItem(int inventoryIndex)
 	ItemCount--;
 
 	return true;
+}
+
+Object* Inventory::TakeItem(int inventoryIndex)
+{
+	if (inventoryIndex < 0 || inventoryIndex >= ItemCount)
+	{
+		return nullptr;
+	}
+
+	Object* item = Items[inventoryIndex];
+	for (int i = inventoryIndex; i < ItemCount - 1; i++)
+	{
+		Items[i] = Items[i + 1];
+	}
+	Items[ItemCount - 1] = nullptr;
+	ItemCount--;
+	return item;
+}
+
+void Inventory::SetCapacityBonus(int bonus)
+{
+	CapacityBonus = bonus < 0 ? 0 : bonus;
 }
 
 bool Inventory::EquipItem(int inventoryIndex)
@@ -142,7 +165,7 @@ bool Inventory::StoreEquippedItem()
 		return false;
 	}
 
-	if (ItemCount >= MaximumItems)
+	if (ItemCount >= GetMaximumItems())
 	{
 		std::cout << "Your inventory is full.\n";
 		return false;
@@ -326,7 +349,7 @@ int Inventory::GetItemCount()
 
 int Inventory::GetMaximumItems()
 {
-	return MaximumItems;
+	return BaseCapacity + CapacityBonus;
 }
 
 Object* Inventory::GetItem(int inventoryIndex)
