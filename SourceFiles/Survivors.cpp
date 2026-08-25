@@ -6,11 +6,11 @@
 
 void Survivors::dialogue()
 {
-    imagechoice = rand() % 4;
+    imagechoice = rand() % 3;
 	displayImage();
 
 	// put this is main pls ---> srand(static_cast<unsigned int>(time(0)));
-	int randomiser = rand() % 3;
+	int randomiser = rand() % 10;
 	setDialogue(randomiser);
 
 	if (randomiser == 0)
@@ -19,8 +19,36 @@ void Survivors::dialogue()
 	}
 	else if (randomiser == 1)
 	{
-		std::cout << "???: 'I have supplies!'" << std::endl;
+	    std::cout << "???: 'Can I come in? I can help!'" << std::endl;
 	}
+    else if (randomiser == 2)
+    {
+        std::cout << "???: 'May I be let in? I don't have much.'" << std::endl;
+    }
+    else if (randomiser == 3)
+    {
+        std::cout << "???: 'Hey! Let me in right now!'" << std::endl;
+    }
+    else if (randomiser == 4)
+    {
+        std::cout << "???: 'Open up! I need shelter!'" << std::endl;
+    }
+    else if (randomiser == 5)
+    {
+        std::cout << "???: 'You look like you're living peacefully! Share some with me will you?'" << std::endl;
+    }
+    else if (randomiser == 6)
+    {
+        std::cout << "???: 'I have supplies!'" << std::endl;
+    }
+    else if (randomiser == 7)
+    {
+        std::cout << "???: 'Have you heard about the news lately? Well I have, let me in and I'll tell you!'" << std::endl;
+    }
+    else if (randomiser == 8)
+    {
+        std::cout << "???: 'I have some spare supplies. Your shelther for my supplies, how's that sound?'" << std::endl;
+    }
 	else
 	{
 		std::cout << "???: 'I have information about a safe house!'" << std::endl;
