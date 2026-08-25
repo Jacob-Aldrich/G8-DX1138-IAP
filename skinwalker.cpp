@@ -1,6 +1,6 @@
-#include "skinwalker.h"
+#include "Skinwalker.h"
 #include <iostream>
-void skinwalker::dialogue()
+void Skinwalker::dialogue()
 {
 	int randomiser = rand() % 3;
 	//setDialogue(randomiser);

@@ -26,5 +26,12 @@ public:
     bool GetIsSkinWalker();
     void TakeDamage(int damagePoints);
 
+	int GetHunger();
+	int GetThirst();
 
+	void IncreaseHunger(int amount);
+	void DecreaseHunger(int amount);
+
+	void IncreaseThirst(int amount);
+	void DecreaseThirst(int amount);
 };

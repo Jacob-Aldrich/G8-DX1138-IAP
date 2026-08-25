@@ -5,11 +5,15 @@
 #include "Food.h"
 
 #include "Game.h"
-World::World(Game* game) : food(new Material(0, 800, 'F', "Food")), water(new Material(0, 800, 'W', "Water"))
+#include "Inventory.h"
+#include "Equipment.h"
+
+World::World(Game* g) : food(new Material(0, 800, 'F', "Food")), water(new Material(0, 800, 'W', "Water"))
 {
 
 	std::cout << "Constructing World\n";
 	Days = 0;
+    game = g;
 }
 
 World::~World()
@@ -160,6 +164,8 @@ void World::MovePlayer(char Direction, Player* player)
 
     player->SetX(PlayerX);
     player->SetY(PlayerY);
+
+    RandomEncounter();
 }
 
 void World::InteractWithObject(char keypress, Player* player)
@@ -174,11 +180,12 @@ void World::InteractWithObject(char keypress, Player* player)
         return;
     }
 
-
     int playerX = player->GetX();
     int playerY = player->GetY();
 
-    for (int i = 0; i < Chunk[CurrentChunk].GetMaxObjects(); i++)
+    for (int i = 0;
+        i < Chunk[CurrentChunk].GetMaxObjects();
+        i++)
     {
         Object* obj = Chunk[CurrentChunk].GetObject(i);
 
@@ -196,18 +203,92 @@ void World::InteractWithObject(char keypress, Player* player)
             (objectX == playerX && objectY == playerY + 1) ||
             (objectX == playerX && objectY == playerY - 1);
 
-        if (playerIsNear == false)
+        if (!playerIsNear)
         {
             continue;
         }
-        if (obj) {
-            if (obj->Interacted()) {
-                Chunk[CurrentChunk].RemoveObject(obj);
+
+        Equipment* equipment =
+            dynamic_cast<Equipment*>(obj);
+
+        // -----------------------------
+        // EQUIPMENT
+        // -----------------------------
+        if (equipment != nullptr)
+        {
+            std::cout << "\nYou found "
+                << equipment->GetName()
+                << "!\n\n";
+
+            equipment->PrintDetails();
+
+            std::cout << "\n\n";
+            std::cout << "[1] Equip\n";
+            std::cout << "[2] Store\n";
+
+            char choice;
+            std::cin >> choice;
+
+            Inventory& inventory =
+                player->GetInventory();
+
+            if (choice == '1')
+            {
+                if (inventory.GetEquippedGear() != nullptr)
+                {
+                    std::cout
+                        << "You already have "
+                        << inventory.GetEquippedGear()->GetName()
+                        << " equipped.\n";
+                    return;
+                }
+
+                if (inventory.EquipEquipment(equipment))
+                {
+                    Chunk[CurrentChunk].RemoveObject(obj);
+                }
             }
-            else {
-                return;
+            else if (choice == '2')
+            {
+                if (inventory.AddItem(obj))
+                {
+                    Chunk[CurrentChunk].RemoveObject(obj);
+
+                    std::cout << equipment->GetName()
+                        << " was stored in your inventory.\n";
+                }
+                else
+                {
+                    std::cout
+                        << "Your inventory is full!\n";
+                }
+            }
+
+            return;
+        }
+
+        // -----------------------------
+        // NORMAL OBJECT
+        // -----------------------------
+        if (obj->Interacted())
+        {
+            Inventory& inventory =
+                player->GetInventory();
+
+            if (inventory.AddItem(obj))
+            {
+                Chunk[CurrentChunk].RemoveObject(obj);
+
+                std::cout << obj->GetName()
+                    << " was added to your inventory.\n";
+            }
+            else
+            {
+                std::cout << "Your inventory is full!\n";
             }
         }
+
+        return;
     }
 }
 
@@ -243,10 +324,29 @@ void World::displayInteractionOptions(Player* player)
     }
 }
 
+void World::HandleInventory(char keypress, Player* player)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    if (keypress == 'b' || keypress == 'B')
+    {
+        player->GetInventory().InventoryMenu();
+    }
+}
+
 void World::HandleKeypress(char keypress, Player* player)
 {
     MovePlayer(keypress, player);
     InteractWithObject(keypress, player);
+	HandleInventory(keypress, player);
+}
+
+void World::RandomEncounter()
+{
+	int Chance = rand() % 100;
 }
 
 void World::CreateObjects()
@@ -273,21 +373,66 @@ void World::CreateObjects()
                 randY = rand() % Chunk[i].GetBoardSize();
             } while (Chunk[i].CheckForObject(randX, randY) != nullptr);
 
-            int randomSupply = rand() % 2;
+            int randomSupply = rand() % 10;
 
-            if (randomSupply == 0)
+            if (randomSupply < 4)
             {
-                Water* waterObject = new Water(1, 1, water);
+                Water* waterObject =
+                    new Water(1, 1);
+
                 waterObject->SetX(randX);
                 waterObject->SetY(randY);
+
                 Chunk[i].AddObject(waterObject);
+            }
+            else if (randomSupply < 8)
+            {
+                Food* foodObject =
+                    new Food(1, 1);
+
+                foodObject->SetX(randX);
+                foodObject->SetY(randY);
+
+                Chunk[i].AddObject(foodObject);
             }
             else
             {
-                Food* foodObject = new Food(1, 1, food);
-                foodObject->SetX(randX);
-                foodObject->SetY(randY);
-                Chunk[i].AddObject(foodObject);
+                int randomEquipment = rand() % 2;
+
+                Equipment* equipment = nullptr;
+
+                if (randomEquipment == 0)
+                {
+                    equipment = new Equipment(
+                        ItemType::SWORD,
+                        EquipmentSlot::HAND,
+                        "Sword",
+                        'S',
+                        randX,
+                        randY,
+                        5,
+                        false,
+                        false,
+                        0
+                    );
+                }
+                else
+                {
+                    equipment = new Equipment(
+                        ItemType::GUN,
+                        EquipmentSlot::HAND,
+                        "Gun",
+                        'G',
+                        randX,
+                        randY,
+                        10,
+                        false,
+                        true,
+                        6
+                    );
+                }
+
+                Chunk[i].AddObject(equipment);
             }
         }
     }

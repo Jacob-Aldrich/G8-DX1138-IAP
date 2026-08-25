@@ -9,3 +9,8 @@ Player::~Player()
 {
 
 }
+
+Inventory& Player::GetInventory()
+{
+	return inventory;
+}

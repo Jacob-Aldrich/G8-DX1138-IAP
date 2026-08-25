@@ -95,3 +95,9 @@ void Equipment::PrintDetails()
 		std::cout << "  Attack +" << AttackValue;
 	}
 }
+
+bool Equipment::Interacted()
+{
+	std::cout << "You found " << GetName() << ".\n";
+	return true;
+}

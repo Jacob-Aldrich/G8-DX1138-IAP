@@ -10,4 +10,6 @@ private:
 public:
 	Player();
 	~Player();
+
+	Inventory& GetInventory();
 };

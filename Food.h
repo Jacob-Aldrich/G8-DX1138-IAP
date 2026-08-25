@@ -1,11 +1,18 @@
 #pragma once
+
 #include "Material.h"
+
+class Player;
+
 class Food : public Material
 {
-    Material* foodSupply;
 public:
-    Food(int startingQuantity, int startingMaximumQuantity, Material* foodSupply);
+	Food(
+		int startingQuantity,
+		int startingMaximumQuantity
+	);
 
-    bool Interacted() override;
+	bool Interacted(Player* player);
+
+	bool Interacted() override;
 };
-

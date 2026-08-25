@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 
-class skinwalker : public Entity
+class Skinwalker : public Entity
 {
 public:
 	virtual void dialogue();

@@ -1,5 +1,6 @@
 #include "Inventory.h"
-#include "World.h"
+#include "Equipment.h"
+#include "Material.h"
 
 #include <iostream>
 
@@ -22,97 +23,299 @@ Inventory::~Inventory()
 		Items[i] = nullptr;
 	}
 
+	delete EquippedGear;
 	EquippedGear = nullptr;
 }
 
-bool Inventory::AddItem(Equipment* equipment)
+bool Inventory::AddItem(Object* object)
 {
-	if (equipment == nullptr || ItemCount >= MaximumItems)
+	if (object == nullptr)
 	{
 		return false;
 	}
 
-	equipment->SetX(-1);
-	equipment->SetY(-1);
-	Items[ItemCount] = equipment;
+	if (ItemCount >= MaximumItems)
+	{
+		return false;
+	}
+
+	object->SetX(-1);
+	object->SetY(-1);
+
+	Items[ItemCount] = object;
 	ItemCount++;
+
+	return true;
+}
+
+bool Inventory::RemoveItem(int inventoryIndex)
+{
+	if (inventoryIndex < 0 || inventoryIndex >= ItemCount)
+	{
+		return false;
+	}
+
+	Items[inventoryIndex] = nullptr;
+
+	for (int i = inventoryIndex; i < ItemCount - 1; i++)
+	{
+		Items[i] = Items[i + 1];
+	}
+
+	Items[ItemCount - 1] = nullptr;
+	ItemCount--;
+
 	return true;
 }
 
 bool Inventory::EquipItem(int inventoryIndex)
 {
-	Equipment* equipment = GetItem(inventoryIndex);
+	if (inventoryIndex < 0 || inventoryIndex >= ItemCount)
+	{
+		return false;
+	}
+
+	Equipment* equipment =
+		dynamic_cast<Equipment*>(Items[inventoryIndex]);
 
 	if (equipment == nullptr)
 	{
 		return false;
 	}
 
+	if (EquippedGear != nullptr)
+	{
+		std::cout << "You already have "
+			<< EquippedGear->GetName()
+			<< " equipped.\n";
+
+		return false;
+	}
+
 	EquippedGear = equipment;
-	std::cout << "Equipped " << equipment->GetName()
-		<< " as your gear.\n";
+
+	// Remove it from the inventory WITHOUT deleting it.
+	for (int i = inventoryIndex; i < ItemCount - 1; i++)
+	{
+		Items[i] = Items[i + 1];
+	}
+
+	Items[ItemCount - 1] = nullptr;
+	ItemCount--;
+
+	std::cout << "Equipped "
+		<< EquippedGear->GetName()
+		<< ".\n";
+
 	return true;
 }
 
-void Inventory::ShowInventory(int baseAttack)
+bool Inventory::EquipEquipment(Equipment* equipment)
 {
-	std::cout << "\n===== GEAR INVENTORY =====\n";
+	if (equipment == nullptr)
+	{
+		return false;
+	}
+
+	if (EquippedGear != nullptr)
+	{
+		std::cout << "You already have "
+			<< EquippedGear->GetName()
+			<< " equipped.\n";
+
+		return false;
+	}
+
+	EquippedGear = equipment;
+
+	std::cout << "Equipped "
+		<< EquippedGear->GetName()
+		<< ".\n";
+
+	return true;
+}
+
+bool Inventory::StoreEquippedItem()
+{
+	if (EquippedGear == nullptr)
+	{
+		return false;
+	}
+
+	if (ItemCount >= MaximumItems)
+	{
+		std::cout << "Your inventory is full.\n";
+		return false;
+	}
+
+	Items[ItemCount] = EquippedGear;
+	ItemCount++;
+
+	std::cout << "Stored "
+		<< EquippedGear->GetName()
+		<< " in your inventory.\n";
+
+	EquippedGear = nullptr;
+
+	return true;
+}
+
+Equipment* Inventory::GetEquippedGear()
+{
+	return EquippedGear;
+}
+
+void Inventory::ShowInventory()
+{
+	std::cout << "\n";
+	std::cout << "INVENTORY MENU\n";
+	std::cout << "---------------\n";
 
 	if (ItemCount == 0)
 	{
-		std::cout << "You have not collected any gear.\n";
+		std::cout << "[EMPTY]\n";
 	}
 	else
 	{
 		for (int i = 0; i < ItemCount; i++)
 		{
-			std::cout << "[" << i + 1 << "] ";
-			Items[i]->PrintDetails();
+			std::cout << "[" << i + 1 << "] "
+				<< Items[i]->GetName();
 
-			if (Items[i] == EquippedGear)
+			Equipment* equipment =
+				dynamic_cast<Equipment*>(Items[i]);
+
+			if (equipment != nullptr)
 			{
-				std::cout << "  (Equipped)";
+				std::cout << " [Equipment]";
 			}
 
 			std::cout << "\n";
 		}
 	}
 
-	std::cout << "Gear: ";
+	std::cout << "\nInventory Storage "
+		<< ItemCount
+		<< "/"
+		<< MaximumItems
+		<< "\n";
+
 	if (EquippedGear != nullptr)
 	{
-		std::cout << EquippedGear->GetName();
+		std::cout << "EQUIPPED ITEM: ["
+			<< EquippedGear->GetName()
+			<< "]\n";
 	}
 	else
 	{
-		std::cout << "None";
+		std::cout << "EQUIPPED ITEM: [NONE]\n";
 	}
-
-	std::cout << "\nTotal Attack: " << GetAttackWithGear(baseAttack)
-		<< "\n";
 }
 
-void Inventory::InventoryMenu(int baseAttack)
+void Inventory::InventoryMenu()
 {
-	ShowInventory(baseAttack);
+	ShowInventory();
+}
+
+void Inventory::HouseInventoryMenu()
+{
+	std::cout << "\n";
+	std::cout << "INVENTORY MENU\n";
+	std::cout << "---------------\n";
+
+	std::cout << "Food Supply: Stored separately\n";
+	std::cout << "Water Supply: Stored separately\n\n";
 
 	if (ItemCount == 0)
 	{
-		return;
+		std::cout << "[EMPTY]\n";
+	}
+	else
+	{
+		for (int i = 0; i < ItemCount; i++)
+		{
+			std::cout << "["
+				<< Items[i]->GetName()
+				<< "] x1\n";
+		}
 	}
 
-	int choice;
-	std::cout << "Choose an item number to equip, or 0 to return.\n> ";
-	std::cin >> choice;
+	std::cout << "\nInventory Storage "
+		<< ItemCount
+		<< "/"
+		<< MaximumItems
+		<< "\n";
 
-	if (choice == 0)
+	if (EquippedGear != nullptr)
 	{
-		return;
+		std::cout << "EQUIPPED ITEM: ["
+			<< EquippedGear->GetName()
+			<< "]\n";
 	}
-
-	if (!EquipItem(choice - 1))
+	else
 	{
-		std::cout << "That gear choice is not available.\n";
+		std::cout << "EQUIPPED ITEM: [NONE]\n";
+	}
+}
+
+void Inventory::TransferSupplies(
+	Material* foodSupply,
+	Material* waterSupply
+)
+{
+	for (int i = 0; i < ItemCount;)
+	{
+		if (Items[i] == nullptr)
+		{
+			i++;
+			continue;
+		}
+
+		Material* material =
+			dynamic_cast<Material*>(Items[i]);
+
+		if (material != nullptr)
+		{
+			if (material->GetName() == "Food")
+			{
+				foodSupply->AddQuantity(
+					material->GetQuantity()
+				);
+
+				delete Items[i];
+
+				for (int j = i; j < ItemCount - 1; j++)
+				{
+					Items[j] = Items[j + 1];
+				}
+
+				Items[ItemCount - 1] = nullptr;
+				ItemCount--;
+
+				continue;
+			}
+
+			if (material->GetName() == "Water")
+			{
+				waterSupply->AddQuantity(
+					material->GetQuantity()
+				);
+
+				delete Items[i];
+
+				for (int j = i; j < ItemCount - 1; j++)
+				{
+					Items[j] = Items[j + 1];
+				}
+
+				Items[ItemCount - 1] = nullptr;
+				ItemCount--;
+
+				continue;
+			}
+		}
+
+		i++;
 	}
 }
 
@@ -121,7 +324,12 @@ int Inventory::GetItemCount()
 	return ItemCount;
 }
 
-Equipment* Inventory::GetItem(int inventoryIndex)
+int Inventory::GetMaximumItems()
+{
+	return MaximumItems;
+}
+
+Object* Inventory::GetItem(int inventoryIndex)
 {
 	if (inventoryIndex < 0 || inventoryIndex >= ItemCount)
 	{
@@ -129,11 +337,6 @@ Equipment* Inventory::GetItem(int inventoryIndex)
 	}
 
 	return Items[inventoryIndex];
-}
-
-Equipment* Inventory::GetEquippedGear()
-{
-	return EquippedGear;
 }
 
 int Inventory::GetAttackWithGear(int baseAttack)
@@ -148,7 +351,6 @@ int Inventory::GetAttackWithGear(int baseAttack)
 		return EquippedGear->GetAttackValue();
 	}
 
-	// A loaded Gun uses its instant-defeat effect instead of an Attack bonus.
 	if (EquippedGear->IsInstantDefeatGear())
 	{
 		return baseAttack;

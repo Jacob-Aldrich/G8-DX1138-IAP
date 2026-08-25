@@ -16,6 +16,7 @@ class World
 
 	Material* water;
 	Material* food;
+	Game* game;
 public:
 	World(Game* game);
 	~World();
@@ -35,7 +36,10 @@ public:
 	void MovePlayer(char Direction, Player* player);
 	void InteractWithObject(char keypress,Player* player);
 	void displayInteractionOptions(Player* player);
+	void HandleInventory(char keypress, Player* player);
 	void HandleKeypress(char keypress, Player* player);
+
+	void RandomEncounter();
 
 	void CreateObjects();
 	void DeleteAllObjects();
