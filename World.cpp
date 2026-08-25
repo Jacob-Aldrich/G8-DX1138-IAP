@@ -385,6 +385,15 @@ void World::DeleteAllObjects()
             {
                 continue;
             }
+
+            // Game owns the player and house. They may be temporarily
+            // removed from a chunk and must never be deleted here.
+            if (dynamic_cast<Player*>(obj) != nullptr ||
+                dynamic_cast<House*>(obj) != nullptr)
+            {
+                continue;
+            }
+
             delete obj;
             Chunk[i].RemoveObject(obj);
         }

@@ -4,6 +4,80 @@
 #include "Entity.h"
 #include "Equipment.h"
 
+namespace
+{
+    void ShowSkinwalkerJumpscare()
+    {
+        // The jumpscare is intentionally text-only so it works in the console.
+        const char* face1 = R"SKIN(
+                    ..     .            ..
+                ....--+-.........--.--+-...--
+               ...-+...--+---+-++--++-..-+-..-.
+              ...-.---+---+--+-+--+-..-----+---
+              .-----+---+-         -+..-+---+--.
+             .-----+---+.           .+-.-+--++--.
+            ...-+-----+.              +..-+-++-+.
+            .-.-+++---..-.          ...+.-+++-.--.
+           ...--+++-+###+-.       .++###+--#+--.--
+           ...--. --+ .+###-     .+-##- +--- .-.--
+          .-.---. --+.  ..         ... .---. ------
+          .----+--+-+.        .        .+-+--+-----.
+          .+--++---+++-.              -+++-.-+-----.
+          .+--+++--+++++---++-..++++.+++++--++---+-
+          .-+++++++++++#- -+------+ .#++++++++---+-
+            -+-+++++++#- ----------+ .++++++++--+-
+              -++++++-+##+--.---..-+###-+++++--+.
+               .+++++++-+-----+-....+--#++++++.
+                  .+++.-++---+.-----++.++++-
+                    .. +#####-  ######.  -
+                        .-...    .--
+)SKIN";
+
+        const char* face2 = R"SKIN(
+                           :.:.... -:::.
+                    ..:..---::..::---::: :-:---
+                   *-=-==%%#=+::==*%%++: :++###=
+                   :  .. ::::.  .. :..:   :..::.:
+               . - --.-:-==-:-::-::=--:- -:----:-...
+                 %=#+:++*%@%++-=+=%%%#++ ++*%%%=+-.#.
+              .  :.:. ...:::......::::.. ..::::... :..
+                 :.--.-::==.--:-=:.=-:-- --::-..=::-:.
+              :. @.%--+=+%%:=+:*#=+@#**# ##**#--#*:=+.
+             ..: - #-:-=+-*=---:*--#+-== :+==#-:=::= +:
+                   .    -    .:::. ::.:  - .    ::. :-:
+               : :=   .      .  .=.#== .         =:%=:= 
+              :- % := =  .   -.-.-% =: :   :. *  ..#*
+               :   =-:-      ::- .+.. := ==::=   :.=.-
+                 ...:.  .  . .  . ::.:...--:=:.. :.:.:
+               --*=.  - +. .:-    . ++.-.=*-+#: .=:-.+
+            . . -=:=:.. -=-. :       .-   -  -..:-.- -
+                : .:  ...  .        ... ..:.:: ... ...
+                : %**::- ## + :- -=+ -:=-.%*+###==-.%
+                  --- .-:-      . .==-.:. :-:==: =:
+                             ...:  :..:: ::     :.
+                   .:.   ..  -:.+=#*+**+ +.   . #
+                   .::  .  = =.:: +.---- -:: :..
+                      :.        :     :..::  :..
+                      := - --*- +.-:+:**.=#=**
+                      :.+ .- #:.%:%#++*=.*%+#%
+                      . =...: :-. -=::-.  -::- 
+                      -    ..=:+=-.*=-+= -+.-
+                        : #.+*-: +:%+=*- -#:
+                        =. : : :+-.+=-=. -
+)SKIN";
+
+        Game::clearConsole();
+        std::cout << "\n\n";
+        std::cout << "              !!! SKINWALKER !!!\n\n";
+        std::cout << ((rand() % 2 == 0) ? face1 : face2);
+        std::cout << "\n\n";
+        std::cout << "Press any key to continue battle...";
+        std::cout.flush();
+        _getch();
+        Game::clearConsole();
+    }
+}
+
 Game::Game()
 {
     world = new World(this);
@@ -220,11 +294,19 @@ int Game::getTurns() { return Turns; }
 void Game::useTurn()
 {
     Turns--;
+
     if (Turns <= 0)
     {
         Turns = maxTurns;
         world->addDays(1);
         DecreaseSafePlayerNeeds();
+    }
+
+    // House scenarios are checked after every completed turn, but never
+    // after going outside because isOutsideHouse has already been set true.
+    if (!isOutsideHouse && isRunning && player != nullptr && player->IsAlive())
+    {
+        scenarios.ChooseRandomEvent(this);
     }
 }
 
@@ -261,14 +343,16 @@ void Game::displayInventory()
 
 void Game::displaySurvivors()
 {
+    std::cout << '\n';
     for (int i = 0; i < SafePlayerCount; i++)
     {
-        if (SafePlayers[i] == nullptr) continue;
+        if (SafePlayers[i] == nullptr) { continue; }
         std::cout << "Safe Player " << i + 1 << ": " << SafePlayers[i]->GetName()
                   << " | HP: " << SafePlayers[i]->GetHealthPoints()
                   << " | Hunger: " << SafePlayers[i]->GetHunger()
                   << " | Thirst: " << SafePlayers[i]->GetThirst() << "\n";
     }
+    std::cout << '\n';
 }
 
 void Game::displaySafePlayerNeeds()
@@ -420,14 +504,16 @@ void Game::ChooseOutsideParty()
     }
 
     std::cout << "\nChoose who to bring outside. Player is always included.\n";
-    std::cout << "You can bring up to TWO companions.\n\n";
+    std::cout << "You can bring up to TWO companions.\n";
+    std::cout << "Enter the NUMBER beside a survivor's name, not their name.\n";
+    std::cout << "Enter 0 when you are finished choosing.\n\n";
     displaySurvivors();
 
     bool chosen[10] = { false };
     int selected = 0;
     while (selected < 2)
     {
-        std::cout << "Choose a survivor (0 = done): ";
+        std::cout << "Choose a survivor by number (0 = done): ";
         int choice;
         std::cin >> choice;
         if (choice == 0) break;
@@ -465,17 +551,24 @@ void Game::goOutsideHouse()
 
 void Game::goInsideHouse()
 {
-    isOutsideHouse = false;
+    // Combat is synchronous, so normally there should be no active combat
+    // when the house is entered. Clear the state defensively in case the
+    // house is reached immediately after an encounter.
     Fighting = false;
+    isOutsideHouse = false;
 
     player->GetInventory().TransferSupplies(world->GetFood(), world->GetWater());
     player->GetInventory().SetCapacityBonus(0);
 
+    // Player and house are owned by Game, not World. Remove them from the
+    // chunk before cleaning up outdoor objects so they are never deleted
+    // and left as dangling pointers.
     world->GetChunks(world->getCurrentChunk()).RemoveObject(player);
     world->GetChunks(world->getCurrentChunk()).RemoveObject(house);
     world->DeleteAllObjects();
 
-    for (int i = 0; i < 3; i++) ActiveParty[i] = nullptr;
+    for (int i = 0; i < 3; i++)
+        ActiveParty[i] = nullptr;
     ActivePartyCount = 0;
 }
 
@@ -718,7 +811,6 @@ void Game::EnemyCombatTurn(int enemyIndex)
         std::cout << target->GetName() << " has fallen!\n";
         if (target == player)
         {
-            Endings.DeathEnding();
             isRunning = false;
         }
     }
@@ -876,7 +968,7 @@ void Game::StartRandomEncounter()
     if (!isOutsideHouse || Fighting || !player->IsAlive()) return;
 
     // 20% encounter chance per successful step.
-    if (rand() % 100 >= 20) return;
+    if (rand() % 100 >= 10) { return; }
 
     ClearCombat();
     EnemyCount = 1 + rand() % 2;
@@ -890,6 +982,14 @@ void Game::StartRandomEncounter()
 
     std::cout << "\n!!! AN ENEMY APPEARED !!!\n";
     std::cout << "Your party enters combat!\n";
+
+    // Skinwalkers have a chance to trigger a text-based jumpscare
+    // immediately before combat begins.
+    if (rand() % 100 < 100)
+    {
+        ShowSkinwalkerJumpscare();
+    }
+
     RunCombat();
 }
 

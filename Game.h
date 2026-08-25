@@ -12,6 +12,7 @@ class Equipment;
 
 class Game
 {
+    friend class Scenarios;
     World* world;
     int Turns;
     static int const maxTurns = 5;

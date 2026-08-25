@@ -1,10 +1,12 @@
 #include "endings.h"
 #include <iostream>
+#include <conio.h>
 
 void endings::DeathEnding()
 {
-	std::cout << " The skinwalkers got to you... You died." << std::endl;
-
+	std::cout << "The skinwalkers got to you... You died." << std::endl;
+	std::cout << "PRESS ANY KEY TO CONTINUE..." << std::endl;
+	char keypress = _getch();
 }
 
 void endings::MilitaryEnding()
