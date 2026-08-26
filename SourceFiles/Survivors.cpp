@@ -10,55 +10,74 @@ void Survivors::dialogue()
 	displayImage();
 
 	// put this is main pls ---> srand(static_cast<unsigned int>(time(0)));
-	int randomiser = rand() % 10;
+	int randomiser = rand() % 4;
+
+    CurrentSurvivorType = rand() % 3;
+
 	setDialogue(randomiser);
 
-	if (randomiser == 0)
-	{
-		std::cout << "???: 'Please let me in, I'll help to the best of my ability!'" << std::endl;
-	}
-	else if (randomiser == 1)
-	{
-	    std::cout << "???: 'Can I come in? I can help!'" << std::endl;
-	}
-    else if (randomiser == 2)
-    {
-        std::cout << "???: 'May I be let in? I don't have much.'" << std::endl;
-    }
-    else if (randomiser == 3)
-    {
-        std::cout << "???: 'Hey! Let me in right now!'" << std::endl;
-    }
-    else if (randomiser == 4)
-    {
-        std::cout << "???: 'Open up! I need shelter!'" << std::endl;
-    }
-    else if (randomiser == 5)
-    {
-        std::cout << "???: 'You look like you're living peacefully! Share some with me will you?'" << std::endl;
-    }
-    else if (randomiser == 6)
-    {
-        std::cout << "???: 'I have supplies!'" << std::endl;
-    }
-    else if (randomiser == 7)
-    {
-        std::cout << "???: 'Have you heard about the news lately? Well I have, let me in and I'll tell you!'" << std::endl;
-    }
-    else if (randomiser == 8)
-    {
-        std::cout << "???: 'I have some spare supplies. Your shelther for my supplies, how's that sound?'" << std::endl;
-    }
-	else
-	{
-		std::cout << "???: 'I have information about a safe house!'" << std::endl;
-	}
-
+	
 }
 
 void Survivors::setDialogue(int randomiser)
 {
-    // 
+    if (CurrentSurvivorType == 0)
+    {
+        if (randomiser == 0)
+        {
+            std::cout << "???: 'Please let me in, I'll help to the best of my ability!'" << std::endl;
+        }
+        else if (randomiser == 1)
+        {
+            std::cout << "???: 'Can I come in? I can help!'" << std::endl;
+        }
+        else if (randomiser == 2)
+        {
+            std::cout << "???: 'I have some spare supplies. We could help each other.'" << std::endl;
+        }
+        else 
+        {
+            std::cout << "???: 'May I be let in? I don't have much.'" << std::endl;
+        }
+    }
+    else if (CurrentSurvivorType == 1)
+    {
+        if (randomiser == 0)
+        {
+            std::cout << "???: 'Hey! Let me in right now!'" << std::endl;
+        }
+        else if (randomiser == 1)
+        {
+            std::cout << "???: 'Open up! I need shelter!'" << std::endl;
+        }
+        else if (randomiser == 2)
+        {
+            std::cout << "???: 'You've got supplies in there. Don't pretend you don't.'" << std::endl;
+        }
+        else
+        {
+            std::cout << "???: 'You look like you're living peacefully! Share some with me will you?'" << std::endl;
+        }
+    }
+    else
+    {
+        if (randomiser == 0)
+        {
+            std::cout << "???: 'I have supplies!'" << std::endl;
+        }
+        else if (randomiser == 1)
+        {
+            std::cout << "???: 'Have you heard about the news lately? Well I have, let me in and I'll tell you!'" << std::endl;
+        }
+        else if (randomiser == 2)
+        {
+            std::cout << "???: 'I have some spare supplies. Your shelther for my supplies, how's that sound?'" << std::endl;
+        }
+        else
+        {
+            std::cout << "???: 'I have information about a safe house!'" << std::endl;
+        }
+    }
 }
 
 int Survivors::GetNoOfSurvivors() const
@@ -66,6 +85,41 @@ int Survivors::GetNoOfSurvivors() const
     return NoOfSurvivors;
 }
 
+//void Survivors::AddRandomSurvivor()
+//{
+//    int type = rand() % 3;
+//
+//    if (type == 0)
+//    {
+//        KindCount++;
+//        KindSurvivor();
+//    }
+//    else if (type == 1)
+//    {
+//        MeanCount++;
+//        MeanSurvivor();
+//    }
+//    else
+//    {
+//        ResourcefulCount++;
+//        ResourcefulSurvivor();
+//    }
+//}
+
+int Survivors::GetKindCount() const
+{
+    return KindCount;
+}
+
+int Survivors::GetMeanCount() const
+{
+    return MeanCount;
+}
+
+int Survivors::GetResourcefulCount() const
+{
+    return ResourcefulCount;
+}
 
 void Survivors::choiceDialogue() 
 {
@@ -94,12 +148,28 @@ void Survivors::choiceDialogue()
 
 	else if (choice == 3)
 	{
-		std::cout << "You let them in..." << std::endl;
+        std::cout << "You let them in..." << std::endl;
+
         NoOfSurvivors++;
 
-        std::cout << "Survivors: " << NoOfSurvivors << std::endl;
+        if (CurrentSurvivorType == 0)
+        {
+            KindCount++;
+            std::cout << "They are a Kind Survivor." << std::endl;
+        }
+        else if (CurrentSurvivorType == 1)
+        {
+            MeanCount++;
+            std::cout << "They are a Mean Survivor." << std::endl;
+        }
+        else
+        {
+            ResourcefulCount++;
+            std::cout << "They are a Resourceful Survivor." << std::endl;
+        }
 
-	}
+        std::cout << "Survivors: " << NoOfSurvivors << std::endl;
+    }
 	else
 	{
 		std::cout << "..." << std::endl;
@@ -110,45 +180,114 @@ void Survivors::choiceDialogue()
 
 void Survivors::scavenging()
 {
-    
-        if (NoOfSurvivors > 0)
+
+    if (NoOfSurvivors > 0)
+    {
+        if (NoOfSurvivors <= 0)
         {
-            int choice;
+            std::cout << "You have an insufficient amount of people.\n";
+            return;
+        }
 
-            std::cout << "You currently have "
-                << NoOfSurvivors
-                << " survivor(s)." << std::endl;
+        std::cout << "\n========== SCAVENGING ==========\n";
 
-            std::cout << "Would you like to send a survivor to scavenge?"
-                << std::endl;
+        std::cout << "Kind survivors: "
+            << KindCount << std::endl;
 
-            std::cout << "1. Yes" << std::endl;
-            std::cout << "2. No" << std::endl;
+        std::cout << "Mean survivors: "
+            << MeanCount << std::endl;
 
-            std::cin >> choice;
+        std::cout << "Resourceful survivors: "
+            << ResourcefulCount << std::endl;
 
-            if (choice == 1)
+        std::cout << "\nWho do you want to send?\n";
+
+        std::cout << "1. Kind survivor\n";
+        std::cout << "2. Mean survivor\n";
+        std::cout << "3. Resourceful survivor\n";
+        std::cout << "4. Cancel\n";
+
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 1)
+        {
+            if (KindCount <= 0)
             {
-                std::cout << "A survivor has gone scavenging..."
-                    << std::endl;
-
-                NoOfSurvivors--;
-
-                // Scavenging happens here
+                std::cout << "You don't have a Kind survivor.\n";
+                return;
             }
+
+            KindCount--;
+
+            int suppliesFound = 3;
+
+            std::cout << "The Kind survivor went scavenging.\n";
+            int supplies = rand() % 4 + 4;
+
+            std::cout << "They returned with "
+                << supplies
+                << " supplies!\n";
+          
         }
-        else
+
+        else if (choice == 2)
         {
-            std::cout << "You have an insufficient amount of people."
-                << std::endl;
+            if (MeanCount <= 0)
+            {
+                std::cout << "You don't have a Mean survivor.\n";
+                return;
+            }
+
+            MeanCount--;
+
+            int suppliesFound = 1;
+
+            std::cout << "The Mean survivor went scavenging.\n";
+            int supplies = rand() % 4 + 4;
+
+            std::cout << "They returned with "
+                << supplies
+                << " supplies!\n";
+        
         }
-    
+
+        else if (choice == 3)
+        {
+            if (ResourcefulCount <= 0)
+            {
+                std::cout << "You don't have a Resourceful survivor.\n";
+                return;
+            }
+
+            ResourcefulCount--;
+
+            int suppliesFound = 4;
+
+            std::cout << "The Resourceful survivor went scavenging.\n";
+            int supplies = rand() % 4 + 4;
+
+            std::cout << "They returned with "
+                << supplies
+                << " supplies!\n";
+        }
+
+        else if (choice == 4)
+        {
+            std::cout << "You cancelled scavenging.\n";
+        }
+    }
 }
 
 
 Survivors::Survivors() : Entity(70, 10)
 {
     NoOfSurvivors = 0;
+
+    KindCount = 0;
+    MeanCount = 0;
+    ResourcefulCount = 0;
+
     Hunger = 100;
     Thirst = 100;
 
@@ -198,19 +337,56 @@ void Survivors::DisplayStatus() const
 
     std::cout << "\n========== SURVIVOR STATUS ==========\n";
 
-    std::cout << "Survivors: " << NoOfSurvivors << std::endl;
-    std::cout << "Hunger: " << Hunger << "/100" << std::endl;
-    std::cout << "Thirst: " << Thirst << "/100" << std::endl;
+    std::cout << "Total Survivors: "
+        << NoOfSurvivors << std::endl;
+
+    std::cout << "Kind Survivors: "
+        << KindCount << std::endl;
+
+    std::cout << "Mean Survivors: "
+        << MeanCount << std::endl;
+
+    std::cout << "Resourceful Survivors: "
+        << ResourcefulCount << std::endl;
+
+    std::cout << "Hunger: "
+        << Hunger << "/100" << std::endl;
+
+    std::cout << "Thirst: "
+        << Thirst << "/100" << std::endl;
 
     std::cout << "=====================================\n";
 }
 
 void Survivors::EndTurn()
 {
-    ReduceHunger(10);
-    ReduceThirst(15);
+    if (NoOfSurvivors <= 0)
+    {
+        return;
+    }
+
+    int hungerLoss = 0;
+    int thirstLoss = 0;
+
+    // Kind survivors consume less
+    hungerLoss += KindCount * 5;
+    thirstLoss += KindCount * 8;
+
+    // Mean survivors consume more
+    hungerLoss += MeanCount * 15;
+    thirstLoss += MeanCount * 20;
+
+    // Resourceful survivors consume normal amounts
+    hungerLoss += ResourcefulCount * 10;
+    thirstLoss += ResourcefulCount * 15;
+
+    ReduceHunger(hungerLoss);
+    ReduceThirst(thirstLoss);
 
     std::cout << "\nTime passes...\n";
+
+    std::cout << "Hunger -" << hungerLoss << std::endl;
+    std::cout << "Thirst -" << thirstLoss << std::endl;
 
     if (Hunger <= 0)
     {
@@ -387,7 +563,7 @@ void Survivors::displayImage() const
                   ####--###-.              ..-+++-###+                   
                    .#####-.--..          . ..--.-+                       
                       -.+#####.          . .####                         
-                  .## .#+--+#####+      -###########.# .-                
+                  .## .#+--+#####+      -###########.# .-                       
                    +##.##+---#+..+#+++-+#####+##..###-+.                 
                    +#+####++###+##++##########+######-.                  
                   ###########+#+  ...########+#########.                 
