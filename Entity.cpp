@@ -27,14 +27,23 @@ bool Entity::IsAlive() { return HealthPoints > 0; }
 
 void Entity::TakeDamage(int DamagePoints)
 {
-    if (DamagePoints < 0) DamagePoints = 0;
+    if (DamagePoints < 0)
+    {
+        DamagePoints = 0;
+    }
     HealthPoints -= DamagePoints;
-    if (HealthPoints < 0) HealthPoints = 0;
+    if (HealthPoints < 0)
+    {
+        HealthPoints = 0;
+    }
 }
 
 void Entity::RestoreHealth(int amount)
 {
-    if (amount < 0) return;
+    if (amount < 0)
+    {
+        return;
+    }
     HealthPoints += amount;
 }
 
@@ -44,25 +53,37 @@ int Entity::GetThirst() { return Thirst; }
 void Entity::IncreaseHunger(int amount)
 {
     Hunger += amount;
-    if (Hunger > 100) Hunger = 100;
+    if (Hunger > 100)
+    {
+        Hunger = 100;
+    }
 }
 
 void Entity::DecreaseHunger(int amount)
 {
     Hunger -= amount;
-    if (Hunger < 0) Hunger = 0;
+    if (Hunger < 0)
+    {
+        Hunger = 0;
+    }
 }
 
 void Entity::IncreaseThirst(int amount)
 {
     Thirst += amount;
-    if (Thirst > 100) Thirst = 100;
+    if (Thirst > 100)
+    {
+        Thirst = 100;
+    }
 }
 
 void Entity::DecreaseThirst(int amount)
 {
     Thirst -= amount;
-    if (Thirst < 0) Thirst = 0;
+    if (Thirst < 0)
+    {
+        Thirst = 0;
+    }
 }
 
 Equipment* Entity::GetEquippedGear() { return EquippedGear; }
@@ -70,7 +91,9 @@ Equipment* Entity::GetEquippedGear() { return EquippedGear; }
 bool Entity::EquipGear(Equipment* equipment)
 {
     if (equipment == nullptr || EquippedGear != nullptr)
+    {
         return false;
+    }
 
     EquippedGear = equipment;
     return true;

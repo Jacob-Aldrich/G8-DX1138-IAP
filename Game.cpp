@@ -3,80 +3,9 @@
 #include "Object.h"
 #include "Entity.h"
 #include "Equipment.h"
+#include "ConsoleColors.h"
+#include "skinwalker.h"
 
-namespace
-{
-    void ShowSkinwalkerJumpscare()
-    {
-        // The jumpscare is intentionally text-only so it works in the console.
-        const char* face1 = R"SKIN(
-                    ..     .            ..
-                ....--+-.........--.--+-...--
-               ...-+...--+---+-++--++-..-+-..-.
-              ...-.---+---+--+-+--+-..-----+---
-              .-----+---+-         -+..-+---+--.
-             .-----+---+.           .+-.-+--++--.
-            ...-+-----+.              +..-+-++-+.
-            .-.-+++---..-.          ...+.-+++-.--.
-           ...--+++-+###+-.       .++###+--#+--.--
-           ...--. --+ .+###-     .+-##- +--- .-.--
-          .-.---. --+.  ..         ... .---. ------
-          .----+--+-+.        .        .+-+--+-----.
-          .+--++---+++-.              -+++-.-+-----.
-          .+--+++--+++++---++-..++++.+++++--++---+-
-          .-+++++++++++#- -+------+ .#++++++++---+-
-            -+-+++++++#- ----------+ .++++++++--+-
-              -++++++-+##+--.---..-+###-+++++--+.
-               .+++++++-+-----+-....+--#++++++.
-                  .+++.-++---+.-----++.++++-
-                    .. +#####-  ######.  -
-                        .-...    .--
-)SKIN";
-
-        const char* face2 = R"SKIN(
-                           :.:.... -:::.
-                    ..:..---::..::---::: :-:---
-                   *-=-==%%#=+::==*%%++: :++###=
-                   :  .. ::::.  .. :..:   :..::.:
-               . - --.-:-==-:-::-::=--:- -:----:-...
-                 %=#+:++*%@%++-=+=%%%#++ ++*%%%=+-.#.
-              .  :.:. ...:::......::::.. ..::::... :..
-                 :.--.-::==.--:-=:.=-:-- --::-..=::-:.
-              :. @.%--+=+%%:=+:*#=+@#**# ##**#--#*:=+.
-             ..: - #-:-=+-*=---:*--#+-== :+==#-:=::= +:
-                   .    -    .:::. ::.:  - .    ::. :-:
-               : :=   .      .  .=.#== .         =:%=:= 
-              :- % := =  .   -.-.-% =: :   :. *  ..#*
-               :   =-:-      ::- .+.. := ==::=   :.=.-
-                 ...:.  .  . .  . ::.:...--:=:.. :.:.:
-               --*=.  - +. .:-    . ++.-.=*-+#: .=:-.+
-            . . -=:=:.. -=-. :       .-   -  -..:-.- -
-                : .:  ...  .        ... ..:.:: ... ...
-                : %**::- ## + :- -=+ -:=-.%*+###==-.%
-                  --- .-:-      . .==-.:. :-:==: =:
-                             ...:  :..:: ::     :.
-                   .:.   ..  -:.+=#*+**+ +.   . #
-                   .::  .  = =.:: +.---- -:: :..
-                      :.        :     :..::  :..
-                      := - --*- +.-:+:**.=#=**
-                      :.+ .- #:.%:%#++*=.*%+#%
-                      . =...: :-. -=::-.  -::- 
-                      -    ..=:+=-.*=-+= -+.-
-                        : #.+*-: +:%+=*- -#:
-                        =. : : :+-.+=-=. -
-)SKIN";
-
-        Game::clearConsole();
-        std::cout << "\n\n";
-        std::cout << "              !!! SKINWALKER !!!\n\n";
-        std::cout << ((rand() % 2 == 0) ? face1 : face2);
-        std::cout << "\n\n";
-        std::cout << "Press any key to continue battle...";
-        std::cout.flush();
-        _getch();
-        Game::clearConsole();
-    }
-}
 
 Game::Game()
 {
@@ -129,9 +58,13 @@ Game::Game()
             std::cout << "Invalid choice. Choosing Random Action.\n";
             int randomAction = rand() % 2 + 1;
             if (randomAction == 1)
+            {
                 world->SearchForSupplies();
+            }
             else
+            {
                 LookForSurvivors();
+            }
         }
     }
 
@@ -176,9 +109,13 @@ void Game::Run()
                 {
                     Equipment* equipment = dynamic_cast<Equipment*>(selected);
                     if (equipment != nullptr)
+                    {
                         player->GetInventory().EquipItem(itemChoice);
+                    }
                     else
+                    {
                         std::cout << "This object cannot be equipped.\n";
+                    }
                 }
             }
             else if (keypress == '2')
@@ -200,14 +137,18 @@ void Game::Run()
             Inventory& inventory = player->GetInventory();
             std::cout << "Stored Items:\n";
             if (inventory.GetItemCount() == 0)
+            {
                 std::cout << "[EMPTY]\n";
+            }
             else
             {
                 for (int i = 0; i < inventory.GetItemCount(); i++)
                 {
                     Object* object = inventory.GetItem(i);
                     if (object != nullptr)
+                    {
                         std::cout << "[" << i + 1 << "] " << object->GetName() << " x1\n";
+                    }
                 }
             }
 
@@ -215,7 +156,9 @@ void Game::Run()
                       << "/" << inventory.GetMaximumItems() << "\n";
             DisplayEquipmentFor(player);
             for (int i = 1; i < SafePlayerCount; i++)
+            {
                 DisplayEquipmentFor(SafePlayers[i]);
+            }
 
             std::cout << "\n[1] Equip stored item to a safe player\n";
             std::cout << "[B] Exit\n";
@@ -254,7 +197,9 @@ void Game::Run()
             world->HandleKeypress(keypress, player);
 
             if (keypress == 'b' || keypress == 'B')
+            {
                 insideInventoryMenu = true;
+            }
             continue;
         }
 
@@ -273,11 +218,17 @@ void Game::Run()
         std::cin >> choice;
 
         if (choice == '1')
+        {
             EatFood();
+        }
         else if (choice == '2')
+        {
             DrinkWater();
+        }
         else if (choice == '3')
+        {
             insideHouseInventoryMenu = true;
+        }
         else if (choice == '4')
         {
             goOutsideHouse();
@@ -285,7 +236,9 @@ void Game::Run()
             useTurn();
         }
         else
+        {
             std::cout << "Invalid choice. Please choose again.\n";
+        }
     }
 }
 
@@ -318,7 +271,9 @@ void Game::LookForSurvivors()
         int RandomATK = rand() % 4 + 2;
         int RandomName = rand() % 10;
         while (UsedNames[RandomName])
+        {
             RandomName = rand() % 10;
+        }
 
         UsedNames[RandomName] = true;
         SafePlayers[SafePlayerCount] = new Entity(
@@ -329,16 +284,19 @@ void Game::LookForSurvivors()
         std::cout << "HP: " << SafePlayers[SafePlayerCount]->GetHealthPoints() << "\n";
         SafePlayerCount++;
     }
-    else
+    else {
         std::cout << "You cannot recruit any more survivors!\n";
+    }   
 }
 
 void Game::clearConsole() { std::cout << "\033[H\033[2J"; }
 
 void Game::displayInventory()
 {
-    std::cout << "Food: " << world->GetFood()->GetQuantity() << "/" << world->GetFood()->GetMaximumQuantity() << "\n";
-    std::cout << "Water: " << world->GetWater()->GetQuantity() << "/" << world->GetWater()->GetMaximumQuantity() << "\n";
+    ConsoleColor::Print("Food: ", ConsoleColor::BRIGHT_YELLOW);
+    std::cout << world->GetFood()->GetQuantity() << "/" << world->GetFood()->GetMaximumQuantity() << "\n";
+    ConsoleColor::Print("Water: ", ConsoleColor::BRIGHT_BLUE);
+    std::cout << world->GetWater()->GetQuantity() << "/" << world->GetWater()->GetMaximumQuantity() << "\n";
 }
 
 void Game::displaySurvivors()
@@ -346,8 +304,11 @@ void Game::displaySurvivors()
     std::cout << '\n';
     for (int i = 0; i < SafePlayerCount; i++)
     {
-        if (SafePlayers[i] == nullptr) { continue; }
-        std::cout << "Safe Player " << i + 1 << ": " << SafePlayers[i]->GetName()
+        if (SafePlayers[i] == nullptr) 
+        { 
+            continue; 
+        }
+        std::cout << "Survivor " << i + 1 << ": " << SafePlayers[i]->GetName()
                   << " | HP: " << SafePlayers[i]->GetHealthPoints()
                   << " | Hunger: " << SafePlayers[i]->GetHunger()
                   << " | Thirst: " << SafePlayers[i]->GetThirst() << "\n";
@@ -360,7 +321,10 @@ void Game::displaySafePlayerNeeds()
     std::cout << "\nSafe Player Needs:\n";
     for (int i = 0; i < SafePlayerCount; i++)
     {
-        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive()) continue;
+        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive())
+        {
+            continue;
+        }
         std::cout << "[" << i + 1 << "] " << SafePlayers[i]->GetName()
                   << " | Hunger: " << SafePlayers[i]->GetHunger() << "/100"
                   << " | Thirst: " << SafePlayers[i]->GetThirst() << "/100\n";
@@ -369,13 +333,34 @@ void Game::displaySafePlayerNeeds()
 
 void Game::displayHouseWarnings()
 {
+    std::cout << "Door durability: " << house->GetDoorDurability()
+              << "/" << house->GetMaximumDoorDurability() << "\n";
+
+    if (house->IsDoorBroken())
+    {
+        ConsoleColor::Print("WARNING: THE FRONT DOOR IS BROKEN.\n", ConsoleColor::BRIGHT_RED);
+    }
+    else if (house->GetDoorDurability() <= 40)
+    {
+        ConsoleColor::Print("WARNING: The front door badly needs repairs.\n", ConsoleColor::YELLOW);
+    }
+
     for (int i = 0; i < SafePlayerCount; i++)
     {
-        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive()) continue;
-        if (SafePlayers[i]->GetHunger() < 100)
-            std::cout << SafePlayers[i]->GetName() << " is hungry.\n";
-        if (SafePlayers[i]->GetThirst() < 100)
-            std::cout << SafePlayers[i]->GetName() << " is thirsty.\n";
+        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive())
+        {
+            continue;
+        }
+
+        if (SafePlayers[i]->GetHunger() < 50)
+        {
+            ConsoleColor::Print(SafePlayers[i]->GetName() + " is hungry.\n", ConsoleColor::YELLOW);
+        }
+
+        if (SafePlayers[i]->GetThirst() < 50)
+        {
+            ConsoleColor::Print(SafePlayers[i]->GetName() + " is thirsty.\n", ConsoleColor::BRIGHT_BLUE);
+        }
     }
 }
 
@@ -383,9 +368,16 @@ void Game::DecreaseSafePlayerNeeds()
 {
     for (int i = 0; i < SafePlayerCount; i++)
     {
-        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive()) continue;
+        if (SafePlayers[i] == nullptr || !SafePlayers[i]->IsAlive()) 
+        { 
+            continue; 
+        }
         SafePlayers[i]->DecreaseHunger(DailyHungerLoss);
         SafePlayers[i]->DecreaseThirst(DailyThirstLoss);
+
+        if (SafePlayers[i]->GetHunger() <= 0 || SafePlayers[i]->GetThirst() <= 0) {
+            SafePlayers[i]->TakeDamage(25);
+        }
     }
 }
 
@@ -406,7 +398,10 @@ void Game::EatFood()
         std::cout << "\nWho do you want to feed? (0 = done)\n";
         int choice;
         std::cin >> choice;
-        if (choice == 0) break;
+        if (choice == 0)
+        {
+            break;
+        }
         if (choice < 1 || choice > SafePlayerCount || SafePlayers[choice - 1] == nullptr || !SafePlayers[choice - 1]->IsAlive())
         {
             std::cout << "Invalid safe player.\n";
@@ -427,7 +422,10 @@ void Game::EatFood()
         std::cout << "Food remaining: " << world->GetFood()->GetQuantity() << "\n";
     }
 
-    if (fedAnyone) useTurn();
+    if (fedAnyone)
+    {
+        useTurn();
+    }
 }
 
 void Game::DrinkWater()
@@ -447,7 +445,10 @@ void Game::DrinkWater()
         std::cout << "\nWho do you want to give water to? (0 = done)\n";
         int choice;
         std::cin >> choice;
-        if (choice == 0) break;
+        if (choice == 0)
+        {
+            break;
+        }
         if (choice < 1 || choice > SafePlayerCount || SafePlayers[choice - 1] == nullptr || !SafePlayers[choice - 1]->IsAlive())
         {
             std::cout << "Invalid safe player.\n";
@@ -468,7 +469,10 @@ void Game::DrinkWater()
         std::cout << "Water remaining: " << world->GetWater()->GetQuantity() << "\n";
     }
 
-    if (drankAnyone) useTurn();
+    if (drankAnyone)
+    {
+        useTurn();
+    }
 }
 
 void Game::displayStatus()
@@ -482,7 +486,19 @@ void Game::displayStatus()
 
 void Game::displayLegend()
 {
-    std::cout << "Legend:\nP: Player | F: Food | W: Water | S: Sword | G: Gun | H: House\n";
+    std::cout << "Legend:\n";
+    ConsoleColor::PrintSymbol('P');
+    std::cout << ": Player | ";
+    ConsoleColor::PrintSymbol('F');
+    std::cout << ": Food | ";
+    ConsoleColor::PrintSymbol('W');
+    std::cout << ": Water | ";
+    ConsoleColor::PrintSymbol('S');
+    std::cout << ": Sword | ";
+    ConsoleColor::PrintSymbol('G');
+    std::cout << ": Gun | ";
+    ConsoleColor::PrintSymbol('H');
+    std::cout << ": House\n";
 }
 
 void Game::displayCurrentChunk()
@@ -490,7 +506,9 @@ void Game::displayCurrentChunk()
     std::cout << "You are at Chunk: " << world->getCurrentChunk() << "\n";
 }
 
-House* Game::getHouse() { return house; }
+House* Game::getHouse() { 
+    return house; 
+}
 
 void Game::ChooseOutsideParty()
 {
@@ -516,7 +534,10 @@ void Game::ChooseOutsideParty()
         std::cout << "Choose a survivor by number (0 = done): ";
         int choice;
         std::cin >> choice;
-        if (choice == 0) break;
+        if (choice == 0)
+        {
+            break;
+        }
         if (choice < 2 || choice > SafePlayerCount || SafePlayers[choice - 1] == nullptr || !SafePlayers[choice - 1]->IsAlive())
         {
             std::cout << "Invalid survivor.\n";
@@ -568,25 +589,40 @@ void Game::goInsideHouse()
     world->DeleteAllObjects();
 
     for (int i = 0; i < 3; i++)
+    {
         ActiveParty[i] = nullptr;
+    }
     ActivePartyCount = 0;
 }
 
-void Game::SetFighting(bool isFighting) { Fighting = isFighting; }
-void Game::SetInsideInventoryMenu(bool value) { insideInventoryMenu = value; }
-void Game::SetInsideHouseInventoryMenu(bool value) { insideHouseInventoryMenu = value; }
+void Game::SetFighting(bool isFighting) { 
+    Fighting = isFighting; 
+}
+void Game::SetInsideInventoryMenu(bool value) { 
+    insideInventoryMenu = value; 
+}
+void Game::SetInsideHouseInventoryMenu(bool value) {
+    insideHouseInventoryMenu = value; 
+}
 
 bool Game::IsInActiveParty(Entity* entity)
 {
     for (int i = 0; i < ActivePartyCount; i++)
-        if (ActiveParty[i] == entity) return true;
+    {
+        if (ActiveParty[i] == entity)
+        {
+            return true;
+        }
+    }
     return false;
 }
 
 Equipment* Game::GetCombatEquipment(Entity* entity)
 {
     if (entity == player)
+    {
         return player->GetInventory().GetEquippedGear();
+    }
     return entity->GetEquippedGear();
 }
 
@@ -594,13 +630,20 @@ int Game::GetCombatAttack(Entity* entity)
 {
     Equipment* gear = GetCombatEquipment(entity);
     int base = entity->GetBaseAttackPoints();
-    if (gear == nullptr) return base;
+    if (gear == nullptr)
+    {
+        return base;
+    }
 
     if (gear->DoesSetAttackExactly())
+    {
         return gear->GetAttackValue();
+    }
 
     if (gear->IsInstantDefeatGear())
+    {
         return base;
+    }
 
     return base + gear->GetAttackValue();
 }
@@ -616,20 +659,31 @@ int Game::CalculateCombatDamage(Entity* attacker, Entity* defender, bool& veryEf
     if (gear != nullptr)
     {
         if (gear->GetType() == ItemType::GUN && defender->GetIsSkinWalker())
+        {
             multiplier = 1.5;
+        }
         else if (gear->GetType() == ItemType::SWORD && defender->GetIsSkinWalker())
+        {
             multiplier = 0.75;
+        }
     }
 
     // Small random damage variation keeps combat from being identical.
     double randomMultiplier = (rand() % 21 + 90) / 100.0;
     int damage = static_cast<int>(GetCombatAttack(attacker) * multiplier * randomMultiplier);
-    if (damage < 1) damage = 1;
+    if (damage < 1)
+    {
+        damage = 1;
+    }
 
     if (multiplier >= 1.4)
+    {
         veryEffective = true;
+    }
     if (multiplier <= 0.75)
+    {
         notEffective = true;
+    }
 
     return damage;
 }
@@ -645,14 +699,20 @@ void Game::DisplayCombatStatus()
                   << " HP " << p->GetHealthPoints()
                   << " ATK " << GetCombatAttack(p);
         Equipment* gear = GetCombatEquipment(p);
-        if (gear) std::cout << " [" << gear->GetName() << "]";
+        if (gear != nullptr)
+        {
+            std::cout << " [" << gear->GetName() << "]";
+        }
         std::cout << "\n";
     }
 
     std::cout << "\nENEMIES\n";
     for (int i = 0; i < EnemyCount; i++)
     {
-        if (Enemies[i] == nullptr) continue;
+        if (Enemies[i] == nullptr)
+        {
+            continue;
+        }
         std::cout << "[" << i + 1 << "] " << Enemies[i]->GetName()
                   << " HP " << Enemies[i]->GetHealthPoints()
                   << " ATK " << Enemies[i]->GetBaseAttackPoints() << "\n";
@@ -663,7 +723,7 @@ void Game::DisplayCombatStatus()
 void Game::PlayerCombatTurn(int partyIndex)
 {
     Entity* attacker = ActiveParty[partyIndex];
-    if (!attacker->IsAlive()) return;
+    if (!attacker->IsAlive()) { return; }
 
     while (true)
     {
@@ -717,17 +777,23 @@ void Game::PlayerCombatTurn(int partyIndex)
         Enemies[targetChoice]->TakeDamage(damage);
         std::cout << "\n" << attacker->GetName() << " attacks " << Enemies[targetChoice]->GetName()
                   << " for " << damage << " damage!\n";
-        if (veryEffective) std::cout << "VERY EFFICIENT!\n";
-        else if (notEffective) std::cout << "NOT EFFICIENT\n";
-        if (!Enemies[targetChoice]->IsAlive()) std::cout << Enemies[targetChoice]->GetName() << " was defeated!\n";
-        return;
+        if (veryEffective) { std::cout << "VERY EFFICIENT!\n"; }
+        else if (notEffective) { std::cout << "NOT EFFICIENT\n"; }
+        if (!Enemies[targetChoice]->IsAlive())
+        {
+            std::cout << Enemies[targetChoice]->GetName() << " was defeated!\n";
+        }
+        { return; }
     }
 }
 
 void Game::SurvivorCombatTurn(int partyIndex)
 {
     Entity* attacker = ActiveParty[partyIndex];
-    if (!attacker->IsAlive()) return;
+    if (!attacker->IsAlive())
+    {
+        return;
+    }
 
     // Simple party AI: usually attack, sometimes defend.
     if (rand() % 5 == 0)
@@ -747,7 +813,7 @@ void Game::SurvivorCombatTurn(int partyIndex)
             target = i;
         }
     }
-    if (target < 0) return;
+    if (target < 0) { return; }
 
     Equipment* gear = GetCombatEquipment(attacker);
     if (gear != nullptr && gear->IsInstantDefeatGear() && gear->HasUsesRemaining())
@@ -768,20 +834,30 @@ void Game::SurvivorCombatTurn(int partyIndex)
     }
     Enemies[target]->TakeDamage(damage);
     std::cout << attacker->GetName() << " attacks " << Enemies[target]->GetName() << " for " << damage << " damage!\n";
-    if (veryEffective) std::cout << "VERY EFFICIENT!\n";
-    else if (notEffective) std::cout << "NOT EFFICIENT\n";
+    if (veryEffective) 
+    { std::cout << "VERY EFFICIENT!\n"; }
+    else if (notEffective) 
+    { std::cout << "NOT EFFICIENT\n"; }
 }
 
 void Game::EnemyCombatTurn(int enemyIndex)
 {
     Entity* enemy = Enemies[enemyIndex];
-    if (enemy == nullptr || !enemy->IsAlive()) return;
+    if (enemy == nullptr || !enemy->IsAlive())
+    {
+        return;
+    }
 
     int living[3];
     int count = 0;
     for (int i = 0; i < ActivePartyCount; i++)
-        if (ActiveParty[i] != nullptr && ActiveParty[i]->IsAlive()) living[count++] = i;
-    if (count == 0) return;
+    {
+        if (ActiveParty[i] != nullptr && ActiveParty[i]->IsAlive()) { living[count++] = i; }
+    }
+    if (count == 0)
+    {
+        return;
+    }
 
     // Enemies also get an attack/defend choice, like the player's party.
     if (rand() % 5 == 0)
@@ -819,7 +895,10 @@ void Game::EnemyCombatTurn(int enemyIndex)
 void Game::TriggerCombatScenario()
 {
     // 75% chance each combat round.
-    if (rand() % 100 >= 75) return;
+    if (rand() % 100 >= 75)
+    {
+        return;
+    }
 
     int type = rand() % 4;
     std::cout << "\n--- SCENARIO ---\n";
@@ -829,7 +908,9 @@ void Game::TriggerCombatScenario()
         // SEND_SOMEONE_EVENT: one living companion takes a hit to protect the group.
         int candidates[3], count = 0;
         for (int i = 1; i < ActivePartyCount; i++)
-            if (ActiveParty[i]->IsAlive()) candidates[count++] = i;
+        {
+            if (ActiveParty[i]->IsAlive()) { candidates[count++] = i; }
+        }
 
         if (count > 0)
         {
@@ -839,7 +920,9 @@ void Game::TriggerCombatScenario()
             std::cout << target->GetName() << " steps in front of an attack and takes " << damage << " damage!\n";
         }
         else
+        {
             std::cout << "You hear something moving in the darkness...\n";
+        }
     }
     else if (type == 1)
     {
@@ -857,10 +940,14 @@ void Game::TriggerCombatScenario()
 				return;
             }
             else
+            {
                 std::cout << "It refuses to let you escape!\n";
+            }
         }
         else
+        {
             std::cout << "You stand your ground.\n";
+        }
     }
     else if (type == 2)
     {
@@ -885,7 +972,9 @@ void Game::TriggerCombatScenario()
             std::cout << ActiveParty[choice]->GetName() << " prepares to defend.\n";
         }
         else
+        {
             std::cout << "Nobody was protected.\n";
+        }
     }
 
     std::cout << "----------------\n";
@@ -901,37 +990,44 @@ void Game::RunCombat()
     {
         bool anyEnemyAlive = false;
         for (int i = 0; i < EnemyCount; i++)
-            if (Enemies[i] != nullptr && Enemies[i]->IsAlive()) anyEnemyAlive = true;
-        if (!anyEnemyAlive) break;
+        {
+            if (Enemies[i] != nullptr && Enemies[i]->IsAlive()) { anyEnemyAlive = true; }
+        }
+        if (!anyEnemyAlive) { break; }
 
         bool anyPartyAlive = false;
         for (int i = 0; i < ActivePartyCount; i++)
-            if (ActiveParty[i] != nullptr && ActiveParty[i]->IsAlive()) anyPartyAlive = true;
-        if (!anyPartyAlive) break;
+        {
+            if (ActiveParty[i] != nullptr && ActiveParty[i]->IsAlive()) { anyPartyAlive = true; }
+        }
+        if (!anyPartyAlive) { break; }
 
         std::cout << "\n\n========== ROUND " << round++ << " ==========\n";
         TriggerCombatScenario();
-        if (EnemyCount == 0) break;
+        if (EnemyCount == 0) { break; }
 
         for (int i = 0; i < ActivePartyCount && player->IsAlive(); i++)
         {
-            if (!ActiveParty[i]->IsAlive()) continue;
+            if (!ActiveParty[i]->IsAlive()) { continue; }
             PlayerCombatTurn(i);
             bool remaining = false;
             for (int j = 0; j < EnemyCount; j++)
-                if (Enemies[j] != nullptr && Enemies[j]->IsAlive()) remaining = true;
-            if (!remaining) break;
+            {
+                if (Enemies[j] != nullptr && Enemies[j]->IsAlive()) { remaining = true; }
+            }
+            if (!remaining) { break; }
         }
 
         for (int i = 0; i < EnemyCount && player->IsAlive(); i++)
         {
             if (Enemies[i] != nullptr && Enemies[i]->IsAlive())
+            {
                 EnemyCombatTurn(i);
+            }
         }
 
         if (!player->IsAlive())
         {
-            Endings.DeathEnding();
             isRunning = false;
             break;
         }
@@ -941,8 +1037,10 @@ void Game::RunCombat()
     {
         bool anyEnemyAlive = false;
         for (int i = 0; i < EnemyCount; i++)
-            if (Enemies[i] != nullptr && Enemies[i]->IsAlive()) anyEnemyAlive = true;
-        if (!anyEnemyAlive) std::cout << "\nYou won the battle!\n";
+        {
+            if (Enemies[i] != nullptr && Enemies[i]->IsAlive()) { anyEnemyAlive = true; }
+        }
+        if (!anyEnemyAlive) { std::cout << "\nYou won the battle!\n"; }
     }
 
     ClearCombat();
@@ -965,10 +1063,16 @@ void Game::ClearCombat()
 
 void Game::StartRandomEncounter()
 {
-    if (!isOutsideHouse || Fighting || !player->IsAlive()) return;
+    if (!isOutsideHouse || Fighting || !player->IsAlive())
+    {
+        return;
+    }
 
     // 20% encounter chance per successful step.
-    if (rand() % 100 >= 10) { return; }
+    if (rand() % 100 >= 5)
+    {
+        return;
+    }
 
     ClearCombat();
     EnemyCount = 1 + rand() % 2;
@@ -980,14 +1084,15 @@ void Game::StartRandomEncounter()
         Enemies[i] = new Entity("Skinwalker " + std::to_string(i + 1), hp, atk, true, 'X');
     }
 
-    std::cout << "\n!!! AN ENEMY APPEARED !!!\n";
+    std::cout << "\n";
+    ConsoleColor::Print("!!! AN ENEMY APPEARED !!!\n", ConsoleColor::BRIGHT_RED);
     std::cout << "Your party enters combat!\n";
 
     // Skinwalkers have a chance to trigger a text-based jumpscare
     // immediately before combat begins.
     if (rand() % 100 < 100)
     {
-        ShowSkinwalkerJumpscare();
+        skinwalkerjumpscare::ShowSkinwalkerJumpscare();
     }
 
     RunCombat();
@@ -995,7 +1100,10 @@ void Game::StartRandomEncounter()
 
 void Game::DisplayEquipmentFor(Entity* entity)
 {
-    if (entity == nullptr) return;
+    if (entity == nullptr)
+    {
+        return;
+    }
     Equipment* gear = GetCombatEquipment(entity);
     std::cout << entity->GetName() << " equipped: "
               << (gear ? gear->GetName() : "NONE") << "\n";
@@ -1016,7 +1124,9 @@ void Game::EquipStoredItemToSafePlayer()
         Object* item = inventory.GetItem(i);
         Equipment* equipment = dynamic_cast<Equipment*>(item);
         if (equipment != nullptr)
+        {
             std::cout << "[" << i + 1 << "] " << equipment->GetName() << "\n";
+        }
     }
 
     int itemChoice;
@@ -1036,7 +1146,9 @@ void Game::EquipStoredItemToSafePlayer()
     for (int i = 0; i < SafePlayerCount; i++)
     {
         if (SafePlayers[i] != nullptr && SafePlayers[i]->IsAlive())
+        {
             std::cout << "[" << i + 1 << "] " << SafePlayers[i]->GetName() << "\n";
+        }
     }
 
     int targetChoice;
@@ -1078,7 +1190,10 @@ void Game::EquipStoredItemToSafePlayer()
     else
     {
         // This should only occur if the item/target became invalid.
-        if (taken != nullptr) inventory.AddItem(taken);
+        if (taken != nullptr)
+        {
+            inventory.AddItem(taken);
+        }
         std::cout << "Could not equip the item.\n";
     }
 }

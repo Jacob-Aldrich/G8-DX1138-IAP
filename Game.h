@@ -42,8 +42,8 @@ class Game
     bool Defending[3] = { false, false, false };
     bool EnemyDefending[3] = { false, false, false };
 
-    static int const DailyHungerLoss = 50;
-    static int const DailyThirstLoss = 50;
+    static int const DailyHungerLoss = 33;
+    static int const DailyThirstLoss = 33;
     static int const FoodRestoreAmount = 25;
     static int const WaterRestoreAmount = 25;
     static int const OutsideStoragePerCompanion = 5;

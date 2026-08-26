@@ -12,6 +12,12 @@ class Scenarios
         CHOOSE_SOMEONE_EVENT,
     };
 
+    void RunSendSomeoneEvent(Game* game);
+    void RunYesOrNoEvent(Game* game);
+    void RunItemsEvent(Game* game);
+    void RunChooseSomeoneEvent(Game* game);
+    void StartHouseAttackCombat(Game* game, bool skinwalkerAttack);
+
 public:
     Scenarios();
     void ChooseRandomEvent(Game* game);

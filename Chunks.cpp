@@ -1,4 +1,5 @@
 #include "Chunks.h"
+#include "ConsoleColors.h"
 
 Chunks::Chunks()
 {
@@ -41,19 +42,29 @@ void Chunks::PrintChunk(int chunkNumber)
 
     // NORTH
     if (north)
-        std::cout << "              NORTH\n";
+    {
+        ConsoleColor::Print("              NORTH\n", ConsoleColor::BRIGHT_CYAN);
+    }
     else
-        std::cout << "###############################\n";
+    {
+        ConsoleColor::Print("###############################\n", ConsoleColor::BRIGHT_BLACK);
+    }
 
     for (int y = 0; y < BoardSize; y++)
     {
         // WEST
         if (y == BoardSize / 2 && west)
-            std::cout << "WEST  ";
+        {
+            ConsoleColor::Print("WEST  ", ConsoleColor::BRIGHT_CYAN);
+        }
         else if (west)
+        {
             std::cout << "      ";
+        }
         else
-            std::cout << "##### ";
+        {
+            ConsoleColor::Print("##### ", ConsoleColor::BRIGHT_BLACK);
+        }
 
         // Chunk
         for (int x = 0; x < BoardSize; x++)
@@ -66,32 +77,46 @@ void Chunks::PrintChunk(int chunkNumber)
                     Objects[i]->GetX() == x &&
                     Objects[i]->GetY() == y)
                 {
-                    std::cout << Objects[i]->GetSymbol() << ' ';
+                    ConsoleColor::PrintSymbol(Objects[i]->GetSymbol());
+                    std::cout << ' ';
                     objectFound = true;
                     break;
                 }
             }
 
             if (!objectFound)
-                std::cout << ". ";
+            {
+                ConsoleColor::PrintSymbol('.');
+                std::cout << ' ';
+            }
         }
 
         // EAST
         if (y == BoardSize / 2 && east)
-            std::cout << " EAST";
+        {
+            ConsoleColor::Print(" EAST", ConsoleColor::BRIGHT_CYAN);
+        }
         else if (east)
+        {
             std::cout << "     ";
+        }
         else
-            std::cout << "#####";
+        {
+            ConsoleColor::Print("#####", ConsoleColor::BRIGHT_BLACK);
+        }
 
         std::cout << '\n';
     }
 
     // SOUTH
     if (south)
-        std::cout << "              SOUTH\n";
+    {
+        ConsoleColor::Print("              SOUTH\n", ConsoleColor::BRIGHT_CYAN);
+    }
     else
-        std::cout << "###############################\n";
+    {
+        ConsoleColor::Print("###############################\n", ConsoleColor::BRIGHT_BLACK);
+    }
 }
 
 void Chunks::AddObject(Object* obj)
@@ -109,9 +134,11 @@ void Chunks::AddObject(Object* obj)
 
 void Chunks::RemoveObject(Object* obj)
 {
-    if (obj == nullptr) {
+    if (obj == nullptr)
+    {
         return;
     }
+
     for (int i = 0; i < MaxObjects; i++)
     {
         if (Objects[i] == obj)
@@ -128,17 +155,18 @@ Object* Chunks::GetObject(int index)
     return Objects[index];
 }
 
-
 Object* Chunks::CheckForObject(int x, int y)
 {
     for (int i = 0; i < MaxObjects; i++)
     {
         Object* obj = Objects[i];
+
         if (obj != nullptr && obj->GetX() == x && obj->GetY() == y)
         {
             return obj;
         }
     }
+
     return nullptr;
 }
 
@@ -159,8 +187,9 @@ int Chunks::GetObjectCount()
 
 Chunks::~Chunks()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < MaxObjects; i++)
     {
         delete Objects[i];
+        Objects[i] = nullptr;
     }
 }

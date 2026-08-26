@@ -48,17 +48,20 @@ void World::SearchForSupplies()
 
 void World::MovePlayer(char Direction, Player* player)
 {
-    if (player == nullptr) return;
+    if (player == nullptr)
+    {
+        return;
+    }
 
     int targetX = player->GetX();
     int targetY = player->GetY();
     int targetChunk = CurrentChunk;
 
-    if (Direction == 'w') targetY--;
-    else if (Direction == 's') targetY++;
-    else if (Direction == 'a') targetX--;
-    else if (Direction == 'd') targetX++;
-    else return;
+    if (Direction == 'w') { targetY--; }
+    else if (Direction == 's') { targetY++; }
+    else if (Direction == 'a') { targetX--; }
+    else if (Direction == 'd') { targetX++; }
+    else { return; }
 
     // Handle chunk transitions without moving the player until the
     // destination tile has been checked for an object.
@@ -66,30 +69,30 @@ void World::MovePlayer(char Direction, Player* player)
     {
         if (CurrentChunk == 0) { targetChunk = 1; targetY = 9; }
         else if (CurrentChunk == 3) { targetChunk = 0; targetY = 9; }
-        else targetY = 0;
+        else { targetY = 0; }
     }
     else if (targetY > 9)
     {
         if (CurrentChunk == 0) { targetChunk = 3; targetY = 0; }
         else if (CurrentChunk == 1) { targetChunk = 0; targetY = 0; }
-        else targetY = 9;
+        else { targetY = 9; }
     }
 
     if (targetX < 0)
     {
         if (CurrentChunk == 0) { targetChunk = 4; targetX = 9; }
         else if (CurrentChunk == 2) { targetChunk = 0; targetX = 9; }
-        else targetX = 0;
+        else { targetX = 0; }
     }
     else if (targetX > 9)
     {
         if (CurrentChunk == 0) { targetChunk = 2; targetX = 0; }
         else if (CurrentChunk == 4) { targetChunk = 0; targetX = 0; }
-        else targetX = 9;
+        else { targetX = 9; }
     }
 
     Object* object = Chunk[targetChunk].CheckForObject(targetX, targetY);
-    if (object != nullptr) return;
+    if (object != nullptr){return;}
 
     Chunk[CurrentChunk].RemoveObject(player);
     CurrentChunk = targetChunk;
@@ -98,8 +101,9 @@ void World::MovePlayer(char Direction, Player* player)
     Chunk[CurrentChunk].AddObject(player);
 
     // Every successful outdoor step has a chance to start a battle.
-    if (game != nullptr)
+    if (game != nullptr) {
         game->StartRandomEncounter();
+    }
 }
 
 void World::InteractWithObject(char keypress, Player* player)
@@ -117,9 +121,7 @@ void World::InteractWithObject(char keypress, Player* player)
     int playerX = player->GetX();
     int playerY = player->GetY();
 
-    for (int i = 0;
-        i < Chunk[CurrentChunk].GetMaxObjects();
-        i++)
+    for (int i = 0; i < Chunk[CurrentChunk].GetMaxObjects(); i++)
     {
         Object* obj = Chunk[CurrentChunk].GetObject(i);
 
@@ -142,12 +144,9 @@ void World::InteractWithObject(char keypress, Player* player)
             continue;
         }
 
-        Equipment* equipment =
-            dynamic_cast<Equipment*>(obj);
-
-        // -----------------------------
+        Equipment* equipment = dynamic_cast<Equipment*>(obj);
         // EQUIPMENT
-        // -----------------------------
+
         if (equipment != nullptr)
         {
             std::cout << "\nYou found "
@@ -163,8 +162,7 @@ void World::InteractWithObject(char keypress, Player* player)
             char choice;
             std::cin >> choice;
 
-            Inventory& inventory =
-                player->GetInventory();
+            Inventory& inventory = player->GetInventory();
 
             if (choice == '1')
             {
@@ -187,41 +185,30 @@ void World::InteractWithObject(char keypress, Player* player)
                 if (inventory.AddItem(obj))
                 {
                     Chunk[CurrentChunk].RemoveObject(obj);
-
-                    std::cout << equipment->GetName()
-                        << " was stored in your inventory.\n";
+                    std::cout << equipment->GetName() << " was stored in your inventory.\n";
                 }
                 else
                 {
-                    std::cout
-                        << "Your inventory is full!\n";
+                    std::cout << "Your inventory is full!\n";
                 }
             }
 
             return;
         }
-
-        // -----------------------------
-        // NORMAL OBJECT
-        // -----------------------------
+        //normal object
         if (obj->Interacted())
         {
-            Inventory& inventory =
-                player->GetInventory();
-
+            Inventory& inventory = player->GetInventory();
             if (inventory.AddItem(obj))
             {
                 Chunk[CurrentChunk].RemoveObject(obj);
-
-                std::cout << obj->GetName()
-                    << " was added to your inventory.\n";
+                std::cout << obj->GetName() << " was added to your inventory.\n";
             }
             else
             {
                 std::cout << "Your inventory is full!\n";
             }
         }
-
         return;
     }
 }
@@ -281,7 +268,9 @@ void World::HandleKeypress(char keypress, Player* player)
 void World::RandomEncounter()
 {
     if (game != nullptr)
+    {
         game->StartRandomEncounter();
+    }
 }
 
 void World::CreateObjects()
@@ -312,22 +301,16 @@ void World::CreateObjects()
 
             if (randomSupply < 4)
             {
-                Water* waterObject =
-                    new Water(1, 1);
-
+                Water* waterObject = new Water(1, 1);
                 waterObject->SetX(randX);
                 waterObject->SetY(randY);
-
                 Chunk[i].AddObject(waterObject);
             }
             else if (randomSupply < 8)
             {
-                Food* foodObject =
-                    new Food(1, 1);
-
+                Food* foodObject = new Food(1, 1);
                 foodObject->SetX(randX);
                 foodObject->SetY(randY);
-
                 Chunk[i].AddObject(foodObject);
             }
             else

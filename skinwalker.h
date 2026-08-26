@@ -4,11 +4,11 @@
 class Skinwalker : public Entity
 {
 public:
-	virtual void dialogue();
-	/*void setDialogue(int randomiser);
-	skinwalker image();
-	int GetSWHealthPoints();
-	int GetSWAttackPoints();
-
-	bool IsLetIn();*/
+    Skinwalker(std::string name = "Stranger");
+    virtual void dialogue();
 };
+
+namespace skinwalkerjumpscare
+{
+    void ShowSkinwalkerJumpscare();
+}
