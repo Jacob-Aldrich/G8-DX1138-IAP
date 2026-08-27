@@ -87,7 +87,7 @@ void endings::ShowCredits()
     std::cout << "              CREDITS\n";
     std::cout << "========================================\n";
     std::cout << "This game is brought to you by:\n\n";
-    std::cout << " Gao Wenya (262745Y)\n";
+    std::cout << "Gao Wenya (262745Y)\n";
     std::cout << "Lian Yi Xuan Shanelle(260627K)\n";
     std::cout << "Viloria Jacob Aldrich Pantig(264422K)\n";
     std::cout << "Kuan JunLong(251061F)\n";
