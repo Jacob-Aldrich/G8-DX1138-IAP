@@ -1,10 +1,2 @@
-﻿  Car.cpp
-  Game.cpp
-  House.cpp
-  Scenarios.cpp
-  Skinwalker.cpp
-  World.cpp
-  endings.cpp
-  source.cpp
-  Generating Code...
-  WIU.vcxproj -> C:\Users\kuanj\source\repos\WIU\x64\Debug\WIU.exe
+﻿  endings.cpp
+  WIU.vcxproj -> C:\Users\kuanj\Desktop\WIU\ProjectSolution\x64\Debug\WIU.exe

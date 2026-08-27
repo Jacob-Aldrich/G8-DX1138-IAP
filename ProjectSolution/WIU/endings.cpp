@@ -21,6 +21,8 @@ void endings::DeathEnding(int daysSurvived, int survivorsAlive)
     std::cout << "----------------------------------------\n";
     std::cout << "PRESS ANY KEY TO CONTINUE..." << std::endl;
     char keypress = _getch();
+
+    ShowCredits();
 }
 void endings::MilitaryEnding(int daysSurvived, int survivorsAlive)
 {
@@ -46,6 +48,8 @@ void endings::MilitaryEnding(int daysSurvived, int survivorsAlive)
     std::cout << "PRESS ANY KEY TO CONTINUE..." << std::endl;
 
     char keypress = _getch();
+
+    ShowCredits();
 }
 
 void endings::HelicopterEnding(int daysSurvived, int survivorsAlive)
@@ -69,6 +73,25 @@ void endings::HelicopterEnding(int daysSurvived, int survivorsAlive)
     std::cout << "\n----------------------------------------\n";
     std::cout << "                 THE END\n";
     std::cout << "----------------------------------------\n";
+    std::cout << "PRESS ANY KEY TO CONTINUE..." << std::endl;
+
+    char keypress = _getch();
+
+    ShowCredits();
+}
+
+//junlong
+void endings::ShowCredits()
+{
+    std::cout << "\n========================================\n";
+    std::cout << "              CREDITS\n";
+    std::cout << "========================================\n";
+    std::cout << "This game is brought to you by:\n\n";
+    std::cout << " Gao Wenya (262745Y)\n";
+    std::cout << "Lian Yi Xuan Shanelle(260627K)\n";
+    std::cout << "Viloria Jacob Aldrich Pantig(264422K)\n";
+    std::cout << "Kuan JunLong(251061F)\n";
+    std::cout << "Chai Ji Xu Brandon(262090Z)\n\n";
     std::cout << "PRESS ANY KEY TO CONTINUE..." << std::endl;
 
     char keypress = _getch();

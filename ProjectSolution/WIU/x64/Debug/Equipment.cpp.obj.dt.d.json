@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\equipment.cpp",
+        "Source": "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\equipment.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\equipment.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\object.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\equipment.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\object.h",
             "c:\\program files\\microsoft visual studio\\18\\insiders\\vc\\tools\\msvc\\14.51.36231\\include\\iostream",
             "c:\\program files\\microsoft visual studio\\18\\insiders\\vc\\tools\\msvc\\14.51.36231\\include\\yvals_core.h",
             "c:\\program files\\microsoft visual studio\\18\\insiders\\vc\\tools\\msvc\\14.51.36231\\include\\vcruntime.h",
@@ -130,13 +130,13 @@
             "c:\\program files\\microsoft visual studio\\18\\insiders\\vc\\tools\\msvc\\14.51.36231\\include\\clocale",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\locale.h",
             "c:\\program files\\microsoft visual studio\\18\\insiders\\vc\\tools\\msvc\\14.51.36231\\include\\ostream",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\world.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\material.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\chunks.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\player.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\entity.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\inventory.h",
-            "c:\\users\\kuanj\\source\\repos\\wiu\\wiu\\house.h"
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\world.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\material.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\chunks.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\player.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\entity.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\inventory.h",
+            "c:\\users\\kuanj\\desktop\\wiu\\projectsolution\\wiu\\house.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
