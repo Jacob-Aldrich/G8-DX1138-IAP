@@ -2,11 +2,11 @@
 
 ## About the Game
 
-A Skinwalker outbreak has caused society to collapse.
-Survive from day to day by gathering food and water, recruiting survivors, exploring the surrounding area and deciding who you can trust.
-Some people are genuine survivors.
-Others may be Skinwalkers pretending to be human.
-Your goal is to survive until rescue arrives.
+**Among The Survivors** is a single-player survival strategy, resource management and turn-based combat game with psychological horror.
+
+A Skinwalker outbreak has caused society to collapse. Scavenge by day, defend your shelter by night, and decide who is truly human.
+
+Your goal is to keep the player character and as many survivors alive as possible, locate the extraction car, call the helicopter, and survive until evacuation.
 
 ---
 
@@ -14,25 +14,33 @@ Your goal is to survive until rescue arrives.
 
 **This sequence only appears at the start of the game.**
 
-You begin **outside the house** with **5 turns** before returning to the house.
+You begin with **5 opportunities** before returning to the house.
 
 You can choose:
 
-**[1]** Search for supplies
-**[2]** Look for survivors
+**[1]** Search for supplies  
+**[2]** Look for survivors  
 **[3]** Return to the house
 
 ### [1] Search for Supplies
 
 Search for Food and Water.
+
 Each search can find:
+
 * **0–2 Food**
 * **0–2 Water**
 
 ### [2] Look for Survivors
 
 Search for potential survivors that can be recruited.
-You can recruit up to **5 survivors**.
+
+You can recruit up to **5 survivors**, for a maximum group of **6 humans including the player**.
+
+Each recruited survivor has randomized:
+
+* **HP:** 80–120
+* **Attack:** 2–5
 
 ### [3] Return to the House
 
@@ -44,12 +52,13 @@ Return to the house and begin the normal gameplay loop.
 
 ## Exploration
 
-**W** — Move up
-**A** — Move left
-**S** — Move down
-**D** — Move right
-**E** — Interact with objects
-**B** — Open/Close Inventory
+**W** — Move up  
+**A** — Move left  
+**S** — Move down  
+**D** — Move right  
+**E** — Interact with nearby objects/objectives  
+**B** — Open/Close Outdoor Inventory  
+**1–9** — Select numbered actions, party members and combat targets
 
 ---
 
@@ -57,21 +66,27 @@ Return to the house and begin the normal gameplay loop.
 
 ## 1. Begin the Day
 
-After the opening sequence, the normal gameplay loop begins in the house.
+After the opening sequence, the normal gameplay loop begins at the house.
 
 You have **5 turns per day**.
 
-Actions such as eating, drinking and exploring may consume turns.
+At the shelter, you can:
 
-A scenario may randomly occur at the end of a turn.
+* Eat food
+* Drink water
+* Manage inventory and equipment
+* Make decisions during scenarios
+* Choose whether to remain at the shelter or go outside
 
-When all turns are used, the next day begins.
+Inventory and equipment management does **not** consume a turn.
+
+Choosing to go outside commits the remaining day to an expedition.
 
 ---
 
 # 2. Manage Resources
 
-The current resources are:
+The main shared resources are:
 
 * **Food**
 * **Water**
@@ -81,30 +96,40 @@ Maximum storage:
 * **Food: 800**
 * **Water: 800**
 
-Food and Water can be obtained by searching for supplies.
+Each living human loses **33 Hunger** and **33 Thirst** at the end of a day.
 
-Manage your resources carefully, as recruited survivors also need to be kept alive and supplied.
+If Hunger or Thirst reaches **0**, the character takes **25 HP damage**.
+
+Using:
+
+* **1 Food** restores **25 Hunger**
+* **1 Water** restores **25 Thirst**
+
+After survival costs are resolved, living characters recover **20% of maximum HP**, up to their personal maximum.
+
+More survivors provide additional strength and carrying capacity, but also increase daily resource consumption.
 
 ---
 
-# 3. Recruit Survivors
+# 3. Recruit and Manage Survivors
 
-You can recruit survivors from certain scenarios.
+You can have a maximum of **5 recruited survivors**.
 
-You can have a maximum of **5 survivors**.
+The total human group can therefore contain:
 
-Each survivor has randomized:
+**1 Player + 5 Survivors = 6 Humans**
 
-* **HP:** 80–120
-* **Attack:** 2–5
+Survivors have their own:
 
-Survivors can:
+* HP
+* Hunger
+* Thirst
+* Attack
+* Equipment
 
-* Help fight enemies
-* Eventually be sent to scavenge for resources
-* Increase your ability to survive dangerous encounters
+Survivors help increase your combat strength and outdoor carrying capacity.
 
-However, more survivors also create a larger resource burden.
+However, every survivor also consumes food and water.
 
 **Every person you save is another mouth to feed.**
 
@@ -112,7 +137,7 @@ However, more survivors also create a larger resource burden.
 
 # 4. Explore
 
-The outdoor world uses four explorable **10x10 chunks** around the home area.
+The outdoor world contains **five 10x10 chunks** arranged in a cross formation.
 
 The player is displayed as:
 
@@ -124,54 +149,84 @@ The player is displayed as:
                  Chunk 1
                     |
                     |
-Chunk 4 --- Chunk 0 (Home) --- Chunk 2
+Chunk 4 --- Chunk 0 (House) --- Chunk 2
                     |
                     |
                  Chunk 3
 ```
 
-### Chunk 0
+Each chunk can contain up to **6 placed objects**.
 
-The chunk containing your house.
+Supply objects have a current distribution of:
 
-It is the central area and connects to all four outdoor chunks.
+* **40% Water**
+* **40% Food**
+* **20% Equipment**
 
-### Chunk 1
-
-Upper outdoor area.
-
-### Chunk 2
-
-Right outdoor area.
-
-### Chunk 3
-
-Lower outdoor area.
-
-### Chunk 4
-
-Left outdoor area.
+Equipment can spawn as either a **Sword** or **Gun**.
 
 ---
 
 # 5. Chunk Transitions
 
-When you cross from one chunk into another, you spawn on the opposite edge of the new chunk.
-
-For example:
-
-* Entering a chunk from below places you at the bottom of that chunk.
-* Entering a chunk from the right places you on the right edge.
+When you cross a valid edge of a chunk, you move into the connected chunk and appear on its opposite edge.
 
 **Objects can block chunk transitions.**
 
-If there is an object where the player would enter the new chunk, the player cannot enter that chunk.
+If an object occupies the destination tile, the player cannot enter the chunk through that position.
 
 ---
 
-# 6. Scenarios
+# 6. Outdoor Inventory
 
-Scenarios are one of the main sources of tension.
+The base outdoor inventory has **10 slots**.
+
+Selecting companions for an expedition increases carrying capacity:
+
+* **0 companions:** 10 slots
+* **1 companion:** 15 slots
+* **2 companions:** 20 slots
+
+The active expedition party can contain:
+
+**1 Player + up to 2 living companions**
+
+Food and Water collected outdoors are transferred into shared shelter storage when returning to the house.
+
+Equipment can be:
+
+* Stored
+* Equipped
+* Swapped
+
+---
+
+# 7. Equipment
+
+### Sword
+
+* Adds **5 Attack**
+* Has no use limit
+* Less effective against Skinwalkers
+* Deals **0.75× damage** against Skinwalkers
+
+### Gun
+
+* Has **3 instant-defeat shots**
+* After those shots are used, Attack becomes **20**
+* Highly effective against Skinwalkers
+* Deals **1.5× damage** against Skinwalkers
+
+### Unarmed
+
+* Uses the character's base Attack
+* Does not consume equipment uses
+
+---
+
+# 8. Scenarios
+
+Scenarios are random events that can occur during eligible shelter turns.
 
 Possible scenarios include:
 
@@ -179,74 +234,161 @@ Possible scenarios include:
 * A genuine survivor asking for help
 * A Skinwalker pretending to be human
 * Hostile people attempting to enter the house
-* Skinwalkers attacking after several days
-* Random events providing risks, rewards or information
+* Skinwalkers attacking
+* Abandoned supplies or hidden stashes
+* Emergency crates
+* Door repairs
 
-During visitor scenarios, you may be given choices such as:
+Scenario choices can:
 
-* **Do Nothing / Reject**
-* **Let Them In / Befriend Them**
+* Add or remove resources
+* Injure or remove survivors
+* Damage or repair the door
+* Reveal a Skinwalker
+* Start combat
 
-Your choices can affect:
+Possible decision types include:
 
-* Survivors
-* Resources
-* Whether you become exposed to a Skinwalker
+* **Send someone**
+* **Yes or No**
+* **Use an item**
+* **Choose someone**
 
 ---
 
-# 7. Identifying Skinwalkers
+# 9. Identifying Skinwalkers
 
-Skinwalkers are not always immediately obvious.
+Skinwalkers can imitate human speech and appearance.
+
+They are not always immediately obvious.
 
 Possible clues include:
 
 * Incorrect grammar
-* Strange spelling mistakes
+* Strange spelling
 * Eerie or unnatural dialogue
 * Suspicious behaviour
 * Contradictory information
 
 These clues are meant to create uncertainty.
 
-A suspicious person is not necessarily a Skinwalker.
+**A suspicious person is not necessarily a Skinwalker.**
+
+Trusting the wrong person can cost resources, health or lives.
 
 ---
 
-# 8. Combat
+# 10. Combat
 
-Combat is turn-based.
+Combat is **turn-based**.
 
-The player/survivor and enemy take turns performing actions.
+Outdoor encounters can create **one or two Skinwalkers**.
 
-Entities have:
+The player chooses an action:
 
-* **HP**
-* **Attack**
+**Attack** or **Defend**
 
-Damage reduces HP.
+### Attack
 
-An Entity dies when its HP reaches **0 or below**.
+Choose an enemy target and attack using the character's combat value and equipment.
 
-Defeated dynamically created Entities are removed from the game.
+Damage is affected by:
+
+* Attack value
+* Equipment effectiveness
+* Random damage variation
+* Skinwalker weapon multipliers
+
+Human attacks have a **90%–110% random damage variation**.
+
+### Defend
+
+Defending reduces the next incoming hit by **half**.
+
+### Companions
+
+Living companions take **AI-controlled turns**.
+
+They usually attack the **lowest-health enemy**, but may sometimes defend.
+
+### Enemy Turn
+
+Surviving Skinwalkers can:
+
+* Attack a random living party member
+* Defend
+
+Combat continues until one side is defeated.
+
+A character dies when their HP reaches **0 or below**.
+
+Defeated combatants are removed from combat, while surviving characters keep their remaining HP after combat.
+
 ---
 
-# Winning
+# 11. Shelter and Door Durability
 
-The primary objective is to:
+The house door has a maximum durability of **100**.
 
-**Survive until you get rescued.**
+* Warning at **40 durability or below**
+* Broken at **0 durability**
 
-Complete the final rescue/escape scenario and successfully reach the helicopter or safe location.
+Scenarios can damage or repair the door.
+
+Keeping the shelter intact is an important part of surviving.
 
 ---
 
-# Losing
+# 12. Extraction
 
-The player loses if:
+The extraction car can become available starting from **Day 3**.
 
-* The main player dies.
-* A survival condition becomes impossible, such as running out of essential resources with no way to recover.
+At each later day transition, there is a **30% chance** for the car to become available until it appears.
+
+Once available, the car is placed in a random outer chunk.
+
+Find the car and interact with it to call the helicopter.
+
+After calling the helicopter, you must survive **2 additional days** before evacuation.
+
+---
+
+# 13. Winning
+
+The primary victory condition is the **Helicopter Ending**.
+
+To win:
+
+1. Survive until the extraction car becomes available.
+2. Explore the surrounding area and find the car.
+3. Interact with the car to call the helicopter.
+4. Survive the **2-day helicopter delay**.
+5. Reach evacuation.
+
+The ending reports:
+
+* **Days survived**
+* **Number of surviving recruited survivors**
+
+---
+
+# 14. Losing
+
+The run ends immediately if the **player character dies**.
+
+Recruited survivors can die without immediately ending the run, but each survivor death reduces:
+
+* Combat strength
+* Carrying capacity
+* Final survivor count
+
+---
+
+# 15. Military Ending
+
+A **Military Ending** exists as a code path, but it is **not currently connected to the playable progression**.
+
+It is currently a stretch goal and should not be considered a guaranteed ending.
 
 ---
 
@@ -254,11 +396,14 @@ The player loses if:
 
 * Manage Food and Water carefully.
 * Use your **5 turns** wisely.
-* Explore the surrounding chunks for resources and encounters.
+* Going outside commits the remaining day to an expedition.
+* Bring companions when their extra carrying capacity and combat strength are worth the resource cost.
 * Pay attention to suspicious dialogue and behaviour.
 * Don't blindly trust strangers.
-* Recruiting survivors gives you additional help but increases your resource requirements.
+* Choose equipment carefully depending on the enemies you expect to face.
+* Keep the house door repaired.
 * Objects can block your path between chunks.
-* Think carefully before making decisions during scenarios.
+* Find the extraction car and prepare for the **2-day helicopter countdown**.
+* Remember that every survivor you save is another mouth to feed.
 
-**Survive. Choose carefully. Not everyone you meet is human.**
+**Scavenge by day. Defend your shelter by night. Decide who is truly human.**
