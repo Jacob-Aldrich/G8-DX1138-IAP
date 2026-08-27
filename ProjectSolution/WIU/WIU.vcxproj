@@ -34,7 +34,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scenarios.h" />
     <ClInclude Include="Skinwalker.h" />
-    <ClInclude Include="Survivors.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
@@ -54,12 +53,8 @@
     <ClCompile Include="Scenarios.cpp" />
     <ClCompile Include="Skinwalker.cpp" />
     <ClCompile Include="source.cpp" />
-    <ClCompile Include="Survivors.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="README.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

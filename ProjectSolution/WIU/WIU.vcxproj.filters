@@ -60,9 +60,6 @@
     <ClInclude Include="Scenarios.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Survivors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,16 +116,8 @@
     <ClCompile Include="Scenarios.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Survivors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Car.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="README.txt">
-      <Filter>Header Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>
